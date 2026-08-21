@@ -62,6 +62,6 @@ npm run preview
 ## Deploying
 
 Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`
-(enable **Settings → Pages → Source: GitHub Actions** once). The site is
+(the workflow enables the Pages site automatically on first run). The site is
 configured for `maxlbchung.github.io/portfolio`; to use a custom domain,
 follow the comments at the top of `astro.config.mjs`.
