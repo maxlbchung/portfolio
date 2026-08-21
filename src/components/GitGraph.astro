@@ -1,0 +1,125 @@
+---
+/**
+ * GitHub contribution graph, fetched client-side from the public
+ * github-contributions-api.jogruber.de mirror and rendered as SVG cells.
+ * Cell colors come from theme tokens, so the graph restyles with each mode.
+ */
+interface Props {
+  username: string;
+}
+const { username } = Astro.props;
+---
+
+<div class="gitgraph">
+  <div id="gh-graph" data-user={username}></div>
+  <p id="gh-graph-label" class="muted"></p>
+</div>
+
+<style is:global>
+  .gitgraph #gh-graph {
+    direction: rtl; /* keep the most recent weeks in view on overflow */
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+  .gitgraph #gh-graph svg {
+    display: block;
+    min-width: 640px;
+    width: 100%;
+  }
+  .gitgraph #gh-graph rect {
+    fill: var(--accent);
+    rx: 2px;
+  }
+  .gitgraph #gh-graph rect.l0 {
+    fill: var(--surface);
+  }
+  .gitgraph #gh-graph rect.l1 {
+    opacity: 0.3;
+  }
+  .gitgraph #gh-graph rect.l2 {
+    opacity: 0.55;
+  }
+  .gitgraph #gh-graph rect.l3 {
+    opacity: 0.8;
+  }
+  .gitgraph #gh-graph rect.l4 {
+    opacity: 1;
+  }
+  .gitgraph #gh-graph-label {
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+  }
+</style>
+
+<script>
+  interface Contribution {
+    date: string;
+    count: number;
+    level: number;
+  }
+
+  const CELL = 10;
+  const GAP = 3;
+  const STEP = CELL + GAP;
+
+  const toSvg = (weeks: number[][]) => {
+    const width = weeks.length * STEP - GAP;
+    const height = 7 * STEP - GAP;
+    let cells = "";
+    weeks.forEach((week, w) => {
+      week.forEach((level, d) => {
+        if (level < 0) return; // padding day outside the data range
+        cells += `<rect class="l${level}" x="${w * STEP}" y="${d * STEP}" width="${CELL}" height="${CELL}"/>`;
+      });
+    });
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="GitHub contribution graph">${cells}</svg>`;
+  };
+
+  const placeholder = () => toSvg(Array.from({ length: 53 }, () => Array(7).fill(0)));
+
+  // group daily contributions into Sunday-first weeks
+  const toWeeks = (days: Contribution[]) => {
+    const weeks: number[][] = [];
+    let week: number[] = [];
+    for (const day of days) {
+      const dow = new Date(`${day.date}T00:00:00Z`).getUTCDay();
+      if (dow === 0 && week.length > 0) {
+        weeks.push(week);
+        week = [];
+      }
+      if (week.length === 0 && dow > 0 && weeks.length === 0) week = Array(dow).fill(-1);
+      week.push(day.level);
+    }
+    if (week.length > 0) weeks.push(week);
+    return weeks;
+  };
+
+  let cache: { weeks: number[][]; total: number } | null = null;
+
+  const render = async () => {
+    const el = document.getElementById("gh-graph");
+    if (!el) return;
+    const label = document.getElementById("gh-graph-label");
+    el.innerHTML = placeholder();
+    try {
+      if (!cache) {
+        const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${el.dataset.user}?y=last`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: { total: Record<string, number>; contributions: Contribution[] } = await res.json();
+        cache = { weeks: toWeeks(data.contributions), total: data.total.lastYear ?? 0 };
+      }
+      // the container may have been swapped out while fetching
+      const live = document.getElementById("gh-graph");
+      const liveLabel = document.getElementById("gh-graph-label");
+      if (!live) return;
+      live.innerHTML = toSvg(cache.weeks);
+      if (liveLabel) liveLabel.textContent = `${cache.total} contributions in the last year`;
+    } catch {
+      if (label) label.textContent = "";
+      // leave the placeholder grid if the API is unreachable
+    }
+  };
+
+  render();
+  document.addEventListener("astro:page-load", render);
+</script>

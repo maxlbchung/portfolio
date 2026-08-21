@@ -6,25 +6,45 @@ import { withBase } from "@/lib/url";
 const { pathname } = Astro.url;
 const current = (path: string) =>
   pathname.replace(/\/$/, "") === withBase(path).replace(/\/$/, "");
+const modes = ["ai", "games"] as const;
 ---
 
-<header>
-  <!-- Two nav sets; CSS shows the one matching html[data-mode] -->
-  {
-    (["ai", "games"] as const).map((m) => (
-      <nav class={m === "ai" ? "only-ai" : "only-games"} aria-label={`${m} navigation`}>
-        {nav[m].map(({ path, label }) =>
-          current(path) ? (
-            <span class="active" aria-current="page">
+<!-- transition:persist keeps the navbar (and its sliding pill) alive across
+     client-side navigations so the pill can glide to the new active item. -->
+<header transition:persist="site-nav">
+  <div class="nav-box" id="nav-box">
+    <!-- Two nav sets; CSS shows the one matching html[data-mode] -->
+    {
+      modes.map((m) => (
+        <nav class={m === "ai" ? "only-ai" : "only-games"} data-nav={m} aria-label={`${m} navigation`}>
+          {nav[m].map(({ path, label }) => (
+            <a
+              href={withBase(path)}
+              data-path={withBase(path).replace(/\/$/, "") || "/"}
+              data-exact={path === "/" ? "true" : undefined}
+              class={current(path) ? "active" : ""}
+              aria-current={current(path) ? "page" : undefined}
+            >
               {label}
-            </span>
-          ) : (
-            <a href={withBase(path)}>{label}</a>
-          ),
-        )}
-      </nav>
-    ))
-  }
+            </a>
+          ))}
+        </nav>
+      ))
+    }
+
+    <!-- Sliding highlight pill + an inverted-color copy of the labels,
+         clipped to the pill's rect so text appears to invert as it passes. -->
+    <div id="nav-pill" aria-hidden="true"></div>
+    {
+      modes.map((m) => (
+        <div class:list={["nav-overlay", m === "ai" ? "only-ai" : "only-games"]} data-overlay={m} aria-hidden="true">
+          {nav[m].map(({ path, label }) => (
+            <span data-path={withBase(path).replace(/\/$/, "") || "/"}>{label}</span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
 
   <button
     id="mode-swap"
@@ -56,7 +76,12 @@ const current = (path: string) =>
     z-index: 50;
   }
 
-  nav {
+  .nav-box {
+    position: relative;
+  }
+
+  nav,
+  .nav-overlay {
     align-items: center;
     display: flex;
     font-size: 0.95rem;
@@ -65,9 +90,10 @@ const current = (path: string) =>
   }
 
   nav a,
-  nav .active {
+  .nav-overlay span {
     border-radius: 999px;
     padding: 0.3rem 0.8rem;
+    white-space: nowrap;
   }
 
   nav a {
@@ -78,10 +104,50 @@ const current = (path: string) =>
     background: var(--surface);
     color: var(--text);
   }
-
-  nav .active {
+  nav a.active {
+    color: var(--text);
+  }
+  /* No-JS fallback: show the active pill statically */
+  html:not(.js) nav a.active {
     background: var(--text);
     color: var(--bg);
+  }
+
+  #nav-pill {
+    background: var(--text);
+    border-radius: 999px;
+    bottom: 2px;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 2px;
+    width: 0;
+  }
+
+  .nav-overlay {
+    color: var(--bg);
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    /* fully collapsed clip until the script measures the pill */
+    clip-path: inset(2px 100% 2px 0 round 999px);
+  }
+
+  /* The glide — pill and clipped overlay move in lockstep */
+  html.js #nav-pill,
+  html.js .nav-overlay {
+    transition:
+      left 250ms cubic-bezier(0.3, 1, 0.4, 1),
+      width 250ms cubic-bezier(0.3, 1, 0.4, 1),
+      clip-path 250ms cubic-bezier(0.3, 1, 0.4, 1),
+      opacity 150ms linear;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js #nav-pill,
+    html.js .nav-overlay {
+      transition: none;
+    }
   }
 
   #mode-swap {
@@ -110,28 +176,113 @@ const current = (path: string) =>
     #mode-swap span {
       display: none;
     }
-    nav {
+    nav,
+    .nav-overlay {
       font-size: 0.88rem;
     }
     nav a,
-    nav .active {
+    .nav-overlay span {
       padding: 0.3rem 0.55rem;
     }
   }
 </style>
 
 <script>
-  // Small nav shortcut: flip mode and land on the (dual-mode) home page.
-  const swap = document.getElementById("mode-swap");
-  swap?.addEventListener("click", () => {
+  // ── Sliding nav pill ──────────────────────────────────────────────────
+  // Finds the active link in the visible nav set, glides the pill under it,
+  // and clips the inverted overlay to the pill so the label color sweeps.
+  const currentPath = () => {
+    const p = window.location.pathname.replace(/\/$/, "");
+    return p === "" ? "/" : p;
+  };
+
+  const findActive = (nav: Element) => {
+    const path = currentPath();
+    let match: HTMLAnchorElement | null = null;
+    let prefix: HTMLAnchorElement | null = null;
+    nav.querySelectorAll<HTMLAnchorElement>("a[data-path]").forEach((a) => {
+      const p = a.dataset.path!;
+      if (path === p) match = a;
+      // longest-prefix match keeps e.g. /dev-diary/<post> on "Dev Diary";
+      // the home link only matches exactly (every page shares its prefix)
+      else if (!a.dataset.exact && path.startsWith(`${p}/`) && p.length > (prefix?.dataset.path?.length ?? 0))
+        prefix = a;
+    });
+    return match ?? prefix;
+  };
+
+  let firstPlace = true;
+  const place = () => {
+    const box = document.getElementById("nav-box");
+    const pill = document.getElementById("nav-pill");
+    if (!box || !pill) return;
+
+    const navEl = [...box.querySelectorAll<HTMLElement>("nav[data-nav]")].find((n) => n.offsetParent !== null);
+    if (!navEl) return;
+    const overlay = box.querySelector<HTMLElement>(`.nav-overlay[data-overlay="${navEl.dataset.nav}"]`);
+    if (!overlay) return;
+
+    const skipAnim = firstPlace;
+    firstPlace = false;
+    const setNow = (el: HTMLElement, fn: () => void) => {
+      if (!skipAnim) return fn();
+      el.style.transition = "none";
+      fn();
+      requestAnimationFrame(() => (el.style.transition = ""));
+    };
+
+    // refresh active link styling
+    const active = findActive(navEl);
+    navEl.querySelectorAll("a").forEach((a) => {
+      a.classList.toggle("active", a === active);
+      if (a === active) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+
+    if (!active) {
+      pill.style.opacity = "0";
+      setNow(overlay, () => (overlay.style.clipPath = "inset(2px 100% 2px 0 round 999px)"));
+      return;
+    }
+
+    const boxRect = box.getBoundingClientRect();
+    const rect = active.getBoundingClientRect();
+    const left = rect.left - boxRect.left;
+    const right = boxRect.right - rect.right;
+
+    setNow(pill, () => {
+      pill.style.left = `${left}px`;
+      pill.style.width = `${rect.width}px`;
+      pill.style.opacity = "1";
+    });
+    setNow(overlay, () => {
+      overlay.style.clipPath = `inset(2px ${right}px 2px ${left}px round 999px)`;
+    });
+  };
+
+  place();
+  document.addEventListener("astro:page-load", place);
+  window.addEventListener("resize", () => place());
+  document.fonts?.addEventListener("loadingdone", () => place());
+  // re-measure when the AI/games mode flips (the visible nav set changes)
+  new MutationObserver(() => place()).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-mode"],
+  });
+
+  // ── Mode swap shortcut ────────────────────────────────────────────────
+  // Delegated so it survives client-side navigations.
+  document.addEventListener("click", (e) => {
+    const swap = (e.target as HTMLElement).closest<HTMLElement>("#mode-swap");
+    if (!swap) return;
     const html = document.documentElement;
     const next = html.dataset.mode === "ai" ? "games" : "ai";
     try {
       localStorage.setItem("mode", next);
     } catch {}
-    const home = (swap as HTMLElement).dataset.home ?? "/";
+    const home = swap.dataset.home ?? "/";
     // On the home page flip in place (the big toggle animates); elsewhere, go home.
-    if (window.location.pathname.replace(/\/$/, "") === home.replace(/\/$/, "")) {
+    if (currentPath() === (home.replace(/\/$/, "") || "/")) {
       html.classList.add("theme-anim");
       html.dataset.mode = next;
       setTimeout(() => html.classList.remove("theme-anim"), 450);

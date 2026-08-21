@@ -93,18 +93,21 @@ html.theme-anim body * {
   }
 }
 
-/* Page-load fade used on every page's <main> */
-@media (prefers-reduced-motion: no-preference) {
-  .fade-in {
-    animation: fade-in 350ms ease 60ms both;
-  }
-}
-@keyframes fade-in {
-  from {
+/* ── Intro reveal ─────────────────────────────────────────────────────────
+   On first load, <main>'s children fade-and-rise in one after another
+   (stagger delays are set by Layout's script). The .intro class is removed
+   after the intro so client-side navigations use the view-transition fade
+   instead. Guarded so content is never hidden without JS or for visitors
+   who prefer reduced motion.                                             */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  html.intro main > * {
     opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 450ms ease, transform 450ms ease;
   }
-  to {
+  html.intro.intro-done main > * {
     opacity: 1;
+    transform: none;
   }
 }
 

@@ -93,17 +93,19 @@ import { Icon } from "astro-icon/components";
 
 <script>
   const html = document.documentElement;
-  document.querySelectorAll<HTMLButtonElement>("[data-set-mode]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const next = btn.dataset.setMode as "ai" | "games";
-      if (html.dataset.mode === next) return;
-      html.classList.add("theme-anim");
-      html.dataset.mode = next;
-      try {
-        localStorage.setItem("mode", next);
-      } catch {}
-      setTimeout(() => html.classList.remove("theme-anim"), 450);
-    });
+
+  // Delegated so the handler survives client-side navigations.
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-set-mode]");
+    if (!btn) return;
+    const next = btn.dataset.setMode as "ai" | "games";
+    if (html.dataset.mode === next) return;
+    html.classList.add("theme-anim");
+    html.dataset.mode = next;
+    try {
+      localStorage.setItem("mode", next);
+    } catch {}
+    setTimeout(() => html.classList.remove("theme-anim"), 450);
   });
 
   // reflect state for a11y
@@ -113,5 +115,6 @@ import { Icon } from "astro-icon/components";
     });
   };
   new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ["data-mode"] });
+  document.addEventListener("astro:page-load", sync);
   sync();
 </script>

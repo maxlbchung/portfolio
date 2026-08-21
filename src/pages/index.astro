@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import ModeToggle from "@/components/ModeToggle.astro";
 import EntryCard from "@/components/EntryCard.astro";
+import GitGraph from "@/components/GitGraph.astro";
 import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
@@ -85,6 +86,9 @@ const featuredGames = games.filter((g) => g.featured);
     <div class="cards">
       {featuredProjects.map((p) => <EntryCard {...p} />)}
     </div>
+
+    <h2 class="section-title">GitHub Contributions</h2>
+    <GitGraph username="maxlbchung" />
   </section>
 
   <!-- ── Games home ──────────────────────────────────────────────────── -->
