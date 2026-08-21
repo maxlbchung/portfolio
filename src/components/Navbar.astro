@@ -172,17 +172,38 @@ const modes = ["ai", "games"] as const;
     color: var(--accent);
   }
 
-  @media (max-width: 480px) {
+  /* Small screens: the swap button joins the flex row (instead of floating
+     over the nav) and everything tightens so all items + button fit. */
+  @media (max-width: 560px) {
+    header {
+      gap: 0.4rem;
+      padding: 0 0.5rem;
+    }
+    #mode-swap {
+      margin-left: 0;
+      position: static;
+    }
     #mode-swap span {
       display: none;
     }
     nav,
     .nav-overlay {
       font-size: 0.88rem;
+      gap: 0.1rem;
     }
     nav a,
     .nav-overlay span {
-      padding: 0.3rem 0.55rem;
+      padding: 0.3rem 0.5rem;
+    }
+  }
+  @media (max-width: 360px) {
+    nav,
+    .nav-overlay {
+      font-size: 0.82rem;
+    }
+    nav a,
+    .nav-overlay span {
+      padding: 0.3rem 0.4rem;
     }
   }
 </style>

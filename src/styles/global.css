@@ -23,6 +23,9 @@ body {
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.6;
+  /* decorative bleeds (e.g. the toggle glow) must never cause page scroll;
+     wide content scrolls inside its own container instead */
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 

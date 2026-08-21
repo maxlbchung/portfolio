@@ -34,7 +34,8 @@ import { Icon } from "astro-icon/components";
     background:
       radial-gradient(24rem 10rem at 35% 50%, var(--glow-a), transparent 70%),
       radial-gradient(24rem 10rem at 65% 50%, var(--glow-b), transparent 70%);
-    inset: -3.5rem -6rem;
+    /* bleed beyond the toggle, but never wider than the viewport */
+    inset: -3.5rem max(-6rem, calc((100% - 100vw) / 2 + 1rem));
     pointer-events: none;
     position: absolute;
     z-index: -1;
