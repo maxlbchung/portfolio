@@ -5,17 +5,24 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Builds the site and pushes dist/ to the gh-pages branch. GitHub serves
-# Pages from that branch (auto-enabled the first time the branch appears).
+# Publishes the site two ways so either Pages source setting works:
+#   1. pushes dist/ to the gh-pages branch   (source: "Deploy from a branch")
+#   2. deploys dist/ as a Pages artifact     (source: "GitHub Actions")
+# Branch-sourced Pages sometimes ignores pushes made by the workflow token,
+# so the artifact path (2) is the reliable one — set the Pages source to
+# "GitHub Actions" in Settings → Pages. Until then, the deploy job below
+# fails harmlessly and the branch push keeps working.
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,3 +37,20 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # Only takes effect when the Pages source is "GitHub Actions";
+  # fails (allowed) while the source is still the gh-pages branch.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
