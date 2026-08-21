@@ -1,0 +1,123 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { experience, education, honors, stack } from "@/data/experience";
+import { site } from "@/data/site";
+import { withBase } from "@/lib/url";
+---
+
+<Layout title="Experience" mode="ai" description="Research, work, and education of Max Li-Bo Chung.">
+  <h1>Experience</h1>
+
+  <div class="timeline">
+    {
+      experience.map((item) => (
+        <section class="entry">
+          <h2>{item.title}</h2>
+          <p class="muted meta">
+            {item.org} · {item.date}
+          </p>
+          <ul>
+            {item.points.map((pt) => (
+              <li>{pt}</li>
+            ))}
+          </ul>
+          {item.skills && (
+            <div class="chips">
+              {item.skills.map((s) => (
+                <span class="chip">{s}</span>
+              ))}
+            </div>
+          )}
+        </section>
+      ))
+    }
+  </div>
+
+  <h2 class="section-title">Education</h2>
+  {
+    education.map((e) => (
+      <section class="entry">
+        <h3>{e.school}</h3>
+        <p class="muted meta">
+          {e.program} · {e.place} · {e.date}
+        </p>
+      </section>
+    ))
+  }
+
+  <h2 class="section-title">Honors</h2>
+  <ul>
+    {honors.map((h) => <li>{h}</li>)}
+  </ul>
+
+  <h2 class="section-title">Skills</h2>
+  {
+    Object.entries(stack).map(([group, items]) => (
+      <div class="stack-group">
+        <h3>{group}</h3>
+        <div class="chips">
+          {items.map(({ name, icon }) => (
+            <span class="chip">
+              <Icon name={icon} size={15} aria-hidden="true" />
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+
+  <a href={withBase(site.resume)} target="_blank" rel="noopener noreferrer" class="btn resume-btn">
+    <Icon name="carbon:document" size={18} aria-hidden="true" />
+    <span>Full resume</span>
+    <Icon name="carbon:launch" size={14} aria-hidden="true" />
+  </a>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+  }
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+  .entry h2 {
+    font-size: 1.35rem;
+  }
+  .entry h3 {
+    font-size: 1.1rem;
+  }
+  .meta {
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0.4rem;
+  }
+  ul {
+    margin: 0.25rem 0 0.6rem;
+    padding-left: 1.2rem;
+  }
+  li {
+    margin-bottom: 0.3rem;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .stack-group {
+    margin-top: 0.9rem;
+  }
+  .stack-group h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+  }
+  .entry {
+    margin-bottom: 1rem;
+  }
+  .resume-btn {
+    margin-top: 2rem;
+  }
+</style>

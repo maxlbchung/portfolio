@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { withBase } from "@/lib/url";
+---
+
+<Layout title="404" mode="auto">
+  <div class="wrap">
+    <h1>404</h1>
+    <p class="muted">
+      <span class="only-ai">This page doesn't exist — a confident hallucination.</span>
+      <span class="only-games">You clipped through the map.</span>
+    </p>
+    <a href={withBase("/")} class="btn">Respawn at home</a>
+  </div>
+</Layout>
+
+<style>
+  .wrap {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 4rem 0;
+    text-align: center;
+  }
+  h1 {
+    font-size: 5rem;
+  }
+</style>

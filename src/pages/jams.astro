@@ -1,0 +1,101 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { jams } from "@/data/jams";
+---
+
+<Layout title="Jams" mode="games" description="Game jam entries by Libo Dev.">
+  <h1>Game Jams</h1>
+  <p class="muted intro">
+    Weekend-sized games built against the clock. Jams are where half of my weirdest mechanics were born.
+  </p>
+
+  <div class="cards">
+    {
+      jams.map((jam) => (
+        <article class="card jam">
+          <div class="head">
+            <h2>{jam.name}</h2>
+            <span class="muted date">{jam.date}</span>
+          </div>
+          {jam.theme && (
+            <p class="theme">
+              <Icon name="carbon:idea" size={16} aria-hidden="true" />
+              <span>
+                Theme: <strong>{jam.theme}</strong>
+              </span>
+            </p>
+          )}
+          <h3>{jam.game}</h3>
+          {jam.result && <p class="accent">{jam.result}</p>}
+          {jam.story && <p class="muted">{jam.story}</p>}
+          <div class="links">
+            {jam.links.map(({ label, url, icon }) => (
+              <a href={url} target="_blank" rel="noopener noreferrer" class="text-link link">
+                {icon && <Icon name={icon} size={15} aria-hidden="true" />}
+                <span>{label}</span>
+              </a>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2.4rem;
+  }
+  .intro {
+    margin-top: 0.6rem;
+  }
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+  .jam {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .head {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    justify-content: space-between;
+  }
+  h2 {
+    font-size: 1.35rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin-top: 0.25rem;
+  }
+  .date {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .theme {
+    align-items: center;
+    color: var(--accent-2);
+    display: flex;
+    font-size: 0.9rem;
+    gap: 0.4rem;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.25rem;
+  }
+  .link {
+    align-items: center;
+    display: inline-flex;
+    font-size: 0.9rem;
+    gap: 0.35rem;
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+import { Icon } from "astro-icon/components";
+import { site } from "@/data/site";
+
+const links = [
+  { href: site.socials.github, icon: "simple-icons:github", label: "GitHub" },
+  { href: site.socials.linkedin, icon: "simple-icons:linkedin", label: "LinkedIn" },
+  { href: site.socials.itch, icon: "simple-icons:itchdotio", label: "itch.io" },
+  { href: site.socials.youtube, icon: "simple-icons:youtube", label: "YouTube" },
+  { href: `mailto:${site.email}`, icon: "carbon:email", label: "Email" },
+];
+---
+
+<footer>
+  <div class="inner">
+    <p class="muted">© {new Date().getFullYear()} {site.name}</p>
+    <div class="socials">
+      {
+        links.map(({ href, icon, label }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} class="icon-link">
+            <Icon name={icon} size={18} aria-hidden="true" />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+  .inner {
+    align-items: center;
+    display: flex;
+    font-size: 0.85rem;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: var(--content-width);
+    padding: 1.25rem;
+  }
+  .socials {
+    display: flex;
+    gap: 0.9rem;
+  }
+</style>

@@ -1,0 +1,79 @@
+---
+import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/bricolage-grotesque";
+import "@/styles/theme.css";
+import "@/styles/global.css";
+
+import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
+import { site } from "@/data/site";
+import { withBase } from "@/lib/url";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /**
+   * "ai" | "games"  → this page belongs to one mode; visiting it switches the
+   *                   whole site into that mode (and theme) before first paint.
+   * "auto"          → the page (home) respects the visitor's stored mode.
+   */
+  mode?: "ai" | "games" | "auto";
+  class?: string;
+}
+
+const {
+  title,
+  description = "Max Li-Bo Chung — AI developer & game developer.",
+  mode = "auto",
+  class: className,
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × Games`;
+---
+
+<!doctype html>
+<html lang="en" data-mode="ai">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <title>{pageTitle}</title>
+    <!--
+      Mode resolution — runs before first paint to avoid a theme flash.
+      Pages with a fixed mode force it (and persist it); the home page
+      restores the visitor's last choice, defaulting to "ai".
+    -->
+    <script is:inline data-mode={mode}>
+      (() => {
+        const forced = document.currentScript.dataset.mode;
+        let m = forced !== "auto" ? forced : null;
+        if (!m) {
+          try {
+            m = localStorage.getItem("mode");
+          } catch {}
+        }
+        if (m !== "ai" && m !== "games") m = "ai";
+        document.documentElement.dataset.mode = m;
+        try {
+          localStorage.setItem("mode", m);
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <Navbar />
+    <main class:list={["fade-in", className]}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    margin: 0 auto;
+    max-width: var(--content-width);
+    padding: calc(var(--nav-height) + 3rem) 1.25rem 4rem;
+  }
+</style>

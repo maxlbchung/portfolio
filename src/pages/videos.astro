@@ -1,0 +1,88 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { site } from "@/data/site";
+import { videos } from "@/data/videos";
+---
+
+<Layout title="Videos" mode="games" description="Devlogs and videos by Libo Dev.">
+  <h1>Videos</h1>
+  <p class="muted intro">
+    Devlogs on how the games get made — subscribe on <a class="text-link" href={site.socials.youtube} target="_blank" rel="noopener noreferrer">YouTube</a> to catch new ones.
+  </p>
+
+  <div class="videos">
+    {
+      videos.map((v) => (
+        <article class="card video">
+          <div class="frame">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${v.id}`}
+              title={v.title}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            />
+          </div>
+          <div class="head">
+            <h2>{v.title}</h2>
+            <span class="muted date">{v.date}</span>
+          </div>
+          {v.blurb && <p class="muted">{v.blurb}</p>}
+        </article>
+      ))
+    }
+  </div>
+
+  <a href={site.socials.youtube} target="_blank" rel="noopener noreferrer" class="btn more">
+    <Icon name="simple-icons:youtube" size={16} aria-hidden="true" />
+    <span>Libo Dev on YouTube</span>
+  </a>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2.4rem;
+  }
+  .intro {
+    margin-top: 0.6rem;
+  }
+  .videos {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+  .video {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .frame {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .frame iframe {
+    border: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .head {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    justify-content: space-between;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .date {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .more {
+    margin-top: 1.5rem;
+  }
+</style>

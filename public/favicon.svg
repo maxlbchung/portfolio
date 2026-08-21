@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- split badge: dark AI half / light games half -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#12141f"/>
+  <path d="M32 2 h16 a14 14 0 0 1 14 14 v32 a14 14 0 0 1 -14 14 h-16 z" fill="#f7f3e8"/>
+  <circle cx="19" cy="32" r="7" fill="#7fd4f0"/>
+  <circle cx="45" cy="32" r="7" fill="#f08b4b"/>
+</svg>

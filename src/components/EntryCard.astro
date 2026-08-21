@@ -1,0 +1,142 @@
+---
+import { Icon } from "astro-icon/components";
+
+/**
+ * Shared card for projects and games.
+ */
+interface Props {
+  title: string;
+  period?: string;
+  blurb: string;
+  points?: string[];
+  tech?: string[];
+  award?: string;
+  links?: { label: string; url: string; icon?: string }[];
+}
+
+const { title, period, blurb, points, tech, award, links } = Astro.props;
+---
+
+<article class="card entry">
+  <div class="head">
+    <h3>{title}</h3>
+    {period && <span class="muted period">{period}</span>}
+  </div>
+
+  {
+    award && (
+      <p class="award">
+        <Icon name="carbon:trophy" size={16} aria-hidden="true" />
+        <span>{award}</span>
+      </p>
+    )
+  }
+
+  <p>{blurb}</p>
+
+  {
+    points && points.length > 0 && (
+      <ul>
+        {points.map((pt) => (
+          <li>{pt}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="foot">
+    {
+      tech && tech.length > 0 && (
+        <div class="tech">
+          {tech.map((t) => (
+            <span class="chip">{t}</span>
+          ))}
+        </div>
+      )
+    }
+    {
+      links && links.length > 0 && (
+        <div class="links">
+          {links.map(({ label, url, icon }) => (
+            <a href={url} target="_blank" rel="noopener noreferrer" class="text-link link">
+              {icon && <Icon name={icon} size={15} aria-hidden="true" />}
+              <span>{label}</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .head {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    justify-content: space-between;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  .period {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .award {
+    align-items: center;
+    color: var(--accent);
+    display: flex;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 0.4rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  li {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .foot {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    justify-content: space-between;
+    margin-top: 0.25rem;
+  }
+
+  .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .link {
+    align-items: center;
+    display: inline-flex;
+    font-size: 0.9rem;
+    gap: 0.35rem;
+  }
+</style>

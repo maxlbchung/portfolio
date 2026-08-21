@@ -1,0 +1,102 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { getCollection, render } from "astro:content";
+import { withBase } from "@/lib/url";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("diary");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+---
+
+<Layout title={post.data.title} mode="ai" description={post.data.summary}>
+  <a href={withBase("/dev-diary")} class="text-link back">
+    <Icon name="carbon:arrow-left" size={15} aria-hidden="true" />
+    <span>Dev Diary</span>
+  </a>
+
+  <h1>{post.data.title}</h1>
+  <p class="muted meta">{fmt(post.data.date)}</p>
+
+  <article class="prose">
+    <Content />
+  </article>
+</Layout>
+
+<style>
+  .back {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.35rem;
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-size: 2.2rem;
+  }
+  .meta {
+    margin-top: 0.5rem;
+  }
+  .prose {
+    margin-top: 1.5rem;
+  }
+  .prose :global(h2) {
+    font-size: 1.4rem;
+    margin: 1.75rem 0 0.5rem;
+  }
+  .prose :global(h3) {
+    font-size: 1.15rem;
+    margin: 1.5rem 0 0.4rem;
+  }
+  .prose :global(p) {
+    margin-bottom: 0.9rem;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 0.9rem;
+    padding-left: 1.3rem;
+  }
+  .prose :global(li) {
+    margin-bottom: 0.3rem;
+  }
+  .prose :global(a) {
+    border-bottom: 1px solid transparent;
+    color: var(--accent);
+    transition: border-color var(--transition-quick);
+  }
+  .prose :global(a:hover) {
+    border-bottom-color: var(--accent);
+  }
+  .prose :global(code) {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+    padding: 0.1em 0.35em;
+  }
+  .prose :global(pre) {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    padding: 1rem;
+  }
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    color: var(--muted);
+    margin: 0 0 0.9rem;
+    padding-left: 1rem;
+  }
+  .prose :global(img) {
+    border-radius: var(--radius);
+  }
+</style>
