@@ -1,24 +1,24 @@
 ---
-import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 
 const links = [
-  { href: site.socials.github, icon: "simple-icons:github", label: "GitHub" },
-  { href: site.socials.linkedin, icon: "simple-icons:linkedin", label: "LinkedIn" },
-  { href: site.socials.itch, icon: "simple-icons:itchdotio", label: "itch.io" },
-  { href: site.socials.youtube, icon: "simple-icons:youtube", label: "YouTube" },
-  { href: `mailto:${site.email}`, icon: "carbon:email", label: "Email" },
+  { href: site.socials.github, label: "github" },
+  { href: site.socials.linkedin, label: "linkedin" },
+  { href: site.socials.itch, label: "itch.io" },
+  { href: site.socials.youtube, label: "youtube" },
+  { href: `mailto:${site.email}`, label: "email" },
 ];
 ---
 
 <footer>
+  <div class="rule" aria-hidden="true">{"─".repeat(400)}</div>
   <div class="inner">
     <p class="muted">© {new Date().getFullYear()} {site.name}</p>
     <div class="socials">
       {
-        links.map(({ href, icon, label }) => (
-          <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} class="icon-link">
-            <Icon name={icon} size={18} aria-hidden="true" />
+        links.map(({ href, label }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer" class="icon-link">
+            {label}
           </a>
         ))
       }
@@ -28,13 +28,22 @@ const links = [
 
 <style>
   footer {
-    border-top: 1px solid var(--border);
     margin-top: auto;
+    overflow: hidden;
+  }
+  .rule {
+    color: var(--border);
+    font-family: var(--font-mono);
+    line-height: 1;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .inner {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     font-size: 0.85rem;
+    gap: 0.5rem 1rem;
     justify-content: space-between;
     margin: 0 auto;
     max-width: var(--content-width);
@@ -42,6 +51,7 @@ const links = [
   }
   .socials {
     display: flex;
-    gap: 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.7rem;
   }
 </style>

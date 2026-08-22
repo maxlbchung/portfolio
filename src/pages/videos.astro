@@ -1,6 +1,5 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { videos } from "@/data/videos";
 ---
@@ -35,14 +34,13 @@ import { videos } from "@/data/videos";
   </div>
 
   <a href={site.socials.youtube} target="_blank" rel="noopener noreferrer" class="btn more">
-    <Icon name="simple-icons:youtube" size={16} aria-hidden="true" />
-    <span>Libo Dev on YouTube</span>
+    Libo Dev on YouTube »
   </a>
 </Layout>
 
 <style>
   h1 {
-    font-size: 2.4rem;
+    font-size: calc(2.4rem * var(--display-scale, 1));
   }
   .intro {
     margin-top: 0.6rem;
@@ -60,7 +58,7 @@ import { videos } from "@/data/videos";
   }
   .frame {
     aspect-ratio: 16 / 9;
-    border-radius: var(--radius);
+    border: 2px solid var(--border);
     overflow: hidden;
   }
   .frame iframe {
@@ -76,7 +74,7 @@ import { videos } from "@/data/videos";
     justify-content: space-between;
   }
   h2 {
-    font-size: 1.25rem;
+    font-size: calc(1.25rem * var(--display-scale, 1));
   }
   .date {
     font-size: 0.85rem;

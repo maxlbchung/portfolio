@@ -1,7 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import EntryCard from "@/components/EntryCard.astro";
-import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { projects } from "@/data/projects";
 ---
@@ -17,14 +16,13 @@ import { projects } from "@/data/projects";
   </div>
 
   <a href={site.socials.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost more">
-    <Icon name="simple-icons:github" size={16} aria-hidden="true" />
-    <span>More on GitHub</span>
+    More on GitHub »
   </a>
 </Layout>
 
 <style>
   h1 {
-    font-size: 2.4rem;
+    font-size: calc(2.4rem * var(--display-scale, 1));
   }
   .intro {
     margin-top: 0.6rem;
@@ -32,7 +30,7 @@ import { projects } from "@/data/projects";
   .cards {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-top: 1.75rem;
   }
   .more {

@@ -1,24 +1,18 @@
 ---
-import { Icon } from "astro-icon/components";
+/**
+ * The big AI ⇄ GAMES switch on the home page — rendered entirely as text.
+ * The track is a run of characters ([··████··]) whose thumb slides by
+ * re-rendering the string, cell by cell. Flipping a side dispatches
+ * `libo:modeswap` with the click point; ModeSweep.astro runs the
+ * conversion wave and swaps html[data-mode] under it.
+ */
 ---
 
-<!--
-  The big AI ⇄ GAMES switch on the home page.
-  Flipping it swaps html[data-mode], which swaps the entire theme
-  (see src/styles/theme.css) plus the nav and home content.
--->
 <div class="toggle-wrap">
-  <div class="glow" aria-hidden="true"></div>
   <div class="toggle" role="tablist" aria-label="Portfolio mode">
-    <div class="thumb" aria-hidden="true"></div>
-    <button type="button" role="tab" data-set-mode="ai" class="opt opt-ai">
-      <Icon name="carbon:machine-learning-model" size={26} aria-hidden="true" />
-      <span>AI</span>
-    </button>
-    <button type="button" role="tab" data-set-mode="games" class="opt opt-games">
-      <Icon name="carbon:game-console" size={26} aria-hidden="true" />
-      <span>Games</span>
-    </button>
+    <button type="button" role="tab" data-set-mode="ai" class="opt opt-ai">AI</button>
+    <pre id="mode-track" data-set-mode="" aria-hidden="true"></pre>
+    <button type="button" role="tab" data-set-mode="games" class="opt opt-games">GAMES</button>
   </div>
 </div>
 
@@ -26,96 +20,123 @@ import { Icon } from "astro-icon/components";
   .toggle-wrap {
     display: flex;
     justify-content: center;
-    margin: 1.5rem 0 2rem;
-    position: relative;
-  }
-
-  .glow {
-    background:
-      radial-gradient(24rem 10rem at 35% 50%, var(--glow-a), transparent 70%),
-      radial-gradient(24rem 10rem at 65% 50%, var(--glow-b), transparent 70%);
-    /* bleed beyond the toggle, but never wider than the viewport */
-    inset: -3.5rem max(-6rem, calc((100% - 100vw) / 2 + 1rem));
-    pointer-events: none;
-    position: absolute;
-    z-index: -1;
+    margin: 1.75rem 0 2rem;
   }
 
   .toggle {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    box-shadow: var(--shadow-card);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0.4rem;
-    position: relative;
-    width: min(24rem, 100%);
-  }
-
-  .thumb {
-    background: var(--accent);
-    border-radius: 999px;
-    bottom: 0.4rem;
-    left: 0.4rem;
-    position: absolute;
-    top: 0.4rem;
-    transition: transform 350ms cubic-bezier(0.3, 1.3, 0.4, 1);
-    width: calc(50% - 0.4rem);
-  }
-  html[data-mode="games"] .thumb {
-    transform: translateX(100%);
+    align-items: center;
+    display: flex;
+    gap: 0.6rem;
   }
 
   .opt {
-    align-items: center;
     background: none;
     border: none;
-    border-radius: 999px;
     color: var(--muted);
     cursor: pointer;
-    display: flex;
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 600;
-    gap: 0.55rem;
-    justify-content: center;
-    padding: 0.65rem 0;
-    position: relative;
-    transition: color var(--transition-quick);
-    z-index: 1;
+    font-size: calc(1.6rem * var(--display-scale, 1));
+    line-height: 1;
+    padding: 0.2rem 0.35rem;
+    transition: background-color var(--transition-quick), color var(--transition-quick);
   }
-
+  .opt:hover {
+    color: var(--text);
+  }
+  /* active side: inverse video — emphasis without leaving text-land */
   html[data-mode="ai"] .opt-ai,
   html[data-mode="games"] .opt-games {
+    background: var(--text);
+    color: var(--bg);
+  }
+  html[data-mode="games"] .opt-games {
+    background: var(--accent);
     color: var(--accent-contrast);
+  }
+
+  #mode-track {
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    line-height: 1;
+    margin: 0;
+    user-select: none;
+  }
+  html[data-mode="games"] #mode-track {
+    color: var(--accent);
+  }
+
+  @media (max-width: 480px) {
+    #mode-track {
+      font-size: 0.85rem;
+    }
   }
 </style>
 
 <script>
   const html = document.documentElement;
+  const CELLS = 22;
+  const THUMB = 8;
 
-  // Delegated so the handler survives client-side navigations.
-  document.addEventListener("click", (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-set-mode]");
-    if (!btn) return;
-    const next = btn.dataset.setMode as "ai" | "games";
-    if (html.dataset.mode === next) return;
-    html.classList.add("theme-anim");
-    html.dataset.mode = next;
-    try {
-      localStorage.setItem("mode", next);
-    } catch {}
-    setTimeout(() => html.classList.remove("theme-anim"), 450);
-  });
+  // p ∈ [0,1]: 0 = thumb left (AI), 1 = thumb right (GAMES)
+  const trackString = (p: number) => {
+    const pos = Math.round(p * (CELLS - THUMB));
+    return `[${"·".repeat(pos)}${"█".repeat(THUMB)}${"·".repeat(CELLS - THUMB - pos)}]`;
+  };
 
-  // reflect state for a11y
+  let current = html.dataset.mode === "games" ? 1 : 0;
+  let timer: ReturnType<typeof setInterval> | undefined;
+
+  const render = () => {
+    const track = document.getElementById("mode-track");
+    if (track) track.textContent = trackString(current);
+  };
+
+  // Slide the thumb by re-rendering the string one step at a time.
+  const animateTo = (target: number) => {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      const step = 1 / (CELLS - THUMB);
+      if (Math.abs(target - current) <= step) {
+        current = target;
+        clearInterval(timer);
+      } else {
+        current += Math.sign(target - current) * step;
+      }
+      render();
+    }, 28);
+  };
+
   const sync = () => {
-    document.querySelectorAll<HTMLButtonElement>("[data-set-mode]").forEach((btn) => {
+    animateTo(html.dataset.mode === "games" ? 1 : 0);
+    document.querySelectorAll<HTMLButtonElement>(".opt[data-set-mode]").forEach((btn) => {
       btn.setAttribute("aria-selected", String(btn.dataset.setMode === html.dataset.mode));
     });
   };
+
+  // Delegated so handlers survive client-side navigations. The empty
+  // data-set-mode on the track means "the other mode".
+  document.addEventListener("click", (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>("[data-set-mode]");
+    if (!el) return;
+    const next = el.dataset.setMode || (html.dataset.mode === "ai" ? "games" : "ai");
+    if (html.dataset.mode === next) return;
+    // keyboard activation has no coordinates — use the control's center
+    let { clientX: x, clientY: y } = e;
+    if (!x && !y) {
+      const r = el.getBoundingClientRect();
+      x = r.left + r.width / 2;
+      y = r.top + r.height / 2;
+    }
+    document.dispatchEvent(new CustomEvent("libo:modeswap", { detail: { next, x, y } }));
+  });
+
   new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ["data-mode"] });
-  document.addEventListener("astro:page-load", sync);
+  document.addEventListener("astro:page-load", () => {
+    current = html.dataset.mode === "games" ? 1 : 0;
+    render();
+    sync();
+  });
+  render();
   sync();
 </script>

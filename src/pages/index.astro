@@ -1,9 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import ModeToggle from "@/components/ModeToggle.astro";
+import AsciiTriangle from "@/components/AsciiTriangle.astro";
 import EntryCard from "@/components/EntryCard.astro";
 import GitGraph from "@/components/GitGraph.astro";
-import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
 import { projects } from "@/data/projects";
@@ -12,30 +12,39 @@ import { stack } from "@/data/experience";
 
 const featuredProjects = projects.filter((p) => p.featured);
 const featuredGames = games.filter((g) => g.featured);
+
+const socials = [
+  { href: site.socials.github, label: "github" },
+  { href: site.socials.linkedin, label: "linkedin" },
+  { href: site.socials.itch, label: "itch.io" },
+  { href: site.socials.youtube, label: "youtube" },
+];
 ---
 
 <Layout mode="auto">
   <!-- ── Shared hero ─────────────────────────────────────────────────── -->
-  <p class="hello">Hello, I'm</p>
-  <h1 class="name">Max Li-Bo Chung</h1>
-  <p class="subtitle muted">
-    <span class="only-ai">{site.tagline.ai}</span>
-    <span class="only-games">also known as <strong>{site.alias}</strong> — {site.tagline.games}</span>
-  </p>
+  <div class="hero">
+    <div class="hero-text">
+      <p class="hello">Hello, I'm</p>
+      <h1 class="name">Max Li-Bo Chung</h1>
+      <p class="subtitle muted">
+        <span class="only-ai">{site.tagline.ai}</span>
+        <span class="only-games">also known as <strong>{site.alias}</strong> — {site.tagline.games}</span>
+      </p>
 
-  <div class="socials">
-    <a href={site.socials.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="icon-link">
-      <Icon name="simple-icons:github" size={22} aria-hidden="true" />
-    </a>
-    <a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="icon-link">
-      <Icon name="simple-icons:linkedin" size={22} aria-hidden="true" />
-    </a>
-    <a href={site.socials.itch} target="_blank" rel="noopener noreferrer" aria-label="itch.io" class="icon-link">
-      <Icon name="simple-icons:itchdotio" size={22} aria-hidden="true" />
-    </a>
-    <a href={site.socials.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="icon-link">
-      <Icon name="simple-icons:youtube" size={22} aria-hidden="true" />
-    </a>
+      <div class="socials">
+        {
+          socials.map(({ href, label }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer" class="icon-link">
+              {label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    <div class="hero-tri">
+      <AsciiTriangle />
+    </div>
   </div>
 
   <!-- ── The big switch ──────────────────────────────────────────────── -->
@@ -54,9 +63,7 @@ const featuredGames = games.filter((g) => g.featured);
     </p>
 
     <a href={withBase(site.resume)} target="_blank" rel="noopener noreferrer" class="btn resume-btn">
-      <Icon name="carbon:document" size={18} aria-hidden="true" />
-      <span>Resume</span>
-      <Icon name="carbon:launch" size={14} aria-hidden="true" />
+      ./resume.pdf
     </a>
 
     <h2 class="section-title">Technical Skills</h2>
@@ -65,11 +72,8 @@ const featuredGames = games.filter((g) => g.featured);
         <div class="stack-group">
           <h3>{group}</h3>
           <div class="chips">
-            {items.map(({ name, icon }) => (
-              <span class="chip">
-                <Icon name={icon} size={15} aria-hidden="true" />
-                {name}
-              </span>
+            {items.map(({ name }) => (
+              <span class="chip">{name}</span>
             ))}
           </div>
         </div>
@@ -78,10 +82,7 @@ const featuredGames = games.filter((g) => g.featured);
 
     <div class="row-head">
       <h2 class="section-title">Featured Projects</h2>
-      <a href={withBase("/projects")} class="text-link view-all">
-        <span>View all</span>
-        <Icon name="carbon:arrow-right" size={15} aria-hidden="true" />
-      </a>
+      <a href={withBase("/projects")} class="text-link view-all">view all »</a>
     </div>
     <div class="cards">
       {featuredProjects.map((p) => <EntryCard {...p} />)}
@@ -105,10 +106,7 @@ const featuredGames = games.filter((g) => g.featured);
 
     <div class="row-head">
       <h2 class="section-title">Featured Games</h2>
-      <a href={withBase("/games")} class="text-link view-all">
-        <span>View all</span>
-        <Icon name="carbon:arrow-right" size={15} aria-hidden="true" />
-      </a>
+      <a href={withBase("/games")} class="text-link view-all">view all »</a>
     </div>
     <div class="cards">
       {featuredGames.map((g) => <EntryCard {...g} />)}
@@ -117,22 +115,38 @@ const featuredGames = games.filter((g) => g.featured);
 </Layout>
 
 <style>
+  .hero {
+    align-items: center;
+    display: grid;
+    gap: 0.5rem 1.5rem;
+    grid-template-columns: 1fr auto;
+  }
+  @media (max-width: 700px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .hero-tri {
+      display: none;
+    }
+  }
+
   .hello {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
   }
 
   .name {
-    font-size: clamp(2.6rem, 8vw, 3.4rem);
+    font-size: calc(clamp(2.6rem, 8vw, 3.4rem) * var(--display-scale, 1));
     margin: 0.1rem 0 0.4rem;
   }
 
   .subtitle {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .socials {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.8rem;
     margin-top: 1rem;
   }
 
@@ -148,13 +162,13 @@ const featuredGames = games.filter((g) => g.featured);
     margin-top: 0.9rem;
   }
   .stack-group h3 {
-    font-size: 1.05rem;
+    font-size: calc(1.1rem * var(--display-scale, 1));
     margin-bottom: 0.4rem;
   }
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: 0.45rem 0.6rem;
   }
 
   .row-head {
@@ -163,16 +177,13 @@ const featuredGames = games.filter((g) => g.featured);
     justify-content: space-between;
   }
   .view-all {
-    align-items: center;
-    display: inline-flex;
-    gap: 0.3rem;
     white-space: nowrap;
   }
 
   .cards {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-top: 1rem;
   }
 </style>

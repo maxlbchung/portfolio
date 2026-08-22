@@ -1,5 +1,4 @@
 ---
-import { Icon } from "astro-icon/components";
 import { nav } from "@/data/site";
 import { withBase } from "@/lib/url";
 
@@ -9,10 +8,10 @@ const current = (path: string) =>
 const modes = ["ai", "games"] as const;
 ---
 
-<!-- transition:persist keeps the navbar (and its sliding pill) alive across
-     client-side navigations so the pill can glide to the new active item. -->
+<!-- transition:persist keeps the navbar alive across client-side
+     navigations; a small script re-marks the active link. -->
 <header transition:persist="site-nav">
-  <div class="nav-box" id="nav-box">
+  <div class="nav-box">
     <!-- Two nav sets; CSS shows the one matching html[data-mode] -->
     {
       modes.map((m) => (
@@ -31,19 +30,6 @@ const modes = ["ai", "games"] as const;
         </nav>
       ))
     }
-
-    <!-- Sliding highlight pill + an inverted-color copy of the labels,
-         clipped to the pill's rect so text appears to invert as it passes. -->
-    <div id="nav-pill" aria-hidden="true"></div>
-    {
-      modes.map((m) => (
-        <div class:list={["nav-overlay", m === "ai" ? "only-ai" : "only-games"]} data-overlay={m} aria-hidden="true">
-          {nav[m].map(({ path, label }) => (
-            <span data-path={withBase(path).replace(/\/$/, "") || "/"}>{label}</span>
-          ))}
-        </div>
-      ))
-    }
   </div>
 
   <button
@@ -53,19 +39,20 @@ const modes = ["ai", "games"] as const;
     aria-label="Switch between AI and games"
     data-home={withBase("/")}
   >
-    <Icon name="carbon:arrows-horizontal" size={16} aria-hidden="true" />
-    <span class="only-ai">games?</span>
-    <span class="only-games">ai?</span>
+    <span class="only-ai">[games?]</span>
+    <span class="only-games">[ai?]</span>
   </button>
+
+  <!-- the header's bottom edge, drawn in characters -->
+  <div class="nav-rule" aria-hidden="true">
+    {"─".repeat(400)}
+  </div>
 </header>
 
 <style>
   header {
     align-items: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    background: color-mix(in oklch, var(--bg) 82%, transparent);
-    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.88);
     display: flex;
     height: var(--nav-height);
     justify-content: center;
@@ -76,220 +63,153 @@ const modes = ["ai", "games"] as const;
     z-index: 50;
   }
 
-  .nav-box {
-    position: relative;
+  .nav-rule {
+    bottom: -0.35em;
+    color: var(--border);
+    font-family: var(--font-mono);
+    left: 0;
+    line-height: 1;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    white-space: nowrap;
   }
 
-  nav,
-  .nav-overlay {
+  nav {
     align-items: center;
     display: flex;
     font-size: 0.95rem;
-    font-weight: 500;
-    gap: 0.35rem;
+    gap: 0.4rem;
   }
-
-  nav a,
-  .nav-overlay span {
-    border-radius: 999px;
-    padding: 0.3rem 0.8rem;
-    white-space: nowrap;
+  html[data-mode="games"] nav {
+    font-size: 0.85rem;
   }
 
   nav a {
     color: var(--muted);
-    transition: color var(--transition-quick), background-color var(--transition-quick);
+    padding: 0.25rem 0.2rem;
+    transition: background-color var(--transition-quick), color var(--transition-quick);
+    white-space: pre;
   }
-  nav a:hover {
-    background: var(--surface);
-    color: var(--text);
+  /* every link carries bracket slots so activating one never shifts layout */
+  nav a::before {
+    content: " ";
+  }
+  nav a::after {
+    content: " ";
+  }
+  nav a.active::before {
+    content: "[";
+  }
+  nav a.active::after {
+    content: "]";
   }
   nav a.active {
     color: var(--text);
   }
-  /* No-JS fallback: show the active pill statically */
-  html:not(.js) nav a.active {
+  html[data-mode="games"] nav a.active {
+    color: var(--accent);
+  }
+  nav a:hover {
     background: var(--text);
     color: var(--bg);
   }
-
-  #nav-pill {
-    background: var(--text);
-    border-radius: 999px;
-    bottom: 2px;
-    left: 0;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 2px;
-    width: 0;
-  }
-
-  .nav-overlay {
-    color: var(--bg);
-    inset: 0;
-    pointer-events: none;
-    position: absolute;
-    /* fully collapsed clip until the script measures the pill */
-    clip-path: inset(2px 100% 2px 0 round 999px);
-  }
-
-  /* The glide — pill and clipped overlay move in lockstep */
-  html.js #nav-pill,
-  html.js .nav-overlay {
-    transition:
-      left 250ms cubic-bezier(0.3, 1, 0.4, 1),
-      width 250ms cubic-bezier(0.3, 1, 0.4, 1),
-      clip-path 250ms cubic-bezier(0.3, 1, 0.4, 1),
-      opacity 150ms linear;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html.js #nav-pill,
-    html.js .nav-overlay {
-      transition: none;
-    }
+  html[data-mode="games"] nav a:hover {
+    background: var(--accent-2);
+    color: #000;
   }
 
   #mode-swap {
-    align-items: center;
     background: none;
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    border: none;
     color: var(--muted);
     cursor: pointer;
-    display: inline-flex;
     font-family: var(--font-body);
-    font-size: 0.78rem;
-    gap: 0.3rem;
-    margin-left: 0.5rem;
-    padding: 0.25rem 0.7rem;
+    font-size: 0.82rem;
+    padding: 0.25rem 0.2rem;
     position: absolute;
     right: 1rem;
-    transition: color var(--transition-quick), border-color var(--transition-quick);
+    transition: background-color var(--transition-quick), color var(--transition-quick);
   }
   #mode-swap:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    background: var(--text);
+    color: var(--bg);
+  }
+  html[data-mode="games"] #mode-swap:hover {
+    background: var(--accent);
+    color: var(--accent-contrast);
   }
 
-  /* Small screens: the swap button joins the flex row (instead of floating
-     over the nav) and everything tightens so all items + button fit. */
+  /* Small screens: the swap button joins the flex row, gets a short
+     label, and everything tightens so all items + button fit. */
   @media (max-width: 560px) {
     header {
-      gap: 0.4rem;
-      padding: 0 0.5rem;
+      gap: 0.25rem;
+      padding: 0 0.4rem;
     }
     #mode-swap {
-      margin-left: 0;
+      padding: 0.25rem 0.05rem;
       position: static;
     }
     #mode-swap span {
       display: none;
     }
-    nav,
-    .nav-overlay {
-      font-size: 0.88rem;
-      gap: 0.1rem;
+    #mode-swap::after {
+      content: "[<>]";
     }
-    nav a,
-    .nav-overlay span {
-      padding: 0.3rem 0.5rem;
+    nav {
+      font-size: 0.8rem;
+      gap: 0;
+    }
+    nav a {
+      padding: 0.25rem 0.1rem;
+    }
+    html[data-mode="games"] nav {
+      font-size: 0.68rem;
     }
   }
   @media (max-width: 360px) {
-    nav,
-    .nav-overlay {
-      font-size: 0.82rem;
+    nav {
+      font-size: 0.72rem;
     }
-    nav a,
-    .nav-overlay span {
-      padding: 0.3rem 0.4rem;
+    html[data-mode="games"] nav {
+      font-size: 0.6rem;
     }
   }
 </style>
 
 <script>
-  // ── Sliding nav pill ──────────────────────────────────────────────────
-  // Finds the active link in the visible nav set, glides the pill under it,
-  // and clips the inverted overlay to the pill so the label color sweeps.
+  // ── Active link marking ───────────────────────────────────────────────
   const currentPath = () => {
     const p = window.location.pathname.replace(/\/$/, "");
     return p === "" ? "/" : p;
   };
 
-  const findActive = (nav: Element) => {
+  const markActive = () => {
     const path = currentPath();
-    let match: HTMLAnchorElement | null = null;
-    let prefix: HTMLAnchorElement | null = null;
-    nav.querySelectorAll<HTMLAnchorElement>("a[data-path]").forEach((a) => {
-      const p = a.dataset.path!;
-      if (path === p) match = a;
-      // longest-prefix match keeps e.g. /dev-diary/<post> on "Dev Diary";
-      // the home link only matches exactly (every page shares its prefix)
-      else if (!a.dataset.exact && path.startsWith(`${p}/`) && p.length > (prefix?.dataset.path?.length ?? 0))
-        prefix = a;
-    });
-    return match ?? prefix;
-  };
-
-  let firstPlace = true;
-  const place = () => {
-    const box = document.getElementById("nav-box");
-    const pill = document.getElementById("nav-pill");
-    if (!box || !pill) return;
-
-    const navEl = [...box.querySelectorAll<HTMLElement>("nav[data-nav]")].find((n) => n.offsetParent !== null);
-    if (!navEl) return;
-    const overlay = box.querySelector<HTMLElement>(`.nav-overlay[data-overlay="${navEl.dataset.nav}"]`);
-    if (!overlay) return;
-
-    const skipAnim = firstPlace;
-    firstPlace = false;
-    const setNow = (el: HTMLElement, fn: () => void) => {
-      if (!skipAnim) return fn();
-      el.style.transition = "none";
-      fn();
-      requestAnimationFrame(() => (el.style.transition = ""));
-    };
-
-    // refresh active link styling
-    const active = findActive(navEl);
-    navEl.querySelectorAll("a").forEach((a) => {
-      a.classList.toggle("active", a === active);
-      if (a === active) a.setAttribute("aria-current", "page");
-      else a.removeAttribute("aria-current");
-    });
-
-    if (!active) {
-      pill.style.opacity = "0";
-      setNow(overlay, () => (overlay.style.clipPath = "inset(2px 100% 2px 0 round 999px)"));
-      return;
-    }
-
-    const boxRect = box.getBoundingClientRect();
-    const rect = active.getBoundingClientRect();
-    const left = rect.left - boxRect.left;
-    const right = boxRect.right - rect.right;
-
-    setNow(pill, () => {
-      pill.style.left = `${left}px`;
-      pill.style.width = `${rect.width}px`;
-      pill.style.opacity = "1";
-    });
-    setNow(overlay, () => {
-      overlay.style.clipPath = `inset(2px ${right}px 2px ${left}px round 999px)`;
+    document.querySelectorAll<HTMLElement>("header nav[data-nav]").forEach((nav) => {
+      let match: HTMLAnchorElement | null = null;
+      let prefix: HTMLAnchorElement | null = null;
+      nav.querySelectorAll<HTMLAnchorElement>("a[data-path]").forEach((a) => {
+        const p = a.dataset.path!;
+        if (path === p) match = a;
+        // longest-prefix match keeps e.g. /dev-diary/<post> on "Dev Diary";
+        // the home link only matches exactly (every page shares its prefix)
+        else if (!a.dataset.exact && path.startsWith(`${p}/`) && p.length > (prefix?.dataset.path?.length ?? 0))
+          prefix = a;
+      });
+      const active = match ?? prefix;
+      nav.querySelectorAll("a").forEach((a) => {
+        a.classList.toggle("active", a === active);
+        if (a === active) a.setAttribute("aria-current", "page");
+        else a.removeAttribute("aria-current");
+      });
     });
   };
 
-  place();
-  document.addEventListener("astro:page-load", place);
-  window.addEventListener("resize", () => place());
-  document.fonts?.addEventListener("loadingdone", () => place());
-  // re-measure when the AI/games mode flips (the visible nav set changes)
-  new MutationObserver(() => place()).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["data-mode"],
-  });
+  markActive();
+  document.addEventListener("astro:page-load", markActive);
 
   // ── Mode swap shortcut ────────────────────────────────────────────────
   // Delegated so it survives client-side navigations.
@@ -302,11 +222,14 @@ const modes = ["ai", "games"] as const;
       localStorage.setItem("mode", next);
     } catch {}
     const home = swap.dataset.home ?? "/";
-    // On the home page flip in place (the big toggle animates); elsewhere, go home.
+    // On the home page run the conversion sweep in place; elsewhere, go home.
     if (currentPath() === (home.replace(/\/$/, "") || "/")) {
-      html.classList.add("theme-anim");
-      html.dataset.mode = next;
-      setTimeout(() => html.classList.remove("theme-anim"), 450);
+      const r = swap.getBoundingClientRect();
+      document.dispatchEvent(
+        new CustomEvent("libo:modeswap", {
+          detail: { next, x: r.left + r.width / 2, y: r.top + r.height / 2 },
+        }),
+      );
     } else {
       window.location.href = home;
     }

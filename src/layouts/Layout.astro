@@ -1,12 +1,15 @@
 ---
-import "@fontsource-variable/space-grotesk";
-import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource/vt323";
+import "@fontsource/press-start-2p";
+import "@fontsource/silkscreen";
 import "@/styles/theme.css";
 import "@/styles/global.css";
 
 import { ClientRouter } from "astro:transitions";
 import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
+import IntroGrid from "@/components/IntroGrid.astro";
+import ModeSweep from "@/components/ModeSweep.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
 
@@ -72,6 +75,9 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
       <slot />
     </main>
     <Footer />
+    <!-- full-screen FX: page-open grid reveal + mode-swap conversion wave -->
+    <IntroGrid />
+    <ModeSweep />
   </body>
 </html>
 
@@ -84,34 +90,14 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 </style>
 
 <script>
-  // ── Intro reveal (first load only) ────────────────────────────────────
-  // Stagger each top-level block of <main>, then clear the inline delays so
-  // later hover/theme transitions aren't lagged.
-  const runIntro = () => {
-    const kids = document.querySelectorAll<HTMLElement>("main > *");
-    kids.forEach((el, i) => {
-      el.style.transitionDelay = `${Math.min(i * 60, 540)}ms`;
-    });
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        document.documentElement.classList.add("intro-done");
-        setTimeout(() => {
-          kids.forEach((el) => (el.style.transitionDelay = ""));
-          document.documentElement.classList.remove("intro", "intro-done");
-        }, 1100);
-      }),
-    );
-  };
-  runIntro();
-
   // ── Mode resolution after client-side navigation ─────────────────────
   // astro:after-swap fires before the new page paints. The swapped-in <html>
   // carries the static data-mode="ai" and class="intro" from the server, so
   // re-resolve the mode and drop the intro (navigations use the built-in
-  // view-transition fade instead of the stagger).
+  // view-transition fade; the grid intro only plays on full loads).
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
-    html.classList.remove("intro", "intro-done");
+    html.classList.remove("intro");
     html.classList.add("js");
     const forced = document.body.dataset.pageMode;
     let m: string | null = forced !== "auto" ? (forced ?? null) : null;

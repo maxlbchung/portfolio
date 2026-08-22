@@ -1,6 +1,5 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
 import { getCollection, render } from "astro:content";
 import { withBase } from "@/lib/url";
 
@@ -17,10 +16,7 @@ const fmt = (d: Date) =>
 ---
 
 <Layout title={post.data.title} mode="ai" description={post.data.summary}>
-  <a href={withBase("/dev-diary")} class="text-link back">
-    <Icon name="carbon:arrow-left" size={15} aria-hidden="true" />
-    <span>Dev Diary</span>
-  </a>
+  <a href={withBase("/dev-diary")} class="text-link back">« Dev Diary</a>
 
   <h1>{post.data.title}</h1>
   <p class="muted meta">{fmt(post.data.date)}</p>
@@ -32,13 +28,11 @@ const fmt = (d: Date) =>
 
 <style>
   .back {
-    align-items: center;
-    display: inline-flex;
-    gap: 0.35rem;
+    display: inline-block;
     margin-bottom: 1.5rem;
   }
   h1 {
-    font-size: 2.2rem;
+    font-size: calc(2.2rem * var(--display-scale, 1));
   }
   .meta {
     margin-top: 0.5rem;
@@ -47,11 +41,11 @@ const fmt = (d: Date) =>
     margin-top: 1.5rem;
   }
   .prose :global(h2) {
-    font-size: 1.4rem;
+    font-size: calc(1.4rem * var(--display-scale, 1));
     margin: 1.75rem 0 0.5rem;
   }
   .prose :global(h3) {
-    font-size: 1.15rem;
+    font-size: calc(1.15rem * var(--display-scale, 1));
     margin: 1.5rem 0 0.4rem;
   }
   .prose :global(p) {
@@ -75,14 +69,12 @@ const fmt = (d: Date) =>
   }
   .prose :global(code) {
     background: var(--surface);
-    border-radius: var(--radius-sm);
     font-size: 0.9em;
     padding: 0.1em 0.35em;
   }
   .prose :global(pre) {
     background: var(--bg-raised);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
     overflow-x: auto;
     padding: 1rem;
   }
@@ -97,6 +89,6 @@ const fmt = (d: Date) =>
     padding-left: 1rem;
   }
   .prose :global(img) {
-    border-radius: var(--radius);
+    border: 2px solid var(--border);
   }
 </style>

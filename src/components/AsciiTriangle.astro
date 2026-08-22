@@ -1,0 +1,125 @@
+---
+/**
+ * A triangle rotating in 3D, rasterized to a character grid at ~20fps.
+ * Pure text: every frame is just a string in a <pre>. Depth across the
+ * face picks the fill character, so the shading rolls as it spins.
+ *
+ * AI mode uses the ASCII density ramp; games mode uses block "pixels",
+ * so the triangle converts with the rest of the site.
+ */
+---
+
+<pre id="ascii-tri" aria-hidden="true"></pre>
+
+<style>
+  #ascii-tri {
+    color: var(--text);
+    line-height: 1.02;
+    margin: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+  html[data-mode="ai"] #ascii-tri {
+    font-family: var(--font-term);
+    font-size: clamp(11px, 1.6vw, 16px);
+  }
+  html[data-mode="games"] #ascii-tri {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: clamp(9px, 1.3vw, 13px);
+  }
+</style>
+
+<script>
+  const W = 41;
+  const H = 21;
+  const AI_RAMP = "·:-=+*#%@";
+  const PX_RAMP = "░░▒▒▓▓██";
+
+  // unit-ish triangle in the XY plane
+  const VERTS: [number, number, number][] = [
+    [0, -1.2, 0],
+    [1.05, 0.9, 0],
+    [-1.05, 0.9, 0],
+  ];
+
+  const frame = (t: number): string => {
+    const ry = t * 0.0011;
+    const rx = 0.55 + 0.28 * Math.sin(t * 0.0006);
+    const cy = Math.cos(ry), sy = Math.sin(ry);
+    const cx = Math.cos(rx), sx = Math.sin(rx);
+
+    // rotate Y then X, orthographic projection
+    const p = VERTS.map(([x, y, z]) => {
+      const x1 = x * cy + z * sy;
+      const z1 = -x * sy + z * cy;
+      const y2 = y * cx - z1 * sx;
+      const z2 = y * sx + z1 * cx;
+      return [x1, y2, z2] as const;
+    });
+
+    const [a, b, c] = p as [(typeof p)[0], (typeof p)[0], (typeof p)[0]];
+    const area = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
+    const ramp = document.documentElement.dataset.mode === "games" ? PX_RAMP : AI_RAMP;
+
+    // world extents mapped onto the char grid (chars are ~half as wide
+    // as tall, so x gets more cells per world unit)
+    const grid: string[] = [];
+    for (let gy = 0; gy < H; gy++) {
+      let line = "";
+      const wy = ((gy + 0.5) / H) * 3.0 - 1.5;
+      for (let gx = 0; gx < W; gx++) {
+        const wx = ((gx + 0.5) / W) * 3.2 - 1.6;
+        let ch = " ";
+        if (Math.abs(area) > 0.02) {
+          const u = ((b[0] - wx) * (c[1] - wy) - (c[0] - wx) * (b[1] - wy)) / area;
+          const v = ((c[0] - wx) * (a[1] - wy) - (a[0] - wx) * (c[1] - wy)) / area;
+          const w2 = 1 - u - v;
+          if (u >= 0 && v >= 0 && w2 >= 0) {
+            const z = u * a[2] + v * b[2] + w2 * c[2]; // depth across the face
+            const d = Math.min(0.999, Math.max(0, (z + 1.3) / 2.6));
+            ch = ramp[Math.floor(d * ramp.length)] ?? "*";
+          }
+        }
+        line += ch;
+      }
+      grid.push(line);
+    }
+
+    // vertex glyphs on top
+    const plot = (wx: number, wy: number, ch: string) => {
+      const gx = Math.round(((wx + 1.6) / 3.2) * W - 0.5);
+      const gy = Math.round(((wy + 1.5) / 3.0) * H - 0.5);
+      if (gy < 0 || gy >= H || gx < 0 || gx >= W) return;
+      const row = grid[gy] ?? "";
+      grid[gy] = row.slice(0, gx) + ch + row.slice(gx + 1);
+    };
+    for (const [vx, vy] of p) plot(vx, vy, "@");
+
+    return grid.join("\n");
+  };
+
+  // One persistent loop; the <pre> is re-queried every frame because
+  // client-side navigations replace it (or remove it on other pages).
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const draw = () => {
+      const el = document.getElementById("ascii-tri");
+      if (el) el.textContent = frame(700); // one static frame
+    };
+    draw();
+    document.addEventListener("astro:page-load", draw);
+  } else {
+    let last = 0;
+    const loop = (now: number) => {
+      if (now - last > 48 && !document.hidden) {
+        const el = document.getElementById("ascii-tri");
+        if (el) {
+          last = now;
+          el.textContent = frame(now);
+        }
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  }
+</script>
