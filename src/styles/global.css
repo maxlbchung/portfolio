@@ -240,6 +240,9 @@ html[data-mode="games"] .section-title::before {
   font-size: 0.9rem;
   transition: background-color var(--transition-quick), color var(--transition-quick);
 }
+html[data-mode="ai"] .icon-link {
+  color: var(--link);
+}
 .icon-link::before {
   content: "[";
 }
@@ -247,8 +250,8 @@ html[data-mode="games"] .section-title::before {
   content: "]";
 }
 .icon-link:hover {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--link);
+  color: #000;
 }
 html[data-mode="games"] .icon-link:hover {
   background: var(--accent);
@@ -256,23 +259,16 @@ html[data-mode="games"] .icon-link:hover {
 }
 
 .text-link {
-  color: var(--text);
+  color: var(--link);
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 0.2em;
   transition: background-color var(--transition-quick), color var(--transition-quick);
 }
-html[data-mode="games"] .text-link {
-  color: var(--accent-2);
-}
 .text-link:hover {
-  background: var(--text);
-  color: var(--bg);
-  text-decoration-style: solid;
-}
-html[data-mode="games"] .text-link:hover {
-  background: var(--accent-2);
+  background: var(--link);
   color: #000;
+  text-decoration-style: solid;
 }
 
 /* buttons — [ label ] in the terminal, raised pixel slabs in games mode */

@@ -1,29 +1,30 @@
 ---
 /**
  * The AI ⇄ games flip animation. Listens for `libo:modeswap` events
- * (dispatched by ModeToggle / Navbar with the click coordinates) and runs
- * a conversion wave over a full-screen canvas grid:
+ * (dispatched by ModeToggle / Navbar) and runs a conversion wave over a
+ * full-screen canvas grid.
  *
- *   1. cover  — expanding from the click point, each cell fills with the
- *               OLD mode's matter (flickering ASCII static, or pixel-art
- *               pixels), hiding the page underneath.
+ * The wave is made only of the DESTINATION mode's matter — flickering
+ * ASCII characters when switching to AI, dark cold pixel-art pixels when
+ * switching to games. It sweeps horizontally toward the side that was
+ * toggled (rightward into GAMES, leftward into AI):
+ *
+ *   1. cover  — a ragged vertical front crosses the screen, each cell
+ *               filling with new-mode matter and hiding the page beneath.
  *   2. flip   — once the screen is fully covered, html[data-mode] swaps.
- *   3. reveal — following the same wavefront, each cell CONVERTS
- *               (char → pixel or pixel → char), then pops away to reveal
- *               the newly-themed page.
+ *   3. reveal — following the same front, cells pop away to uncover the
+ *               newly-themed page.
  *
- * Every cell's timing carries random jitter, so the front is ragged —
- * some cells convert early, some lag behind.
- *
- * Falls back to a plain cross-fade for reduced motion.
+ * Every cell's timing carries random jitter, so some cells convert early
+ * and some lag behind. Falls back to a plain cross-fade for reduced motion.
  */
 ---
 
 <script>
   import {
-    PIXEL_POP,
-    PIXEL_RAMP,
     SWEEP_GLYPHS,
+    SWEEP_PIXELS_COLD,
+    SWEEP_PIXELS_COLD_POP,
     drawAsciiCell,
     drawPixelCell,
     makeOverlayCanvas,
@@ -46,15 +47,14 @@
 
   const randGlyph = () => SWEEP_GLYPHS[Math.floor(Math.random() * SWEEP_GLYPHS.length)] ?? "@";
   const randPixel = () => {
-    // mostly bright ramp colors, with saturated pops mixed in
-    if (Math.random() < 0.3) return PIXEL_POP[Math.floor(Math.random() * PIXEL_POP.length)] ?? "#fff1e8";
-    return PIXEL_RAMP[2 + Math.floor(Math.random() * (PIXEL_RAMP.length - 2))] ?? "#fff1e8";
+    if (Math.random() < 0.12)
+      return SWEEP_PIXELS_COLD_POP[Math.floor(Math.random() * SWEEP_PIXELS_COLD_POP.length)] ?? "#1d2b53";
+    return SWEEP_PIXELS_COLD[Math.floor(Math.random() * SWEEP_PIXELS_COLD.length)] ?? "#1d2b53";
   };
 
-  const sweep = (next: string, ox: number, oy: number) => {
+  const sweep = (next: string) => {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const from = html.dataset.mode === "games" ? "games" : "ai";
     const [canvas, ctx] = makeOverlayCanvas();
     document.body.appendChild(canvas);
 
@@ -62,22 +62,17 @@
     const cols = Math.ceil(w / CELL);
     const rows = Math.ceil(h / CELL);
 
-    // wave timing (ms). Invariant: HOLD + MORPH > COVER + JITTER, so the
-    // earliest cell can only clear after the whole screen is covered and
-    // the DOM has flipped underneath.
-    const COVER = 620; // wavefront travel time across the screen
-    const JITTER = 170; // per-cell raggedness
-    const HOLD = 560; // how long a cell shows the OLD mode's matter
-    const MORPH = 250; // how long the converted (new-mode) matter shows
+    // wave timing (ms). Invariant: HOLD > COVER + JITTER, so the earliest
+    // cell only clears after the whole screen is covered and the DOM has
+    // flipped underneath.
+    const COVER = 340; // front travel time across the screen
+    const JITTER = 120; // per-cell raggedness
+    const HOLD = 480; // how long a cell stays covered
     const flipAt = COVER + JITTER + 5; // screen guaranteed covered here
 
-    // farthest corner from the origin normalizes the wavefront distance
-    const maxDist = Math.max(
-      Math.hypot(ox, oy),
-      Math.hypot(w - ox, oy),
-      Math.hypot(ox, h - oy),
-      Math.hypot(w - ox, h - oy),
-    );
+    // horizontal front, moving toward the side that was toggled:
+    // → rightward into GAMES, ← leftward into AI
+    const dir = next === "games" ? 1 : -1;
 
     const coverAt = new Float32Array(cols * rows);
     const clearAt = new Float32Array(cols * rows);
@@ -85,9 +80,10 @@
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
         const i = y * cols + x;
-        const d = Math.hypot(x * CELL + CELL / 2 - ox, y * CELL + CELL / 2 - oy) / maxDist;
-        coverAt[i] = d * COVER + Math.random() * JITTER;
-        clearAt[i] = (coverAt[i] ?? 0) + HOLD + MORPH + Math.random() * 90;
+        const cx = (x * CELL + CELL / 2) / w;
+        const frac = dir > 0 ? cx : 1 - cx;
+        coverAt[i] = frac * COVER + Math.random() * JITTER;
+        clearAt[i] = (coverAt[i] ?? 0) + HOLD + Math.random() * 70;
       }
     }
 
@@ -110,7 +106,7 @@
           const clr = clearAt[i] ?? 0;
           if (t < cov) {
             alive = true;
-            continue; // not reached yet — still transparent
+            continue; // front hasn't reached this cell yet
           }
           if (t >= clr) {
             if (state[i] !== -1) {
@@ -120,14 +116,10 @@
             continue;
           }
           alive = true;
-          // which matter does this cell show, and which flicker frame?
-          const showNew = t >= cov + HOLD;
-          const frame = Math.floor((t - cov) / 90);
-          const key = (showNew ? 100000 : 1) + frame;
-          if (state[i] === key) continue;
-          state[i] = key;
-          const style = showNew ? next : from;
-          if (style === "ai") drawAsciiCell(ctx, x * CELL, y * CELL, CELL, randGlyph());
+          const frame = Math.floor((t - cov) / 80); // flicker cadence
+          if (state[i] === frame + 1) continue;
+          state[i] = frame + 1;
+          if (next === "ai") drawAsciiCell(ctx, x * CELL, y * CELL, CELL, randGlyph());
           else drawPixelCell(ctx, x * CELL, y * CELL, CELL, randPixel());
         }
       }
@@ -142,11 +134,11 @@
   };
 
   document.addEventListener("libo:modeswap", (e) => {
-    const { next, x, y } = (e as CustomEvent<{ next: string; x: number; y: number }>).detail;
+    const { next } = (e as CustomEvent<{ next: string }>).detail;
     if (running || (next !== "ai" && next !== "games") || html.dataset.mode === next) return;
     persist(next);
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return instantFlip(next);
     running = true;
-    sweep(next, x, y);
+    sweep(next);
   });
 </script>

@@ -21,6 +21,13 @@ export const PIXEL_RAMP = ["#1d2b53", "#3b3f5c", "#5f574f", "#83769c", "#a5a6ad"
 /** Saturated pop colors sprinkled into bright pixel cells. */
 export const PIXEL_POP = ["#ff004d", "#29adff", "#00e436", "#ffec27"];
 
+/** Sweep-transition pixels: dark, cold blues and purples with rare cold pops. */
+export const SWEEP_PIXELS_COLD = [
+  "#0d1330", "#14213d", "#1d2b53", "#1b2f63", "#253a5e",
+  "#1b4965", "#2a3d66", "#31306b", "#123047", "#0e3a4a",
+];
+export const SWEEP_PIXELS_COLD_POP = ["#29adff", "#5d8bf4", "#3f6df4", "#3fb5c9"];
+
 export const clamp01 = (v: number): number => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 /** Create a viewport-covering overlay canvas (caller appends + removes it). */

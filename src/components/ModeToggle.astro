@@ -1,17 +1,18 @@
 ---
 /**
- * The big AI ⇄ GAMES switch on the home page — rendered entirely as text.
- * The track is a run of characters ([··████··]) whose thumb slides by
- * re-rendering the string, cell by cell. Flipping a side dispatches
- * `libo:modeswap` with the click point; ModeSweep.astro runs the
- * conversion wave and swaps html[data-mode] under it.
+ * The big AI ⇄ GAMES switch on the home page — the original full-size
+ * two-sided toggle, stylized per mode: an ASCII terminal box with a
+ * bracketed inverse-video thumb in AI mode, a chunky pixel-art slab in
+ * games mode. Flipping a side dispatches `libo:modeswap`;
+ * ModeSweep.astro runs the conversion wave and swaps html[data-mode]
+ * under it (the thumb glides when the attribute changes).
  */
 ---
 
 <div class="toggle-wrap">
   <div class="toggle" role="tablist" aria-label="Portfolio mode">
+    <div class="thumb" aria-hidden="true"></div>
     <button type="button" role="tab" data-set-mode="ai" class="opt opt-ai">AI</button>
-    <pre id="mode-track" data-set-mode="" aria-hidden="true"></pre>
     <button type="button" role="tab" data-set-mode="games" class="opt opt-games">GAMES</button>
   </div>
 </div>
@@ -24,9 +25,74 @@
   }
 
   .toggle {
-    align-items: center;
-    display: flex;
-    gap: 0.6rem;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0.35rem;
+    position: relative;
+    width: min(24rem, 100%);
+  }
+  /* terminal box corners, like the cards */
+  html[data-mode="ai"] .toggle::before,
+  html[data-mode="ai"] .toggle::after {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    line-height: 1;
+    position: absolute;
+  }
+  html[data-mode="ai"] .toggle::before {
+    content: "+";
+    left: -0.32em;
+    top: -0.55em;
+  }
+  html[data-mode="ai"] .toggle::after {
+    bottom: -0.55em;
+    content: "+";
+    right: -0.32em;
+  }
+  html[data-mode="games"] .toggle {
+    border-width: 3px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* the sliding thumb — chunky, stepped movement */
+  .thumb {
+    background: var(--text);
+    bottom: 0.35rem;
+    left: 0.35rem;
+    position: absolute;
+    top: 0.35rem;
+    transition: transform 300ms steps(8, end);
+    width: calc(50% - 0.35rem);
+  }
+  html[data-mode="games"] .thumb {
+    background: var(--accent);
+    transform: translateX(100%);
+  }
+  /* bracket glyphs pinning the thumb's edges in terminal mode */
+  html[data-mode="ai"] .thumb::before,
+  html[data-mode="ai"] .thumb::after {
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  html[data-mode="ai"] .thumb::before {
+    content: "[";
+    left: 0.35rem;
+  }
+  html[data-mode="ai"] .thumb::after {
+    content: "]";
+    right: 0.35rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .thumb {
+      transition: none;
+    }
   }
 
   .opt {
@@ -35,108 +101,43 @@
     color: var(--muted);
     cursor: pointer;
     font-family: var(--font-display);
-    font-size: calc(1.6rem * var(--display-scale, 1));
+    font-size: calc(1.5rem * var(--display-scale, 1));
     line-height: 1;
-    padding: 0.2rem 0.35rem;
-    transition: background-color var(--transition-quick), color var(--transition-quick);
+    padding: 0.65rem 0;
+    position: relative;
+    transition: color var(--transition-quick);
+    z-index: 1;
   }
   .opt:hover {
     color: var(--text);
   }
-  /* active side: inverse video — emphasis without leaving text-land */
-  html[data-mode="ai"] .opt-ai,
-  html[data-mode="games"] .opt-games {
-    background: var(--text);
+  html[data-mode="ai"] .opt-ai {
     color: var(--bg);
   }
   html[data-mode="games"] .opt-games {
-    background: var(--accent);
     color: var(--accent-contrast);
-  }
-
-  #mode-track {
-    cursor: pointer;
-    font-family: var(--font-mono);
-    font-size: 1.05rem;
-    line-height: 1;
-    margin: 0;
-    user-select: none;
-  }
-  html[data-mode="games"] #mode-track {
-    color: var(--accent);
-  }
-
-  @media (max-width: 480px) {
-    #mode-track {
-      font-size: 0.85rem;
-    }
   }
 </style>
 
 <script>
   const html = document.documentElement;
-  const CELLS = 22;
-  const THUMB = 8;
 
-  // p ∈ [0,1]: 0 = thumb left (AI), 1 = thumb right (GAMES)
-  const trackString = (p: number) => {
-    const pos = Math.round(p * (CELLS - THUMB));
-    return `[${"·".repeat(pos)}${"█".repeat(THUMB)}${"·".repeat(CELLS - THUMB - pos)}]`;
-  };
+  // Delegated so the handler survives client-side navigations.
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-set-mode]");
+    if (!btn) return;
+    const next = btn.dataset.setMode;
+    if (!next || html.dataset.mode === next) return;
+    document.dispatchEvent(new CustomEvent("libo:modeswap", { detail: { next } }));
+  });
 
-  let current = html.dataset.mode === "games" ? 1 : 0;
-  let timer: ReturnType<typeof setInterval> | undefined;
-
-  const render = () => {
-    const track = document.getElementById("mode-track");
-    if (track) track.textContent = trackString(current);
-  };
-
-  // Slide the thumb by re-rendering the string one step at a time.
-  const animateTo = (target: number) => {
-    clearInterval(timer);
-    timer = setInterval(() => {
-      const step = 1 / (CELLS - THUMB);
-      if (Math.abs(target - current) <= step) {
-        current = target;
-        clearInterval(timer);
-      } else {
-        current += Math.sign(target - current) * step;
-      }
-      render();
-    }, 28);
-  };
-
+  // reflect state for a11y
   const sync = () => {
-    animateTo(html.dataset.mode === "games" ? 1 : 0);
-    document.querySelectorAll<HTMLButtonElement>(".opt[data-set-mode]").forEach((btn) => {
+    document.querySelectorAll<HTMLButtonElement>("[data-set-mode]").forEach((btn) => {
       btn.setAttribute("aria-selected", String(btn.dataset.setMode === html.dataset.mode));
     });
   };
-
-  // Delegated so handlers survive client-side navigations. The empty
-  // data-set-mode on the track means "the other mode".
-  document.addEventListener("click", (e) => {
-    const el = (e.target as HTMLElement).closest<HTMLElement>("[data-set-mode]");
-    if (!el) return;
-    const next = el.dataset.setMode || (html.dataset.mode === "ai" ? "games" : "ai");
-    if (html.dataset.mode === next) return;
-    // keyboard activation has no coordinates — use the control's center
-    let { clientX: x, clientY: y } = e;
-    if (!x && !y) {
-      const r = el.getBoundingClientRect();
-      x = r.left + r.width / 2;
-      y = r.top + r.height / 2;
-    }
-    document.dispatchEvent(new CustomEvent("libo:modeswap", { detail: { next, x, y } }));
-  });
-
   new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ["data-mode"] });
-  document.addEventListener("astro:page-load", () => {
-    current = html.dataset.mode === "games" ? 1 : 0;
-    render();
-    sync();
-  });
-  render();
+  document.addEventListener("astro:page-load", sync);
   sync();
 </script>

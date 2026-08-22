@@ -59,6 +59,9 @@ html[data-mode="ai"] {
   --accent-soft: rgba(255, 255, 255, 0.14);
   --accent-contrast: #000000;
 
+  /* the one colored thing in the terminal: links */
+  --link: #bd93f9;
+
   --shadow-card: none;
 }
 
@@ -86,6 +89,7 @@ html[data-mode="games"] {
   --accent-2: #29adff;
   --accent-soft: rgba(255, 0, 77, 0.2);
   --accent-contrast: #fff1e8;
+  --link: #29adff;
 
   /* hard offset shadow — the pixel-art "drop shadow" */
   --shadow-card: 0.3rem 0.3rem 0 #1d2b53;

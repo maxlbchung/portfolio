@@ -16,8 +16,9 @@ JS for the toggle and the canvas effects:
   grid resolution doubles until it dissolves into the real page. Both modes
   share the same grid dimensions and timing.
 - **Mode sweep** (`src/components/ModeSweep.astro`): flipping the toggle runs
-  a conversion wave from the click point — cells fill with the old mode's
-  matter (ASCII static or pixels), convert char↔pixel, then peel away to
+  a conversion wave made of the destination mode's matter — ASCII static
+  when switching to AI, dark cold pixels when switching to games — sweeping
+  horizontally toward the side that was toggled, then peeling away to
   reveal the new theme. Cell timing is jittered so the front is ragged.
 - **Triangle** (`src/components/AsciiTriangle.astro`): a 3D triangle on the
   home hero, rasterized to text at ~20fps — ASCII shading ramp in AI mode,
@@ -61,9 +62,10 @@ values.
   first paint (no flash): pages pass `mode="ai"` or `mode="games"` to force
   it, while the home page (`mode="auto"`) restores the visitor's last choice
   from `localStorage`.
-- The big switch on home (`src/components/ModeToggle.astro`) is pure text —
-  a character-cell slider. It dispatches a `libo:modeswap` event with the
-  click point; `ModeSweep.astro` runs the char↔pixel conversion wave and
+- The big switch on home (`src/components/ModeToggle.astro`) is the
+  full-size two-sided toggle, stylized per mode (terminal box with a
+  bracketed inverse-video thumb / pixel-art slab). It dispatches a
+  `libo:modeswap` event; `ModeSweep.astro` runs the conversion wave and
   flips the attribute under it. Visiting any games page switches you into
   games mode and vice versa.
 
