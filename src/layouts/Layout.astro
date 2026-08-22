@@ -1,4 +1,6 @@
 ---
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/600.css";
 import "@fontsource/vt323";
 import "@fontsource-variable/space-grotesk";
 import "@/styles/theme.css";
@@ -133,5 +135,33 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
       localStorage.setItem("mode", m);
     } catch {}
     typeHeading();
+  });
+
+  // ── Stale-deploy guard ────────────────────────────────────────────────
+  // A client-side navigation can land on a page that was prefetched
+  // before a redeploy rotated the hashed asset names; its stylesheet then
+  // 404s and the page renders as plain HTML. Detect a dead stylesheet
+  // after each swap and hard-reload once to pick up the fresh deploy.
+  document.addEventListener("astro:page-load", () => {
+    const dead = [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].some(
+      (link) => {
+        try {
+          return !link.sheet;
+        } catch {
+          return false; // cross-origin sheets can't be inspected — assume fine
+        }
+      },
+    );
+    if (!dead) {
+      try {
+        sessionStorage.removeItem("css-reloaded");
+      } catch {}
+      return;
+    }
+    try {
+      if (sessionStorage.getItem("css-reloaded") === "1") return; // no loops
+      sessionStorage.setItem("css-reloaded", "1");
+    } catch {}
+    window.location.reload();
   });
 </script>
