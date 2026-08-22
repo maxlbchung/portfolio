@@ -21,6 +21,7 @@
 ---
 
 <script>
+  import { navigate } from "astro:transitions/client";
   import {
     SWEEP_GLYPHS,
     SWEEP_PIXELS_COLD,
@@ -52,11 +53,13 @@
     return SWEEP_PIXELS_COLD[Math.floor(Math.random() * SWEEP_PIXELS_COLD.length)] ?? "#1d2b53";
   };
 
-  const sweep = (next: string) => {
+  const sweep = (next: string, href?: string) => {
     const w = window.innerWidth;
     const h = window.innerHeight;
     const [canvas, ctx] = makeOverlayCanvas();
-    document.body.appendChild(canvas);
+    // mount on <html>, not <body> — a client-side navigation under the
+    // sweep replaces the body, which would tear the canvas down mid-wave
+    html.appendChild(canvas);
 
     const CELL = 18;
     const cols = Math.ceil(w / CELL);
@@ -94,7 +97,10 @@
       const t = now - start;
 
       if (!flipped && t >= flipAt) {
-        html.dataset.mode = next; // hidden under full cover
+        // hidden under full cover: flip the theme, and when the swap was
+        // triggered off the home page, run the navigation home too
+        html.dataset.mode = next;
+        if (href) navigate(href);
         flipped = true;
       }
 
@@ -134,11 +140,14 @@
   };
 
   document.addEventListener("libo:modeswap", (e) => {
-    const { next } = (e as CustomEvent<{ next: string }>).detail;
+    const { next, href } = (e as CustomEvent<{ next: string; href?: string }>).detail;
     if (running || (next !== "ai" && next !== "games") || html.dataset.mode === next) return;
     persist(next);
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return instantFlip(next);
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (href) return void navigate(href); // mode resolves after the swap
+      return instantFlip(next);
+    }
     running = true;
-    sweep(next);
+    sweep(next, href);
   });
 </script>

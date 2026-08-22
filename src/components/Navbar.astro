@@ -240,8 +240,6 @@ const modes = ["ai", "games"] as const;
 </style>
 
 <script>
-  import { navigate } from "astro:transitions/client";
-
   // ── Sliding nav highlight ─────────────────────────────────────────────
   // Finds the active link in the visible nav set, glides the filled card
   // under it, and clips the inverted overlay to it so the label inverts.
@@ -338,12 +336,11 @@ const modes = ["ai", "games"] as const;
       localStorage.setItem("mode", next);
     } catch {}
     const home = swap.dataset.home ?? "/";
-    // On the home page run the conversion sweep in place; elsewhere,
-    // navigate home client-side (instant via prefetch, and no intro replay).
-    if (currentPath() === (home.replace(/\/$/, "") || "/")) {
-      document.dispatchEvent(new CustomEvent("libo:modeswap", { detail: { next } }));
-    } else {
-      navigate(home);
-    }
+    // Run the conversion sweep everywhere; off the home page it also
+    // carries the destination, and ModeSweep navigates home under cover.
+    const onHome = currentPath() === (home.replace(/\/$/, "") || "/");
+    document.dispatchEvent(
+      new CustomEvent("libo:modeswap", { detail: { next, href: onHome ? undefined : home } }),
+    );
   });
 </script>

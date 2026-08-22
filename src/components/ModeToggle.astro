@@ -65,14 +65,14 @@ import { Icon } from "astro-icon/components";
     box-shadow: var(--shadow-card);
   }
 
-  /* the sliding thumb — an accent card in both modes, stepped movement */
+  /* the thumb — an accent card sitting on the active side (no slide;
+     the mode-swap sweep is the transition) */
   .thumb {
     background: var(--accent);
     bottom: 0.35rem;
     left: 0.35rem;
     position: absolute;
     top: 0.35rem;
-    transition: transform 300ms steps(8, end);
     width: calc(50% - 0.35rem);
   }
   html[data-mode="games"] .thumb {
@@ -96,12 +96,6 @@ import { Icon } from "astro-icon/components";
     content: "]";
     right: 0.35rem;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .thumb {
-      transition: none;
-    }
-  }
-
   .opt {
     align-items: center;
     background: none;
