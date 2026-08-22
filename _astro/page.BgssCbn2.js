@@ -1,0 +1,1 @@
+import{t as e}from"./prefetch.mwtb35gv.js";e();
