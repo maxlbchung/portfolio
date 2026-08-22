@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import icon from "astro-icon";
 
 // ── Deployment ────────────────────────────────────────────────────────────────
 // Deployed to GitHub Pages as a project site by default:
@@ -13,5 +12,4 @@ export default defineConfig({
   site: "https://maxlbchung.github.io",
   base: "/portfolio",
   trailingSlash: "never",
-  integrations: [icon()],
 });
