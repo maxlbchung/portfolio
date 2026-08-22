@@ -68,11 +68,16 @@ html[data-mode="games"] img {
   color: var(--bg);
 }
 
-/* ── Blinking block cursor after page titles (AI mode) ─────────────────── */
+/* ── Blinking caret after page titles (AI mode) — a thin vertical line ── */
 html[data-mode="ai"] main h1::after {
   animation: cursor-blink 1.1s steps(1) infinite;
-  content: "█";
-  margin-left: 0.15em;
+  background: currentColor;
+  content: "";
+  display: inline-block;
+  height: 0.82em;
+  margin-left: 0.12em;
+  vertical-align: -0.05em;
+  width: 0.09em;
 }
 /* while the title is being typed out, the cursor stays solid */
 html[data-mode="ai"] main h1.typing::after {
@@ -261,7 +266,8 @@ html[data-mode="games"] .icon-link {
   text-decoration-style: solid;
 }
 
-/* buttons — [ label ] in the terminal, raised pixel slabs in games mode */
+/* buttons — colored cards: purple outline in the terminal, pixel slabs in
+   games mode */
 .btn {
   align-items: center;
   background: none;
@@ -275,21 +281,20 @@ html[data-mode="games"] .icon-link {
   padding: 0.2rem 0.3rem;
   transition:
     background-color var(--transition-quick),
+    border-color var(--transition-quick),
     color var(--transition-quick),
     transform var(--transition-quick),
     box-shadow var(--transition-quick);
 }
-html[data-mode="ai"] .btn::before {
-  content: "[ ";
-  white-space: pre;
-}
-html[data-mode="ai"] .btn::after {
-  content: " ]";
-  white-space: pre;
+html[data-mode="ai"] .btn {
+  background: color-mix(in srgb, var(--link) 12%, transparent);
+  border: 1px solid var(--link);
+  color: var(--link);
+  padding: 0.35rem 0.9rem;
 }
 html[data-mode="ai"] .btn:hover {
-  background: var(--text);
-  color: var(--bg);
+  background: var(--link);
+  color: #000;
 }
 html[data-mode="games"] .btn {
   background: var(--accent);
