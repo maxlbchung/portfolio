@@ -1,12 +1,13 @@
 ---
+import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 
 const links = [
-  { href: site.socials.github, label: "github" },
-  { href: site.socials.linkedin, label: "linkedin" },
-  { href: site.socials.itch, label: "itch.io" },
-  { href: site.socials.youtube, label: "youtube" },
-  { href: `mailto:${site.email}`, label: "email" },
+  { href: site.socials.github, icon: "simple-icons:github", label: "github" },
+  { href: site.socials.linkedin, icon: "simple-icons:linkedin", label: "linkedin" },
+  { href: site.socials.itch, icon: "simple-icons:itchdotio", label: "itch.io" },
+  { href: site.socials.youtube, icon: "simple-icons:youtube", label: "youtube" },
+  { href: `mailto:${site.email}`, icon: "carbon:email", label: "email" },
 ];
 ---
 
@@ -16,9 +17,10 @@ const links = [
     <p class="muted">© {new Date().getFullYear()} {site.name}</p>
     <div class="socials">
       {
-        links.map(({ href, label }) => (
+        links.map(({ href, icon, label }) => (
           <a href={href} target="_blank" rel="noopener noreferrer" class="icon-link">
-            {label}
+            <Icon name={icon} size={14} aria-hidden="true" />
+            <span>{label}</span>
           </a>
         ))
       }

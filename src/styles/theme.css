@@ -19,8 +19,7 @@
   --font-mono:
     ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
   --font-term: "VT323", var(--font-mono); /* big terminal display face */
-  --font-pixel: "Press Start 2P", var(--font-mono); /* pixel display face */
-  --font-pixel-body: "Silkscreen", var(--font-mono);
+  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
   --content-width: 46rem;
   --nav-height: 3.5rem;
@@ -66,15 +65,17 @@ html[data-mode="ai"] {
 }
 
 /* ═══ GAMES MODE — dark pixel art ════════════════════════════════════════ */
+/* Pixel art lives in the chrome (borders, shadows, palette, hard corners),
+   not in the type — text stays a normal sans face for readability. */
 html[data-mode="games"] {
   color-scheme: dark;
 
-  /* type — pixel faces */
-  --font-body: var(--font-pixel-body);
-  --font-display: var(--font-pixel);
-  --heading-weight: 400;
-  --heading-tracking: 0;
-  --display-scale: 0.62; /* Press Start 2P renders huge — downscale */
+  /* type */
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+  --heading-weight: 650;
+  --heading-tracking: -0.02em;
+  --display-scale: 1;
 
   /* core palette — Pico-8 flavored on black */
   --bg: #000000;

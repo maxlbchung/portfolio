@@ -1,7 +1,6 @@
 ---
 import "@fontsource/vt323";
-import "@fontsource/press-start-2p";
-import "@fontsource/silkscreen";
+import "@fontsource-variable/space-grotesk";
 import "@/styles/theme.css";
 import "@/styles/global.css";
 
@@ -93,8 +92,30 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
   // ── Mode resolution after client-side navigation ─────────────────────
   // astro:after-swap fires before the new page paints. The swapped-in <html>
   // carries the static data-mode="ai" and class="intro" from the server, so
-  // re-resolve the mode and drop the intro (navigations use the built-in
-  // view-transition fade; the grid intro only plays on full loads).
+  // re-resolve the mode and drop the intro (the grid intro only plays on
+  // full loads). Games mode keeps the built-in view-transition fade; AI
+  // mode additionally types the page title out, terminal-style.
+  let typeTimer: ReturnType<typeof setTimeout> | undefined;
+  const typeHeading = () => {
+    clearTimeout(typeTimer);
+    if (document.documentElement.dataset.mode !== "ai") return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const h1 = document.querySelector<HTMLElement>("main h1");
+    if (!h1 || h1.childElementCount > 0) return; // plain-text titles only
+    const full = h1.textContent ?? "";
+    if (!full) return;
+    h1.classList.add("typing");
+    let i = 0;
+    const step = () => {
+      i++;
+      h1.textContent = full.slice(0, i);
+      if (i < full.length) typeTimer = setTimeout(step, 36);
+      else h1.classList.remove("typing");
+    };
+    h1.textContent = "";
+    typeTimer = setTimeout(step, 60);
+  };
+
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
     html.classList.remove("intro");
@@ -111,5 +132,6 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
     try {
       localStorage.setItem("mode", m);
     } catch {}
+    typeHeading();
   });
 </script>

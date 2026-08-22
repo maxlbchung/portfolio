@@ -4,6 +4,7 @@ import ModeToggle from "@/components/ModeToggle.astro";
 import AsciiTriangle from "@/components/AsciiTriangle.astro";
 import EntryCard from "@/components/EntryCard.astro";
 import GitGraph from "@/components/GitGraph.astro";
+import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
 import { projects } from "@/data/projects";
@@ -14,10 +15,10 @@ const featuredProjects = projects.filter((p) => p.featured);
 const featuredGames = games.filter((g) => g.featured);
 
 const socials = [
-  { href: site.socials.github, label: "github" },
-  { href: site.socials.linkedin, label: "linkedin" },
-  { href: site.socials.itch, label: "itch.io" },
-  { href: site.socials.youtube, label: "youtube" },
+  { href: site.socials.github, icon: "simple-icons:github", label: "github" },
+  { href: site.socials.linkedin, icon: "simple-icons:linkedin", label: "linkedin" },
+  { href: site.socials.itch, icon: "simple-icons:itchdotio", label: "itch.io" },
+  { href: site.socials.youtube, icon: "simple-icons:youtube", label: "youtube" },
 ];
 ---
 
@@ -34,9 +35,10 @@ const socials = [
 
       <div class="socials">
         {
-          socials.map(({ href, label }) => (
+          socials.map(({ href, icon, label }) => (
             <a href={href} target="_blank" rel="noopener noreferrer" class="icon-link">
-              {label}
+              <Icon name={icon} size={15} aria-hidden="true" />
+              <span>{label}</span>
             </a>
           ))
         }
@@ -63,7 +65,9 @@ const socials = [
     </p>
 
     <a href={withBase(site.resume)} target="_blank" rel="noopener noreferrer" class="btn resume-btn">
-      ./resume.pdf
+      <Icon name="carbon:document" size={16} aria-hidden="true" />
+      <span>./resume.pdf</span>
+      <Icon name="carbon:launch" size={13} aria-hidden="true" />
     </a>
 
     <h2 class="section-title">Technical Skills</h2>
@@ -72,8 +76,11 @@ const socials = [
         <div class="stack-group">
           <h3>{group}</h3>
           <div class="chips">
-            {items.map(({ name }) => (
-              <span class="chip">{name}</span>
+            {items.map(({ name, icon }) => (
+              <span class="chip">
+                <Icon name={icon} size={14} aria-hidden="true" />
+                {name}
+              </span>
             ))}
           </div>
         </div>
@@ -82,7 +89,10 @@ const socials = [
 
     <div class="row-head">
       <h2 class="section-title">Featured Projects</h2>
-      <a href={withBase("/projects")} class="text-link view-all">view all »</a>
+      <a href={withBase("/projects")} class="text-link view-all">
+        <span>view all</span>
+        <Icon name="carbon:arrow-right" size={14} aria-hidden="true" />
+      </a>
     </div>
     <div class="cards">
       {featuredProjects.map((p) => <EntryCard {...p} />)}
@@ -106,7 +116,10 @@ const socials = [
 
     <div class="row-head">
       <h2 class="section-title">Featured Games</h2>
-      <a href={withBase("/games")} class="text-link view-all">view all »</a>
+      <a href={withBase("/games")} class="text-link view-all">
+        <span>view all</span>
+        <Icon name="carbon:arrow-right" size={14} aria-hidden="true" />
+      </a>
     </div>
     <div class="cards">
       {featuredGames.map((g) => <EntryCard {...g} />)}
@@ -177,6 +190,9 @@ const socials = [
     justify-content: space-between;
   }
   .view-all {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.3rem;
     white-space: nowrap;
   }
 

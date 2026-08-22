@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
 import { experience, education, honors, stack } from "@/data/experience";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
@@ -56,8 +57,11 @@ import { withBase } from "@/lib/url";
       <div class="stack-group">
         <h3>{group}</h3>
         <div class="chips">
-          {items.map(({ name }) => (
-            <span class="chip">{name}</span>
+          {items.map(({ name, icon }) => (
+            <span class="chip">
+              <Icon name={icon} size={14} aria-hidden="true" />
+              {name}
+            </span>
           ))}
         </div>
       </div>
@@ -65,7 +69,9 @@ import { withBase } from "@/lib/url";
   }
 
   <a href={withBase(site.resume)} target="_blank" rel="noopener noreferrer" class="btn resume-btn">
-    ./resume.pdf
+    <Icon name="carbon:document" size={16} aria-hidden="true" />
+    <span>./resume.pdf</span>
+    <Icon name="carbon:launch" size={13} aria-hidden="true" />
   </a>
 </Layout>
 

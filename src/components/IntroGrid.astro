@@ -59,9 +59,8 @@
       if (cols === 1) {
         // The whole site, compressed into a single character.
         ctx.fillStyle = "#ffffff";
-        const size = Math.floor(Math.min(w, h) * (mode === "ai" ? 0.82 : 0.55));
-        ctx.font =
-          mode === "ai" ? `${size}px VT323, monospace` : `${size}px "Press Start 2P", monospace`;
+        const size = Math.floor(Math.min(w, h) * 0.82);
+        ctx.font = `${size}px VT323, monospace`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("@", w / 2, h / 2 + size * 0.05);

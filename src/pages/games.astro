@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import EntryCard from "@/components/EntryCard.astro";
+import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { games } from "@/data/games";
 ---
@@ -16,7 +17,8 @@ import { games } from "@/data/games";
   </div>
 
   <a href={site.socials.itch} target="_blank" rel="noopener noreferrer" class="btn more">
-    All games on itch.io »
+    <Icon name="simple-icons:itchdotio" size={15} aria-hidden="true" />
+    <span>All games on itch.io</span>
   </a>
 </Layout>
 

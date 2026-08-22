@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 /**
  * The big AI ⇄ GAMES switch on the home page — the original full-size
  * two-sided toggle, stylized per mode: an ASCII terminal box with a
@@ -12,8 +14,14 @@
 <div class="toggle-wrap">
   <div class="toggle" role="tablist" aria-label="Portfolio mode">
     <div class="thumb" aria-hidden="true"></div>
-    <button type="button" role="tab" data-set-mode="ai" class="opt opt-ai">AI</button>
-    <button type="button" role="tab" data-set-mode="games" class="opt opt-games">GAMES</button>
+    <button type="button" role="tab" data-set-mode="ai" class="opt opt-ai">
+      <Icon name="carbon:machine-learning-model" size={24} aria-hidden="true" />
+      <span>AI</span>
+    </button>
+    <button type="button" role="tab" data-set-mode="games" class="opt opt-games">
+      <Icon name="carbon:game-console" size={24} aria-hidden="true" />
+      <span>GAMES</span>
+    </button>
   </div>
 </div>
 
@@ -96,17 +104,25 @@
   }
 
   .opt {
+    align-items: center;
     background: none;
     border: none;
     color: var(--muted);
     cursor: pointer;
+    display: flex;
     font-family: var(--font-display);
     font-size: calc(1.5rem * var(--display-scale, 1));
+    gap: 0.5rem;
+    justify-content: center;
     line-height: 1;
     padding: 0.65rem 0;
     position: relative;
     transition: color var(--transition-quick);
     z-index: 1;
+  }
+  html[data-mode="games"] .opt {
+    font-size: 1.3rem;
+    font-weight: 650;
   }
   .opt:hover {
     color: var(--text);

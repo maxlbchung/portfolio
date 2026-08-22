@@ -29,10 +29,8 @@ body {
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
-/* pixel body face runs small & dense — give it air */
 html[data-mode="games"] body {
-  font-size: 0.98rem;
-  line-height: 1.75;
+  font-size: 1rem;
 }
 
 h1,
@@ -44,12 +42,6 @@ h4 {
   letter-spacing: var(--heading-tracking);
   line-height: 1.15;
   margin: 0;
-}
-html[data-mode="games"] h1,
-html[data-mode="games"] h2,
-html[data-mode="games"] h3,
-html[data-mode="games"] h4 {
-  line-height: 1.45;
 }
 
 p {
@@ -77,10 +69,15 @@ html[data-mode="games"] img {
 }
 
 /* ── Blinking block cursor after page titles (AI mode) ─────────────────── */
-html[data-mode="ai"] main > h1::after {
+html[data-mode="ai"] main h1::after {
   animation: cursor-blink 1.1s steps(1) infinite;
   content: "█";
   margin-left: 0.15em;
+}
+/* while the title is being typed out, the cursor stays solid */
+html[data-mode="ai"] main h1.typing::after {
+  animation: none;
+  opacity: 1;
 }
 @keyframes cursor-blink {
   50% {
@@ -150,36 +147,31 @@ html.theme-anim body * {
 
 /* ── Shared primitives ──────────────────────────────────────────────────── */
 
-/* chips — [tag] in the terminal, tiny bordered boxes in pixel land */
+/* chips — every tag/tech/link inside an item sits in its own small card */
 .chip {
   align-items: center;
-  display: inline-flex;
-  font-size: 0.82rem;
-  gap: 0.3rem;
-  transition: background-color var(--transition-quick), color var(--transition-quick);
-}
-html[data-mode="ai"] .chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--muted);
-  padding: 0 0.1rem;
+  display: inline-flex;
+  font-size: 0.8rem;
+  gap: 0.35rem;
+  padding: 0.12rem 0.5rem;
+  transition:
+    background-color var(--transition-quick),
+    border-color var(--transition-quick),
+    color var(--transition-quick);
 }
-html[data-mode="ai"] .chip::before {
-  content: "[";
-}
-html[data-mode="ai"] .chip::after {
-  content: "]";
-}
-html[data-mode="ai"] .chip:hover {
-  background: var(--text);
-  color: var(--bg);
+.chip:hover {
+  border-color: var(--text);
+  color: var(--text);
 }
 html[data-mode="games"] .chip {
-  background: var(--surface);
-  border: 2px solid var(--border);
-  font-size: 0.78rem;
-  padding: 0.1rem 0.5rem;
+  border-width: 2px;
 }
 html[data-mode="games"] .chip:hover {
   background: var(--accent-soft);
+  border-color: var(--accent);
 }
 
 /* cards — single-line terminal boxes with + corners / chunky pixel frames */
@@ -233,29 +225,27 @@ html[data-mode="games"] .section-title::before {
   content: "* ";
 }
 
-/* icon-era leftover: small inline links rendered as plain text */
+/* small boxed links: icon + label in a mini card (socials, card links) */
 .icon-link {
-  color: var(--muted);
-  display: inline-flex;
-  font-size: 0.9rem;
-  transition: background-color var(--transition-quick), color var(--transition-quick);
-}
-html[data-mode="ai"] .icon-link {
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--link) 55%, transparent);
   color: var(--link);
-}
-.icon-link::before {
-  content: "[";
-}
-.icon-link::after {
-  content: "]";
+  display: inline-flex;
+  font-size: 0.85rem;
+  gap: 0.4rem;
+  padding: 0.15rem 0.55rem;
+  transition:
+    background-color var(--transition-quick),
+    border-color var(--transition-quick),
+    color var(--transition-quick);
 }
 .icon-link:hover {
   background: var(--link);
+  border-color: var(--link);
   color: #000;
 }
-html[data-mode="games"] .icon-link:hover {
-  background: var(--accent);
-  color: var(--accent-contrast);
+html[data-mode="games"] .icon-link {
+  border-width: 2px;
 }
 
 .text-link {
@@ -306,8 +296,8 @@ html[data-mode="games"] .btn {
   border: 3px solid var(--border);
   box-shadow: 0.3rem 0.3rem 0 var(--surface);
   color: var(--accent-contrast);
-  font-size: 0.85rem;
-  padding: 0.5rem 1rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
 }
 html[data-mode="games"] .btn:hover {
   box-shadow: 0.15rem 0.15rem 0 var(--surface);

@@ -3,9 +3,11 @@
  * GitHub contribution graph, fetched client-side from the public
  * github-contributions-api.jogruber.de mirror.
  *
- * AI mode renders it as pure text — one block character per day
- * (· ░ ▒ ▓ █ by contribution level). Games mode renders sharp SVG
- * pixels colored from theme tokens.
+ * AI mode renders it as pure text — one █ per day, dimmed by contribution
+ * level. Using a single glyph for every cell keeps the columns aligned
+ * even when the block character is substituted from a fallback font with
+ * a different advance width. Games mode renders sharp SVG pixels colored
+ * from theme tokens.
  */
 interface Props {
   username: string;
@@ -31,10 +33,28 @@ const { username } = Astro.props;
     direction: ltr;
     display: inline-block;
     font-family: var(--font-mono);
-    font-size: 0.92rem;
-    letter-spacing: 0.12em;
-    line-height: 1.18;
+    font-size: 0.88rem;
+    letter-spacing: 0.16em;
+    line-height: 1.35;
     margin: 0;
+  }
+  .gitgraph #gh-ascii .pad {
+    visibility: hidden;
+  }
+  .gitgraph #gh-ascii .l0 {
+    opacity: 0.14;
+  }
+  .gitgraph #gh-ascii .l1 {
+    opacity: 0.35;
+  }
+  .gitgraph #gh-ascii .l2 {
+    opacity: 0.55;
+  }
+  .gitgraph #gh-ascii .l3 {
+    opacity: 0.78;
+  }
+  .gitgraph #gh-ascii .l4 {
+    opacity: 1;
   }
   .gitgraph #gh-svg {
     direction: ltr;
@@ -78,14 +98,16 @@ const { username } = Astro.props;
   const CELL = 10;
   const GAP = 3;
   const STEP = CELL + GAP;
-  const CHARS = ["·", "░", "▒", "▓", "█"]; // level 0..4
 
+  // One █ per day — a single glyph everywhere means every column has the
+  // exact same advance width, so the grid can't drift out of alignment.
   const toAscii = (weeks: number[][]) => {
     let out = "";
     for (let d = 0; d < 7; d++) {
       for (const week of weeks) {
         const level = week[d];
-        out += level === undefined || level < 0 ? " " : (CHARS[level] ?? "·");
+        const cls = level === undefined || level < 0 ? "pad" : `l${level}`;
+        out += `<span class="${cls}">█</span>`;
       }
       out += "\n";
     }
@@ -129,7 +151,7 @@ const { username } = Astro.props;
   const paint = (weeks: number[][]) => {
     const ascii = document.getElementById("gh-ascii");
     const svg = document.getElementById("gh-svg");
-    if (ascii) ascii.textContent = toAscii(weeks);
+    if (ascii) ascii.innerHTML = toAscii(weeks);
     if (svg) svg.innerHTML = toSvg(weeks);
   };
 

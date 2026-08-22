@@ -5,8 +5,8 @@ toggle on the home page:
 
 | Mode | Theme | Pages |
 | --- | --- | --- |
-| **AI** | ASCII terminal — black bg, white text, everything drawn in characters | Home · Projects · Experience · Dev Diary |
-| **Games** (Libo Dev) | dark pixel art — black bg, Pico-8 palette, pixel fonts | Home · Games · Jams · Videos |
+| **AI** | ASCII terminal — black bg, white text, purple links, UI drawn in characters | Home · Projects · Experience · Dev Diary |
+| **Games** (Libo Dev) | dark pixel art — black bg, Pico-8 palette; the chrome is pixel art (chunky borders, hard shadows), the type is a normal sans | Home · Games · Jams · Videos |
 
 Built with [Astro](https://astro.build). No client framework — just vanilla
 JS for the toggle and the canvas effects:
@@ -24,8 +24,10 @@ JS for the toggle and the canvas effects:
   home hero, rasterized to text at ~20fps — ASCII shading ramp in AI mode,
   block "pixels" in games mode.
 
-All effects respect `prefers-reduced-motion` (the sweep falls back to a
-cross-fade; the intro is skipped).
+Client-side navigations in AI mode type the page title out with a solid
+cursor that starts blinking when done; games mode uses the standard
+view-transition fade. All effects respect `prefers-reduced-motion` (the
+sweep falls back to a cross-fade; the intro and typing are skipped).
 
 ## Editing the themes
 
