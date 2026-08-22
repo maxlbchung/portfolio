@@ -52,13 +52,13 @@ html[data-mode="ai"] {
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.62);
 
-  /* accents — emphasis is inverse-video, not color */
-  --accent: #ffffff;
-  --accent-2: #ffffff;
-  --accent-soft: rgba(255, 255, 255, 0.14);
+  /* accents — terminal purple. The same elements are accented in both
+     modes (links, buttons, nav highlight, toggle thumb, awards, markers);
+     only the hue differs per mode. */
+  --accent: #bd93f9;
+  --accent-2: #bd93f9;
+  --accent-soft: rgba(189, 147, 249, 0.16);
   --accent-contrast: #000000;
-
-  /* the one colored thing in the terminal: links */
   --link: #bd93f9;
 
   --shadow-card: none;

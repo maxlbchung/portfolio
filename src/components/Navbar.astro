@@ -124,31 +124,23 @@ const modes = ["ai", "games"] as const;
       color var(--transition-quick);
   }
   nav a:hover {
-    border-color: var(--text);
-    color: var(--text);
-  }
-  html[data-mode="games"] nav a:hover {
-    border-color: var(--accent-2);
-    color: var(--accent-2);
+    border-color: var(--link);
+    color: var(--link);
   }
   nav a.active {
     color: var(--text);
   }
   /* No-JS fallback: show the active card filled statically */
   html:not(.js) nav a.active {
-    background: var(--text);
-    border-color: var(--text);
-    color: var(--bg);
-  }
-  html:not(.js)[data-mode="games"] nav a.active {
     background: var(--accent);
     border-color: var(--accent);
     color: var(--accent-contrast);
   }
 
-  /* the gliding highlight: a filled card that slides to the active item */
+  /* the gliding highlight: a filled accent card that slides to the
+     active item — same accent pattern in both modes */
   #nav-pill {
-    background: var(--text);
+    background: var(--accent);
     bottom: 0;
     left: 0;
     opacity: 0;
@@ -157,20 +149,14 @@ const modes = ["ai", "games"] as const;
     top: 0;
     width: 0;
   }
-  html[data-mode="games"] #nav-pill {
-    background: var(--accent);
-  }
 
   .nav-overlay {
-    color: var(--bg);
+    color: var(--accent-contrast);
     inset: 0;
     pointer-events: none;
     position: absolute;
     /* fully collapsed clip until the script measures the highlight */
     clip-path: inset(0 100% 0 0);
-  }
-  html[data-mode="games"] .nav-overlay {
-    color: var(--accent-contrast);
   }
 
   /* The glide — highlight and clipped overlay move in lockstep */
@@ -208,17 +194,12 @@ const modes = ["ai", "games"] as const;
       color var(--transition-quick);
   }
   #mode-swap:hover {
-    background: var(--text);
-    border-color: var(--text);
-    color: var(--bg);
-  }
-  html[data-mode="games"] #mode-swap {
-    border-width: 2px;
-  }
-  html[data-mode="games"] #mode-swap:hover {
     background: var(--accent);
     border-color: var(--accent);
     color: var(--accent-contrast);
+  }
+  html[data-mode="games"] #mode-swap {
+    border-width: 2px;
   }
 
   /* Small screens: the swap button joins the flex row, drops its label

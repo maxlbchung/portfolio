@@ -25,12 +25,12 @@ const { username } = Astro.props;
 
 <style is:global>
   .gitgraph .scroll {
-    direction: rtl; /* keep the most recent weeks in view on overflow */
+    /* left-anchored; the script scrolls to the recent weeks on overflow */
     overflow-x: auto;
     padding-bottom: 0.25rem;
   }
   .gitgraph #gh-ascii {
-    direction: ltr;
+    color: var(--link);
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 0.88rem;
@@ -55,9 +55,6 @@ const { username } = Astro.props;
   }
   .gitgraph #gh-ascii .l4 {
     opacity: 1;
-  }
-  .gitgraph #gh-svg {
-    direction: ltr;
   }
   .gitgraph #gh-svg svg {
     display: block;
@@ -153,6 +150,9 @@ const { username } = Astro.props;
     const svg = document.getElementById("gh-svg");
     if (ascii) ascii.innerHTML = toAscii(weeks);
     if (svg) svg.innerHTML = toSvg(weeks);
+    // if the graph overflows (small screens), show the most recent weeks
+    const scroll = document.querySelector<HTMLElement>(".gitgraph .scroll");
+    if (scroll) scroll.scrollLeft = scroll.scrollWidth;
   };
 
   const render = async () => {

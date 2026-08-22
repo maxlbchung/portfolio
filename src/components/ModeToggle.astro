@@ -65,9 +65,9 @@ import { Icon } from "astro-icon/components";
     box-shadow: var(--shadow-card);
   }
 
-  /* the sliding thumb — chunky, stepped movement */
+  /* the sliding thumb — an accent card in both modes, stepped movement */
   .thumb {
-    background: var(--text);
+    background: var(--accent);
     bottom: 0.35rem;
     left: 0.35rem;
     position: absolute;
@@ -76,13 +76,12 @@ import { Icon } from "astro-icon/components";
     width: calc(50% - 0.35rem);
   }
   html[data-mode="games"] .thumb {
-    background: var(--accent);
     transform: translateX(100%);
   }
   /* bracket glyphs pinning the thumb's edges in terminal mode */
   html[data-mode="ai"] .thumb::before,
   html[data-mode="ai"] .thumb::after {
-    color: var(--bg);
+    color: var(--accent-contrast);
     font-family: var(--font-mono);
     font-size: 1.2rem;
     position: absolute;
@@ -127,9 +126,7 @@ import { Icon } from "astro-icon/components";
   .opt:hover {
     color: var(--text);
   }
-  html[data-mode="ai"] .opt-ai {
-    color: var(--bg);
-  }
+  html[data-mode="ai"] .opt-ai,
   html[data-mode="games"] .opt-games {
     color: var(--accent-contrast);
   }
