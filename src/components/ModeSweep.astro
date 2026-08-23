@@ -72,13 +72,14 @@
     const cols = Math.ceil(w / CELL);
     const rows = Math.ceil(h / CELL);
 
-    // wave timing (ms). Invariant: HOLD > COVER + JITTER, so the earliest
-    // cell only clears after the whole screen is covered and the DOM has
-    // flipped underneath.
+    // wave timing (ms). The leading edge is a clean flat line (no jitter
+    // on cover); all raggedness lives in the wake, where cells clear with
+    // scatter and some stragglers convert noticeably late.
+    // Invariant: HOLD > COVER, so the earliest cell only clears after the
+    // whole screen is covered and the DOM has flipped underneath.
     const COVER = 340; // front travel time across the screen
-    const JITTER = 120; // per-cell raggedness
     const HOLD = 480; // how long a cell stays covered
-    const flipAt = COVER + JITTER + 5; // screen guaranteed covered here
+    const flipAt = COVER + 5; // screen guaranteed covered here
 
     // horizontal front, moving toward the side that was toggled:
     // → rightward into GAMES, ← leftward into AI
@@ -92,8 +93,10 @@
         const i = y * cols + x;
         const cx = (x * CELL + CELL / 2) / w;
         const frac = dir > 0 ? cx : 1 - cx;
-        coverAt[i] = frac * COVER + Math.random() * JITTER;
-        clearAt[i] = (coverAt[i] ?? 0) + HOLD + Math.random() * 70;
+        coverAt[i] = frac * COVER;
+        // wake: most cells clear with light scatter, ~1 in 5 lags behind
+        const tail = Math.random() < 0.2 ? 100 + Math.random() * 330 : Math.random() * 90;
+        clearAt[i] = (coverAt[i] ?? 0) + HOLD + tail;
       }
     }
 
