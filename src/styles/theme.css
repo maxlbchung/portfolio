@@ -45,22 +45,22 @@ html[data-mode="ai"] {
   --heading-tracking: -0.01em;
   --display-scale: 1;
 
-  /* core palette — strictly black & white */
+  /* core palette — black, white, and razzmic-berry card backgrounds
+     (deep tints of #915f6d, the way games mode tints its cards navy) */
   --bg: #000000;
-  --bg-raised: #000000;
-  --surface: rgba(255, 255, 255, 0.09);
+  --bg-raised: #1d1417; /* cards */
+  --surface: #3a262c; /* chips, code, subtle fills */
   --border: rgba(255, 255, 255, 0.45);
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.62);
 
-  /* accents — amethyst is the main emphasis color (nav highlight, toggle
-     thumb, buttons, awards, markers), razzmic berry the secondary (links,
-     hovers). Mirrors the games-mode split of accent vs accent-2. */
-  --accent: #9966cc; /* amethyst */
-  --accent-2: #915f6d; /* razzmic berry */
-  --accent-soft: rgba(153, 102, 204, 0.16);
+  /* accent — one bright electric purple, used ONLY for emphasis:
+     links, buttons, nav highlight, toggle thumb, awards, markers. */
+  --accent: #b45cff;
+  --accent-2: #b45cff;
+  --accent-soft: rgba(180, 92, 255, 0.16);
   --accent-contrast: #000000;
-  --link: #915f6d;
+  --link: #b45cff;
 
   --shadow-card: none;
 }
