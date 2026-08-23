@@ -54,13 +54,13 @@ html[data-mode="ai"] {
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.62);
 
-  /* accent — one bright electric purple, used ONLY for emphasis:
+  /* accent — one light, luminous purple, used ONLY for emphasis:
      links, buttons, nav highlight, toggle thumb, awards, markers. */
-  --accent: #b45cff;
-  --accent-2: #b45cff;
-  --accent-soft: rgba(180, 92, 255, 0.16);
+  --accent: #c084fc;
+  --accent-2: #c084fc;
+  --accent-soft: rgba(192, 132, 252, 0.16);
   --accent-contrast: #000000;
-  --link: #b45cff;
+  --link: #c084fc;
 
   --shadow-card: none;
 }
