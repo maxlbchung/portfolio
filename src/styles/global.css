@@ -285,14 +285,14 @@ html[data-mode="games"] .icon-link {
     box-shadow var(--transition-quick);
 }
 html[data-mode="ai"] .btn {
-  background: color-mix(in srgb, var(--link) 12%, transparent);
-  border: 1px solid var(--link);
-  color: var(--link);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid var(--accent);
+  color: var(--accent);
   padding: 0.35rem 0.9rem;
 }
 html[data-mode="ai"] .btn:hover {
-  background: var(--link);
-  color: #000;
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 html[data-mode="games"] .btn {
   background: var(--accent);

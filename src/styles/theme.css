@@ -53,14 +53,14 @@ html[data-mode="ai"] {
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.62);
 
-  /* accents — terminal purple. The same elements are accented in both
-     modes (links, buttons, nav highlight, toggle thumb, awards, markers);
-     only the hue differs per mode. */
-  --accent: #bd93f9;
-  --accent-2: #bd93f9;
-  --accent-soft: rgba(189, 147, 249, 0.16);
+  /* accents — amethyst is the main emphasis color (nav highlight, toggle
+     thumb, buttons, awards, markers), razzmic berry the secondary (links,
+     hovers). Mirrors the games-mode split of accent vs accent-2. */
+  --accent: #9966cc; /* amethyst */
+  --accent-2: #915f6d; /* razzmic berry */
+  --accent-soft: rgba(153, 102, 204, 0.16);
   --accent-contrast: #000000;
-  --link: #bd93f9;
+  --link: #915f6d;
 
   --shadow-card: none;
 }
