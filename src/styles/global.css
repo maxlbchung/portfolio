@@ -126,6 +126,30 @@ html.theme-anim body * {
   }
 }
 
+/* ── AI page-open: fade in (the title types via Layout's script) ─────────
+   html.boot is server-rendered and stripped after client-side swaps, so
+   this plays only on full page loads. */
+@media (prefers-reduced-motion: no-preference) {
+  html.boot[data-mode="ai"] body > header,
+  html.boot[data-mode="ai"] footer {
+    animation: page-fade 500ms ease both;
+  }
+  html.boot[data-mode="ai"] main {
+    animation: page-fade-rise 550ms ease both;
+  }
+}
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes page-fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 /* full-viewport canvas used by ModeSweep */
 .fx-canvas {
   height: 100dvh;

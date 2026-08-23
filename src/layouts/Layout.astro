@@ -37,7 +37,7 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 ---
 
 <!doctype html>
-<html lang="en" data-mode="ai">
+<html lang="en" data-mode="ai" class="boot">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -117,8 +117,12 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
     typeTimer = setTimeout(step, 60);
   };
 
+  // full page loads: fade in (html.boot CSS) + type the title out
+  typeHeading();
+
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
+    html.classList.remove("boot"); // the boot fade is for full loads only
     html.classList.add("js");
     const forced = document.body.dataset.pageMode;
     let m: string | null = forced !== "auto" ? (forced ?? null) : null;
