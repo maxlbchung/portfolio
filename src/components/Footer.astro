@@ -12,7 +12,6 @@ const links = [
 ---
 
 <footer>
-  <div class="rule" aria-hidden="true">{"─".repeat(400)}</div>
   <div class="inner">
     <p class="muted">© {new Date().getFullYear()} {site.name}</p>
     <div class="socials">
@@ -30,15 +29,8 @@ const links = [
 
 <style>
   footer {
+    border-top: 1px solid var(--border);
     margin-top: auto;
-    overflow: hidden;
-  }
-  .rule {
-    color: var(--border);
-    font-family: var(--font-mono);
-    line-height: 1;
-    overflow: hidden;
-    white-space: nowrap;
   }
   .inner {
     align-items: center;

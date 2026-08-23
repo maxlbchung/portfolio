@@ -57,17 +57,13 @@ const modes = ["ai", "games"] as const;
     <span class="only-ai">games?</span>
     <span class="only-games">ai?</span>
   </button>
-
-  <!-- the header's bottom edge, drawn in characters -->
-  <div class="nav-rule" aria-hidden="true">
-    {"─".repeat(400)}
-  </div>
 </header>
 
 <style>
   header {
     align-items: center;
     background: var(--bg);
+    border-bottom: 1px solid var(--border);
     display: flex;
     height: var(--nav-height);
     justify-content: center;
@@ -80,19 +76,6 @@ const modes = ["ai", "games"] as const;
 
   .nav-box {
     position: relative;
-  }
-
-  .nav-rule {
-    bottom: -0.35em;
-    color: var(--border);
-    font-family: var(--font-mono);
-    left: 0;
-    line-height: 1;
-    overflow: hidden;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
-    white-space: nowrap;
   }
 
   nav,
