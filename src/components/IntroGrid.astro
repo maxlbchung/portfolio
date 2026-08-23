@@ -39,9 +39,6 @@
       sessionStorage.setItem("introPlayed", "1");
     } catch {}
 
-    // Give the display fonts a beat to load so canvas glyphs match the site.
-    await Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 350))]);
-
     const w = window.innerWidth;
     const h = window.innerHeight;
     const mode = html.dataset.mode === "games" ? "games" : "ai";
@@ -58,7 +55,7 @@
     // growth reading as one continuous sharpening. Same steps in both modes.
     const steps = [1];
     for (let c = 2; c <= w / 11; c = Math.max(c + 1, Math.round(c * 1.5))) steps.push(c);
-    const stepTime = (i: number) => (i === 0 ? 420 : Math.max(85, 235 - i * 16));
+    const stepTime = (i: number) => (i === 0 ? 160 : Math.max(55, 130 - i * 10));
 
     const paintStep = (cols: number) => {
       ctx.fillStyle = "#000000";
@@ -110,7 +107,7 @@
       const cell = w / cols;
       const rows = Math.ceil(h / cell);
       const deadlines: number[] = [];
-      for (let c = 0; c < cols * rows; c++) deadlines.push(Math.random() * 430);
+      for (let c = 0; c < cols * rows; c++) deadlines.push(Math.random() * 280);
       const start = performance.now();
       const tick = (now: number) => {
         const t = now - start;
