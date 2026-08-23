@@ -283,8 +283,8 @@ html[data-mode="games"] .section-title::before {
     box-shadow var(--transition-quick);
 }
 html[data-mode="ai"] .btn {
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border: 1px solid var(--accent);
+  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
   color: var(--accent);
   padding: 0.35rem 0.9rem;
 }
