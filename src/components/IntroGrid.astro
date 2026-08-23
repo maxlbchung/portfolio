@@ -25,6 +25,7 @@
     densityColor,
     drawAsciiCell,
     drawPixelCell,
+    lockScroll,
     makeOverlayCanvas,
     sampleMap,
   } from "@/scripts/fx";
@@ -48,6 +49,7 @@
     const mode = html.dataset.mode === "games" ? "games" : "ai";
     const [canvas, ctx] = makeOverlayCanvas();
     html.appendChild(canvas); // on <html>, so a body swap can't tear it down
+    const unlockScroll = lockScroll();
 
     // High-res rasterization of the page layout, sampled at every step.
     const HI_COLS = 144;
@@ -150,7 +152,10 @@
           }
         }
         if (now - t0 < DUR) requestAnimationFrame(tick);
-        else canvas.remove();
+        else {
+          canvas.remove();
+          unlockScroll();
+        }
       };
       requestAnimationFrame(tick);
     };

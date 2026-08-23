@@ -30,6 +30,7 @@
     SWEEP_PIXELS_COLD_POP,
     drawAsciiCell,
     drawPixelCell,
+    lockScroll,
     makeOverlayCanvas,
   } from "@/scripts/fx";
 
@@ -67,6 +68,7 @@
     // mount on <html>, not <body> — a client-side navigation under the
     // sweep replaces the body, which would tear the canvas down mid-wave
     html.appendChild(canvas);
+    const unlockScroll = lockScroll();
 
     const CELL = 18;
     const cols = Math.ceil(w / CELL);
@@ -144,6 +146,7 @@
       if (alive) requestAnimationFrame(tick);
       else {
         canvas.remove();
+        unlockScroll();
         running = false;
       }
     };

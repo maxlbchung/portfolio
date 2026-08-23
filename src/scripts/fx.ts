@@ -37,6 +37,28 @@ export const SWEEP_GLYPHS_PURPLE_POP = ["#c084fc", "#d8b4fe", "#e9d5ff", "#b18cf
 
 export const clamp01 = (v: number): number => (v < 0 ? 0 : v > 1 ? 1 : v);
 
+/**
+ * Block scrolling while a full-screen FX overlay is up — a scroll would
+ * move the real page under the fixed canvas and let it peek out (holes,
+ * overscroll rubber-banding). Returns the unlock function.
+ */
+export const lockScroll = (): (() => void) => {
+  const stop = (e: Event) => e.preventDefault();
+  const keys = new Set(["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]);
+  const stopKeys = (e: KeyboardEvent) => {
+    if (keys.has(e.key)) e.preventDefault();
+  };
+  const opts: AddEventListenerOptions = { passive: false };
+  window.addEventListener("wheel", stop, opts);
+  window.addEventListener("touchmove", stop, opts);
+  window.addEventListener("keydown", stopKeys);
+  return () => {
+    window.removeEventListener("wheel", stop, opts);
+    window.removeEventListener("touchmove", stop, opts);
+    window.removeEventListener("keydown", stopKeys);
+  };
+};
+
 /** Create a viewport-covering overlay canvas (caller appends + removes it). */
 export const makeOverlayCanvas = (): [HTMLCanvasElement, CanvasRenderingContext2D] => {
   const canvas = document.createElement("canvas");
