@@ -152,11 +152,12 @@ html.theme-anim body * {
 
 /* ── Shared primitives ──────────────────────────────────────────────────── */
 
-/* chips — every tag/tech/link inside an item sits in its own small card */
+/* chips — every tag/tech/link inside an item sits in its own small card,
+   built identically in both modes (2px frame); only the colors differ */
 .chip {
   align-items: center;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   color: var(--muted);
   display: inline-flex;
   font-size: 0.8rem;
@@ -172,17 +173,36 @@ html.theme-anim body * {
   border-color: var(--accent);
   color: var(--text);
 }
-html[data-mode="games"] .chip {
-  border-width: 2px;
-}
 
-/* cards — identical chunky frames in both modes; only the colors differ */
+/* big cards — terminal boxes with + corners in AI mode, chunky shadowed
+   pixel frames in games mode */
 .card {
   background: var(--bg-raised);
-  border: 3px solid var(--border);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
   padding: 1.25rem 1.4rem;
   position: relative;
+}
+html[data-mode="ai"] .card::before,
+html[data-mode="ai"] .card::after {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1;
+  position: absolute;
+}
+html[data-mode="ai"] .card::before {
+  content: "+";
+  left: -0.32em;
+  top: -0.55em;
+}
+html[data-mode="ai"] .card::after {
+  bottom: -0.55em;
+  content: "+";
+  right: -0.32em;
+}
+html[data-mode="games"] .card {
+  border-width: 3px;
+  box-shadow: var(--shadow-card);
 }
 
 .accent {
@@ -207,10 +227,12 @@ html[data-mode="games"] .section-title::before {
   content: "* ";
 }
 
-/* small boxed links: icon + label in a mini card (socials, card links) */
+/* small boxed links: icon + label in a mini card (socials, card links),
+   built identically in both modes (2px frame); only the colors differ */
 .icon-link {
   align-items: center;
-  border: 1px solid color-mix(in srgb, var(--link) 55%, transparent);
+  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--link) 55%, transparent);
   color: var(--link);
   display: inline-flex;
   font-size: 0.85rem;
@@ -225,9 +247,6 @@ html[data-mode="games"] .section-title::before {
   background: var(--link);
   border-color: var(--link);
   color: #000;
-}
-html[data-mode="games"] .icon-link {
-  border-width: 2px;
 }
 
 .text-link {

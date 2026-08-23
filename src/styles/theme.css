@@ -45,11 +45,11 @@ html[data-mode="ai"] {
   --heading-tracking: -0.01em;
   --display-scale: 1;
 
-  /* core palette — black, white, and dark-purple card backgrounds
-     (deep tints of the accent hue, the way games mode tints its cards navy) */
+  /* core palette — black, white, razzmic-tinted big cards, and dark-purple
+     small cards (chips, boxed links) */
   --bg: #000000;
-  --bg-raised: #180f22; /* cards */
-  --surface: #322046; /* chips, code, subtle fills */
+  --bg-raised: #1d1417; /* big cards */
+  --surface: #322046; /* chips, boxed links, code, subtle fills */
   --border: rgba(255, 255, 255, 0.45);
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.62);
@@ -62,8 +62,7 @@ html[data-mode="ai"] {
   --accent-contrast: #000000;
   --link: #c084fc;
 
-  /* hard offset shadow — same construction as games mode, purple-tinted */
-  --shadow-card: 0.3rem 0.3rem 0 #322046;
+  --shadow-card: none; /* big cards stay flat terminal boxes */
 }
 
 /* ═══ GAMES MODE — dark pixel art ════════════════════════════════════════ */
