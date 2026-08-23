@@ -120,6 +120,18 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
   // full page loads: fade in (html.boot CSS) + type the title out
   typeHeading();
 
+  // back/forward-cache restores resurrect the page without re-running
+  // scripts — re-arm the boot fade and retype so those replay it too
+  window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    const html = document.documentElement;
+    html.classList.remove("boot");
+    requestAnimationFrame(() => {
+      html.classList.add("boot");
+      typeHeading();
+    });
+  });
+
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
     html.classList.remove("boot"); // the boot fade is for full loads only
