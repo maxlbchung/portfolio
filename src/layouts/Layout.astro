@@ -13,6 +13,7 @@ import IntroGrid from "@/components/IntroGrid.astro";
 import ModeSweep from "@/components/ModeSweep.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
+import { buildId } from "@/lib/build";
 
 interface Props {
   title?: string;
@@ -43,6 +44,7 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <meta name="x-build" content={buildId} />
     <title>{pageTitle}</title>
     <ClientRouter />
     <!--
@@ -137,12 +139,43 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
     typeHeading();
   });
 
-  // ── Stale-deploy guard ────────────────────────────────────────────────
-  // A client-side navigation can land on a page that was prefetched
-  // before a redeploy rotated the hashed asset names; its stylesheet then
-  // 404s and the page renders as plain HTML. Detect a dead stylesheet
-  // after each swap and hard-reload once to pick up the fresh deploy.
+  // ── Stale-deploy guards ───────────────────────────────────────────────
+  // GitHub Pages caches HTML for ~10 minutes and prefetchAll caches every
+  // page eagerly, so right after a redeploy the browser can mix pages from
+  // two builds. Two checks after each load/swap, each reloading at most
+  // once per URL (a reload revalidates the document and picks up the
+  // fresh deploy):
+  //  1. a page older than the newest build id seen this session
+  //  2. a stylesheet that failed to load (its hashed file was deleted by
+  //     the redeploy), which would render the page as plain HTML
+  const reloadOnce = () => {
+    const key = `stale-reload:${window.location.pathname}`;
+    try {
+      if (sessionStorage.getItem(key) === "1") return; // no reload loops
+      sessionStorage.setItem(key, "1");
+    } catch {}
+    window.location.reload();
+  };
+
   document.addEventListener("astro:page-load", () => {
+    const build = parseInt(
+      document.querySelector('meta[name="x-build"]')?.getAttribute("content") ?? "",
+      36,
+    );
+    if (Number.isFinite(build)) {
+      let latest = 0;
+      try {
+        latest = parseInt(sessionStorage.getItem("latest-build") ?? "0", 36) || 0;
+      } catch {}
+      if (build > latest) {
+        try {
+          sessionStorage.setItem("latest-build", build.toString(36));
+        } catch {}
+      } else if (build < latest) {
+        return reloadOnce(); // cached page from an older deploy
+      }
+    }
+
     const dead = [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].some(
       (link) => {
         try {
@@ -152,16 +185,6 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
         }
       },
     );
-    if (!dead) {
-      try {
-        sessionStorage.removeItem("css-reloaded");
-      } catch {}
-      return;
-    }
-    try {
-      if (sessionStorage.getItem("css-reloaded") === "1") return; // no loops
-      sessionStorage.setItem("css-reloaded", "1");
-    } catch {}
-    window.location.reload();
+    if (dead) reloadOnce();
   });
 </script>
