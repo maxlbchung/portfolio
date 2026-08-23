@@ -176,34 +176,13 @@ html[data-mode="games"] .chip {
   border-width: 2px;
 }
 
-/* cards — single-line terminal boxes with + corners / chunky pixel frames */
+/* cards — identical chunky frames in both modes; only the colors differ */
 .card {
   background: var(--bg-raised);
-  border: 1px solid var(--border);
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow-card);
   padding: 1.25rem 1.4rem;
   position: relative;
-}
-html[data-mode="ai"] .card::before,
-html[data-mode="ai"] .card::after {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-mono);
-  line-height: 1;
-  position: absolute;
-}
-html[data-mode="ai"] .card::before {
-  content: "+";
-  left: -0.32em;
-  top: -0.55em;
-}
-html[data-mode="ai"] .card::after {
-  bottom: -0.55em;
-  content: "+";
-  right: -0.32em;
-}
-html[data-mode="games"] .card {
-  border-width: 3px;
-  box-shadow: var(--shadow-card);
 }
 
 .accent {
