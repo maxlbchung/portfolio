@@ -9,7 +9,6 @@ import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
-import IntroGrid from "@/components/IntroGrid.astro";
 import ModeSweep from "@/components/ModeSweep.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
@@ -38,7 +37,7 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 ---
 
 <!doctype html>
-<html lang="en" data-mode="ai" class="intro">
+<html lang="en" data-mode="ai">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -78,8 +77,7 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
       <slot />
     </main>
     <Footer />
-    <!-- full-screen FX: page-open grid reveal + mode-swap conversion wave -->
-    <IntroGrid />
+    <!-- full-screen FX: the mode-swap conversion wave -->
     <ModeSweep />
   </body>
 </html>
@@ -95,10 +93,9 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 <script>
   // ── Mode resolution after client-side navigation ─────────────────────
   // astro:after-swap fires before the new page paints. The swapped-in <html>
-  // carries the static data-mode="ai" and class="intro" from the server, so
-  // re-resolve the mode and drop the intro (the grid intro only plays on
-  // full loads). Games mode keeps the built-in view-transition fade; AI
-  // mode additionally types the page title out, terminal-style.
+  // carries the static data-mode="ai" from the server, so re-resolve the
+  // mode. Games mode keeps the built-in view-transition fade; AI mode
+  // additionally types the page title out, terminal-style.
   let typeTimer: ReturnType<typeof setTimeout> | undefined;
   const typeHeading = () => {
     clearTimeout(typeTimer);
@@ -122,7 +119,6 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
-    html.classList.remove("intro");
     html.classList.add("js");
     const forced = document.body.dataset.pageMode;
     let m: string | null = forced !== "auto" ? (forced ?? null) : null;

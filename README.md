@@ -11,15 +11,12 @@ toggle on the home page:
 Built with [Astro](https://astro.build). No client framework — just vanilla
 JS for the toggle and the canvas effects:
 
-- **Intro** (`src/components/IntroGrid.astro`): every full page load starts
-  as a single `@`, then the page re-renders as an ASCII/pixel mosaic whose
-  grid resolution doubles until it dissolves into the real page. Both modes
-  share the same grid dimensions and timing.
 - **Mode sweep** (`src/components/ModeSweep.astro`): flipping the toggle runs
-  a conversion wave made of the destination mode's matter — ASCII static
-  when switching to AI, dark cold pixels when switching to games — sweeping
-  horizontally toward the side that was toggled, then peeling away to
-  reveal the new theme. Cell timing is jittered so the front is ragged.
+  a conversion wave made of the destination mode's matter — purple ASCII
+  static when switching to AI, dark cold pixels when switching to games —
+  sweeping horizontally toward the side that was toggled, then peeling away
+  to reveal the new theme. The leading edge is near-flat; the wake trails
+  with jittered cells.
 - **Triangle** (`src/components/AsciiTriangle.astro`): a 3D triangle on the
   home hero, rasterized to text at ~20fps — ASCII shading ramp in AI mode,
   block "pixels" in games mode.
@@ -27,7 +24,7 @@ JS for the toggle and the canvas effects:
 Client-side navigations in AI mode type the page title out with a solid
 cursor that starts blinking when done; games mode uses the standard
 view-transition fade. All effects respect `prefers-reduced-motion` (the
-sweep falls back to a cross-fade; the intro and typing are skipped).
+sweep falls back to a cross-fade; typing is skipped).
 
 ## Editing the themes
 

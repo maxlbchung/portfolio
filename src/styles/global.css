@@ -126,21 +126,7 @@ html.theme-anim body * {
   }
 }
 
-/* ── Intro: growing ASCII/pixel grid ─────────────────────────────────────
-   On full page loads IntroGrid.astro covers the viewport with a canvas
-   that re-renders the page as a character/pixel mosaic, starting from a
-   single "@" and doubling in resolution until it dissolves into the real
-   page. While html.intro is set, the real page stays hidden beneath it.
-   Guarded so content is never hidden without JS or for reduced motion.  */
-@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  html.intro body > header,
-  html.intro main,
-  html.intro footer {
-    visibility: hidden;
-  }
-}
-
-/* full-viewport canvases used by IntroGrid + ModeSweep */
+/* full-viewport canvas used by ModeSweep */
 .fx-canvas {
   height: 100dvh;
   inset: 0;
