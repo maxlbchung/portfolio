@@ -28,6 +28,13 @@ export const SWEEP_PIXELS_COLD = [
 ];
 export const SWEEP_PIXELS_COLD_POP = ["#29adff", "#5d8bf4", "#3f6df4", "#3fb5c9"];
 
+/** Sweep-transition glyph colors: purples in varied depths with bright pops. */
+export const SWEEP_GLYPHS_PURPLE = [
+  "#4a2a6b", "#5b3591", "#6d40b0", "#8250cf", "#9a68e0",
+  "#7c53a8", "#3d2356", "#5e4383", "#8a63c4", "#6b4d94",
+];
+export const SWEEP_GLYPHS_PURPLE_POP = ["#c084fc", "#d8b4fe", "#e9d5ff", "#b18cff"];
+
 export const clamp01 = (v: number): number => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 /** Create a viewport-covering overlay canvas (caller appends + removes it). */
