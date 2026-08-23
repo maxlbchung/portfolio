@@ -75,12 +75,12 @@
     const rows = Math.ceil(h / CELL);
 
     // wave timing (ms). The leading edge carries only a whisper of jitter
-    // (near-flat); the wake is looser, with a small share of stragglers
-    // clearing late — but both sides keep mistimed cells rare.
+    // (near-flat); the wake trails with the original uniform scatter.
     // Invariant: HOLD > COVER + FRONT_JITTER, so the earliest cell only
     // clears after the whole screen is covered and the DOM has flipped.
     const COVER = 340; // front travel time across the screen
     const FRONT_JITTER = 35; // slight raggedness on the leading edge
+    const WAKE_JITTER = 120; // per-cell raggedness on the trailing edge
     const HOLD = 480; // how long a cell stays covered
     const flipAt = COVER + FRONT_JITTER + 5; // screen guaranteed covered here
 
@@ -97,9 +97,7 @@
         const cx = (x * CELL + CELL / 2) / w;
         const frac = dir > 0 ? cx : 1 - cx;
         coverAt[i] = frac * COVER + Math.random() * FRONT_JITTER;
-        // wake: light scatter, with ~1 in 10 cells lagging a short while
-        const tail = Math.random() < 0.1 ? 80 + Math.random() * 160 : Math.random() * 60;
-        clearAt[i] = frac * COVER + HOLD + tail;
+        clearAt[i] = frac * COVER + Math.random() * WAKE_JITTER + HOLD + Math.random() * 70;
       }
     }
 
