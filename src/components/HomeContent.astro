@@ -10,7 +10,7 @@ import EntryCard from "@/components/EntryCard.astro";
 import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
-import { projects, games, stack } from "@/data/content";
+import { projects, games } from "@/data/content";
 
 const featuredProjects = projects.filter((p) => p.featured);
 const featuredGames = games.filter((g) => g.featured);
@@ -63,29 +63,6 @@ const socials = [
       Lately that means agent orchestration for red teaming, browser-native LLMs, and academic tools used by UBC
       students.
     </p>
-
-    <a href={withBase(site.resume)} target="_blank" rel="noopener noreferrer" class="btn resume-btn">
-      <Icon name="carbon:document" size={16} aria-hidden="true" />
-      <span>./resume.pdf</span>
-      <Icon name="carbon:launch" size={13} aria-hidden="true" />
-    </a>
-
-    <h2 class="section-title">Technical Skills</h2>
-    {
-      Object.entries(stack).map(([group, items]) => (
-        <div class="stack-group">
-          <h3>{group}</h3>
-          <div class="chips">
-            {items.map(({ name, icon }) => (
-              <span class="chip">
-                <Icon name={icon} size={14} aria-hidden="true" />
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      ))
-    }
 
     <div class="row-head">
       <h2 class="section-title">Featured Projects</h2>
@@ -162,23 +139,6 @@ const socials = [
 
   .bio {
     margin-bottom: 0.9rem;
-  }
-
-  .resume-btn {
-    margin-top: 0.5rem;
-  }
-
-  .stack-group {
-    margin-top: 0.9rem;
-  }
-  .stack-group h3 {
-    font-size: calc(1.1rem * var(--display-scale, 1));
-    margin-bottom: 0.4rem;
-  }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem 0.6rem;
   }
 
   .row-head {
