@@ -12,7 +12,7 @@ import { withBase } from "@/lib/url";
   <div class="timeline">
     {
       experience.map((item) => (
-        <section class="entry">
+        <section class="card entry">
           <h2>{item.title}</h2>
           <p class="muted meta">
             {item.org} · {item.date}
@@ -37,7 +37,7 @@ import { withBase } from "@/lib/url";
   <h2 class="section-title">Education</h2>
   {
     education.map((e) => (
-      <section class="entry">
+      <section class="card entry">
         <h3>{e.school}</h3>
         <p class="muted meta">
           {e.program} · {e.place} · {e.date}
