@@ -429,6 +429,15 @@
       "skills": ["LLM Agents", "Evals", "Claude Code", "JavaScript"]
     },
     {
+      "title": "Software Developer",
+      "org": "UBC Emerging Media Lab",
+      "date": "2026 — Present",
+      "points": [
+        "Building emerging-media software with student and faculty teams at the lab."
+      ],
+      "skills": ["Unity", "C#", "TypeScript"]
+    },
+    {
       "title": "Game Development Team Lead",
       "org": "Personal & club projects",
       "date": "2022 — Present",
