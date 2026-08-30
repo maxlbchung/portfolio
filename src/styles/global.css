@@ -328,8 +328,13 @@ html[data-mode="ai"] .chip,
 html[data-mode="ai"] .icon-link,
 html[data-mode="ai"] .btn {
   border: 1px solid var(--border);
-  color: var(--text); /* white contents on the purple fill */
+  color: var(--text); /* white contents */
   position: relative;
+}
+/* non-linking mini cards (tech/skill chips) sit flat on black; the
+   linking ones (.icon-link, .btn) keep their purple fill */
+html[data-mode="ai"] .chip {
+  background: var(--bg);
 }
 html[data-mode="ai"] :is(.chip, .icon-link, .btn)::before,
 html[data-mode="ai"] :is(.chip, .icon-link, .btn)::after {
