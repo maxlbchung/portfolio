@@ -1,0 +1,95 @@
+---
+/**
+ * Frame-by-frame hero animation, driven by src/data/hero-animation.ts.
+ * AI mode renders each frame's characters as ASCII in a <pre>; games mode
+ * draws the same grid as colored pixels on a canvas. Edit the frames file
+ * to change the animation — this component just plays it.
+ */
+---
+
+<pre id="hero-anim-ascii" class="only-ai" aria-hidden="true"></pre>
+<canvas id="hero-anim-px" class="only-games" aria-hidden="true"></canvas>
+
+<style>
+  #hero-anim-ascii {
+    color: var(--text);
+    font-family: var(--font-term);
+    font-size: clamp(11px, 1.6vw, 16px);
+    line-height: 1.02;
+    margin: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+  #hero-anim-px {
+    image-rendering: pixelated;
+    pointer-events: none;
+    user-select: none;
+    width: clamp(170px, 24vw, 250px);
+  }
+</style>
+
+<script>
+  import { fps, palette, frames } from "@/data/hero-animation";
+
+  // normalize each frame once: trim blank edge lines, pad to a shared grid
+  const grids = frames.map((f) => f.replace(/^\n+|\n+$/g, "").split("\n"));
+  const H = Math.max(...grids.map((g) => g.length));
+  const W = Math.max(...grids.flat().map((l) => l.length));
+  const norm = grids.map((g) => {
+    const lines = g.map((l) => l.padEnd(W));
+    while (lines.length < H) lines.push(" ".repeat(W));
+    return lines;
+  });
+
+  const drawAscii = (el: HTMLElement, lines: string[]) => {
+    el.textContent = lines
+      .map((l) => [...l].map((c) => palette[c]?.ch ?? c).join(""))
+      .join("\n");
+  };
+
+  const drawPixels = (el: HTMLCanvasElement, lines: string[]) => {
+    if (el.width !== W) {
+      el.width = W;
+      el.height = H;
+      el.style.aspectRatio = `${W} / ${H}`;
+    }
+    const ctx = el.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, W, H);
+    lines.forEach((line, y) => {
+      [...line].forEach((c, x) => {
+        const p = palette[c];
+        if (!p) return;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(x, y, 1, 1);
+      });
+    });
+  };
+
+  // elements are re-queried every tick because client-side navigations
+  // replace them (or remove them on other pages)
+  let i = 0;
+  const tick = () => {
+    const pre = document.getElementById("hero-anim-ascii");
+    const px = document.getElementById("hero-anim-px") as HTMLCanvasElement | null;
+    const lines = norm[i % norm.length]!;
+    if (pre) drawAscii(pre, lines);
+    if (px) drawPixels(px, lines);
+  };
+
+  tick();
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.addEventListener("astro:page-load", tick);
+  } else {
+    let last = 0;
+    const loop = (now: number) => {
+      if (now - last > 1000 / fps && !document.hidden) {
+        last = now;
+        i++;
+        tick();
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  }
+</script>
