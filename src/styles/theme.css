@@ -17,10 +17,10 @@
 :root {
   /* ── Shared, mode-independent values ─────────────────────────────────── */
   --font-mono:
-    ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
-  --font-term: "VT323", var(--font-mono); /* big terminal display face */
-  --font-pixel: "Press Start 2P", var(--font-mono); /* pixel display face */
-  --font-pixel-body: "Silkscreen", var(--font-mono);
+    "IBM Plex Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+  --font-term: "VT323", ui-monospace, monospace; /* decorative ASCII-art face */
+  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
   --content-width: 46rem;
   --nav-height: 3.5rem;
@@ -38,40 +38,45 @@
 html[data-mode="ai"] {
   color-scheme: dark;
 
-  /* type */
+  /* type — one clear monospace face for body and titles alike */
   --font-body: var(--font-mono);
-  --font-display: var(--font-term);
-  --heading-weight: 400;
-  --heading-tracking: 0;
-  --display-scale: 1.28; /* VT323 renders small — upscale display text */
+  --font-display: var(--font-mono);
+  --heading-weight: 600;
+  --heading-tracking: -0.01em;
+  --display-scale: 1;
 
-  /* core palette — strictly black & white */
+  /* core palette — black, white, and dark-purple card backgrounds
+     (big cards a deep tint, small cards a stronger one) */
   --bg: #000000;
-  --bg-raised: #000000;
-  --surface: rgba(255, 255, 255, 0.09);
+  --bg-raised: #180f22; /* big cards */
+  --surface: #322046; /* chips, boxed links, code, subtle fills */
   --border: rgba(255, 255, 255, 0.45);
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.62);
 
-  /* accents — emphasis is inverse-video, not color */
-  --accent: #ffffff;
-  --accent-2: #ffffff;
-  --accent-soft: rgba(255, 255, 255, 0.14);
+  /* accent — one light, luminous purple, used ONLY for emphasis:
+     links, buttons, nav highlight, toggle thumb, awards, markers. */
+  --accent: #c084fc;
+  --accent-2: #c084fc;
+  --accent-soft: rgba(192, 132, 252, 0.16);
   --accent-contrast: #000000;
+  --link: #c084fc;
 
-  --shadow-card: none;
+  --shadow-card: none; /* big cards stay flat terminal boxes */
 }
 
 /* ═══ GAMES MODE — dark pixel art ════════════════════════════════════════ */
+/* Pixel art lives in the chrome (borders, shadows, palette, hard corners),
+   not in the type — text stays a normal sans face for readability. */
 html[data-mode="games"] {
   color-scheme: dark;
 
-  /* type — pixel faces */
-  --font-body: var(--font-pixel-body);
-  --font-display: var(--font-pixel);
-  --heading-weight: 400;
-  --heading-tracking: 0;
-  --display-scale: 0.62; /* Press Start 2P renders huge — downscale */
+  /* type */
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+  --heading-weight: 650;
+  --heading-tracking: -0.02em;
+  --display-scale: 1;
 
   /* core palette — Pico-8 flavored on black */
   --bg: #000000;
@@ -86,6 +91,7 @@ html[data-mode="games"] {
   --accent-2: #29adff;
   --accent-soft: rgba(255, 0, 77, 0.2);
   --accent-contrast: #fff1e8;
+  --link: #29adff;
 
   /* hard offset shadow — the pixel-art "drop shadow" */
   --shadow-card: 0.3rem 0.3rem 0 #1d2b53;

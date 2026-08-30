@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import icon from "astro-icon";
 
 // ── Deployment ────────────────────────────────────────────────────────────────
 // Deployed to GitHub Pages as a project site by default:
@@ -12,4 +13,8 @@ export default defineConfig({
   site: "https://maxlbchung.github.io",
   base: "/portfolio",
   trailingSlash: "never",
+  // Prefetch every internal link as soon as a page loads (the intro plays
+  // over it), so page swaps — including the other mode's pages — are instant.
+  prefetch: { prefetchAll: true, defaultStrategy: "load" },
+  integrations: [icon()],
 });

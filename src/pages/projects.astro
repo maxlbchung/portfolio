@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import EntryCard from "@/components/EntryCard.astro";
+import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { projects } from "@/data/content";
 ---
@@ -16,7 +17,8 @@ import { projects } from "@/data/content";
   </div>
 
   <a href={site.socials.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost more">
-    More on GitHub »
+    <Icon name="simple-icons:github" size={15} aria-hidden="true" />
+    <span>More on GitHub</span>
   </a>
 </Layout>
 

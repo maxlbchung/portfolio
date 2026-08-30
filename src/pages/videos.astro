@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { videos } from "@/data/content";
 ---
@@ -34,7 +35,8 @@ import { videos } from "@/data/content";
   </div>
 
   <a href={site.socials.youtube} target="_blank" rel="noopener noreferrer" class="btn more">
-    Libo Dev on YouTube »
+    <Icon name="simple-icons:youtube" size={15} aria-hidden="true" />
+    <span>Libo Dev on YouTube</span>
   </a>
 </Layout>
 

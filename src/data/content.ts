@@ -9,6 +9,7 @@ import data from "./content.json";
 interface Link {
   label: string;
   url: string;
+  icon?: string;
 }
 
 export interface Entry {

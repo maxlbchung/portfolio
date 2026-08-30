@@ -1,6 +1,9 @@
 ---
+import { Icon } from "astro-icon/components";
+
 /**
- * Shared card for projects and games — text decorations only.
+ * Shared card for projects and games. Tech tags and links each sit in
+ * their own small bordered card (see .chip / .link).
  */
 import { withBase } from "@/lib/url";
 
@@ -26,7 +29,14 @@ const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
     {period && <span class="muted period">{period}</span>}
   </div>
 
-  {award && <p class="award">{award}</p>}
+  {
+    award && (
+      <p class="award">
+        <Icon name="carbon:trophy" size={16} aria-hidden="true" />
+        <span>{award}</span>
+      </p>
+    )
+  }
 
   {imageSrc && <img class="shot" src={imageSrc} alt={title} loading="lazy" />}
 
@@ -55,9 +65,10 @@ const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
     {
       links && links.length > 0 && (
         <div class="links">
-          {links.map(({ label, url }) => (
-            <a href={url} target="_blank" rel="noopener noreferrer" class="text-link link">
-              {label}
+          {links.map(({ label, url, icon }) => (
+            <a href={url} target="_blank" rel="noopener noreferrer" class="icon-link">
+              {icon && <Icon name={icon} size={15} aria-hidden="true" />}
+              <span>{label}</span>
             </a>
           ))}
         </div>
@@ -91,12 +102,11 @@ const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
   }
 
   .award {
+    align-items: center;
     color: var(--accent);
+    display: flex;
     font-size: 0.9rem;
-  }
-  .award::before {
-    content: "[*] ";
-    white-space: pre;
+    gap: 0.4rem;
   }
 
   .shot {
@@ -142,13 +152,6 @@ const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .link {
-    font-size: 0.9rem;
-  }
-  .link::before {
-    content: "» ";
+    gap: 0.5rem;
   }
 </style>

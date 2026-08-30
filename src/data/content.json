@@ -10,9 +10,19 @@
         "Lets companies find weak links in their teams and stress-test AI agents with dangerous capabilities.",
         "Built solo at VS Live — Microsoft AI Hackathon 2026."
       ],
-      "tech": ["C#", ".NET", "AI Agents"],
+      "tech": [
+        "C#",
+        ".NET",
+        "AI Agents"
+      ],
       "award": "2nd place, Best AI Agent or Workflow Automation — $1,250",
-      "links": [{ "label": "GitHub", "url": "https://github.com/maxlbchung/vslhq26-maxlbchung" }],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/maxlbchung/vslhq26-maxlbchung",
+          "icon": "simple-icons:github"
+        }
+      ],
       "featured": true
     },
     {
@@ -24,8 +34,18 @@
         "Built during LLM skill mutation research with Prof. Anant Sahai (UC Berkeley).",
         "Optimized skills across benchmarks covering code editing, SQL, data science, and logic puzzles."
       ],
-      "tech": ["JavaScript", "LLM Agents", "Claude Code"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/maxlbchung/skill-mutator" }],
+      "tech": [
+        "JavaScript",
+        "LLM Agents",
+        "Claude Code"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/maxlbchung/skill-mutator",
+          "icon": "simple-icons:github"
+        }
+      ],
       "featured": true
     },
     {
@@ -38,10 +58,24 @@
         "ScheduleSharer folded in: overlays everyone's schedules into one master weekly calendar so friend groups can actually find time to meet.",
         "Backed by unified scraped datasets: courses, grades, tuition, building and walking GeoJSON, and study spaces."
       ],
-      "tech": ["Python", "TypeScript", "React", "Vite", "AWS"],
+      "tech": [
+        "Python",
+        "TypeScript",
+        "React",
+        "Vite",
+        "AWS"
+      ],
       "links": [
-        { "label": "reodite.com", "url": "https://reodite.com/home" },
-        { "label": "GitHub org", "url": "https://github.com/Reodite" }
+        {
+          "label": "reodite.com",
+          "url": "https://reodite.com/home",
+          "icon": "carbon:launch"
+        },
+        {
+          "label": "GitHub org",
+          "url": "https://github.com/Reodite",
+          "icon": "simple-icons:github"
+        }
       ],
       "featured": true
     },
@@ -53,10 +87,22 @@
       "points": [
         "Authored an LLM skill that automates creating highly tuned balancing creatures of different physiques."
       ],
-      "tech": ["Unity", "C#", "LLM Skills"],
+      "tech": [
+        "Unity",
+        "C#",
+        "LLM Skills"
+      ],
       "links": [
-        { "label": "GitHub", "url": "https://github.com/maxlbchung/balancing-biped" },
-        { "label": "Play in browser", "url": "https://libodev.itch.io/biped-balancer" }
+        {
+          "label": "GitHub",
+          "url": "https://github.com/maxlbchung/balancing-biped",
+          "icon": "simple-icons:github"
+        },
+        {
+          "label": "Play in browser",
+          "url": "https://libodev.itch.io/biped-balancer",
+          "icon": "simple-icons:itchdotio"
+        }
       ]
     },
     {
@@ -64,24 +110,50 @@
       "date": "2026-01",
       "period": "January 2026",
       "blurb": "A first-person shooter controlled entirely through webcam hand tracking — positional tracking plus custom hand-sign detection built on MediaPipe. Also lives on the games side of this site.",
-      "tech": ["Unity", "C#", "MediaPipe"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/stuck-at-sea" }]
+      "tech": [
+        "Unity",
+        "C#",
+        "MediaPipe"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/stuck-at-sea",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Inktile",
       "date": "2025",
       "period": "2025",
       "blurb": "A modular document editor experiment.",
-      "tech": ["TypeScript"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/maxlbchung/inktile" }]
+      "tech": [
+        "TypeScript"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/maxlbchung/inktile",
+          "icon": "simple-icons:github"
+        }
+      ]
     },
     {
       "title": "Chess With Voice Chat",
       "date": "2025",
       "period": "2025",
       "blurb": "Chess, but you can trash-talk: a chess app with built-in voice chat.",
-      "tech": ["TypeScript"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/maxlbchung/ChessWithVoiceChat" }]
+      "tech": [
+        "TypeScript"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/maxlbchung/ChessWithVoiceChat",
+          "icon": "simple-icons:github"
+        }
+      ]
     }
   ],
   "games": [
@@ -94,8 +166,17 @@
         "Built with a team of four for GMTK Game Jam 2026 (theme: Count Down): design & programming with GoatDog, art by Rob, music & sound by Tony Andriamanana.",
         "Playable in the browser — the web version folds in post-jam feedback."
       ],
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/birb" }],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/birb",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "featured": true,
       "jam": "GMTK Game Jam 2026"
     },
@@ -104,16 +185,35 @@
       "date": "2026-05",
       "period": "May 2026",
       "blurb": "Browser demo of the Balancing Biped project — 2D physics creatures that stay upright on moving ground, under stacked weights, and through projectile hits.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "Play in browser", "url": "https://libodev.itch.io/biped-balancer" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "Play in browser",
+          "url": "https://libodev.itch.io/biped-balancer",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Stuck at Sea",
       "date": "2026-01",
       "period": "January 2026",
       "blurb": "A first-person shooter you play with your hands — literally. Open your hand to aim, close your fist to shoot, open it again to reload, all through webcam hand tracking built on MediaPipe.",
-      "tech": ["Unity", "C#", "MediaPipe"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/stuck-at-sea" }],
+      "tech": [
+        "Unity",
+        "C#",
+        "MediaPipe"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/stuck-at-sea",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "featured": true,
       "jam": "Illinois State University Winter Game Jam"
     },
@@ -122,9 +222,20 @@
       "date": "2025-06",
       "period": "June 2025",
       "blurb": "A 3D puzzle platformer shooter where health and energy are one resource — every jump, shot, and puzzle solve comes at a cost. Dodge deadly lasers, leap between towering platforms, and outsmart relentless enemies.",
-      "points": ["Built solo in 72 hours for Mini Jam 187 (theme: Duality)."],
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/duality" }],
+      "points": [
+        "Built solo in 72 hours for Mini Jam 187 (theme: Duality)."
+      ],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/duality",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "featured": true,
       "jam": "Mini Jam 187"
     },
@@ -133,24 +244,51 @@
       "date": "2025",
       "period": "2025",
       "blurb": "2D physics-based base builder — protect your people from enemies and their projectiles. Playable in the browser.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/blox" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/blox",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Blub",
       "date": "2025",
       "period": "2025",
       "blurb": "Top-down underwater cave explorer — survive procedurally generated caves by finding air bubbles to refill your oxygen while fending off hostile creatures.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/blub" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/blub",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Two Toy Tanks",
       "date": "2024-12",
       "period": "2024",
       "blurb": "Local split-screen tank duel on randomly generated maps — three classes (Spammer, Surfer, Miner), powerups, first hit wins. Made in 12 hours for a high school game dev club tournament.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/two-toy-tanks" }],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/two-toy-tanks",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "jam": "High School Game Dev Club Tournament"
     },
     {
@@ -158,8 +296,17 @@
       "date": "2024-08",
       "period": "August 2024",
       "blurb": "Defend a forest island as Bob the Blob — absorb defeated slimes to grow, because your health is your mass. Made by four high schoolers in 96 hours for GMTK Game Jam 2024 (theme: Built to Scale).",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/blob" }],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/blob",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "jam": "GMTK Game Jam 2024"
     },
     {
@@ -171,11 +318,27 @@
         "Three arcade games: an endless runner, a first-person shooter, and a coin collector.",
         "Published on the Google Play Store — nearly 3k downloads and over 10k views on YouTube."
       ],
-      "tech": ["Unity", "C#", "Android"],
+      "tech": [
+        "Unity",
+        "C#",
+        "Android"
+      ],
       "links": [
-        { "label": "Google Play", "url": "https://play.google.com/store/apps/details?id=dev.libo.BlindArcade" },
-        { "label": "Devlog video", "url": "https://www.youtube.com/watch?v=LRWaTU8VnIU" },
-        { "label": "blind-arcade on libo.dev", "url": "https://www.libo.dev/blind-arcade" }
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=dev.libo.BlindArcade",
+          "icon": "simple-icons:googleplay"
+        },
+        {
+          "label": "Devlog video",
+          "url": "https://www.youtube.com/watch?v=LRWaTU8VnIU",
+          "icon": "simple-icons:youtube"
+        },
+        {
+          "label": "blind-arcade on libo.dev",
+          "url": "https://www.libo.dev/blind-arcade",
+          "icon": "carbon:launch"
+        }
       ],
       "featured": true
     },
@@ -184,8 +347,17 @@
       "date": "2024-07",
       "period": "July 2024",
       "blurb": "Physics puzzler — guide a plastic bottle into the trashcan by bending gravity. Made in 58 hours for Mini Jame Gam #32 (theme: Gravity).",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://asvaka.itch.io/ecograv" }],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://asvaka.itch.io/ecograv",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "jam": "Mini Jame Gam #32"
     },
     {
@@ -193,8 +365,17 @@
       "date": "2024-04",
       "period": "2024",
       "blurb": "Stealth dungeon crawler remake of Hunt the Wumpus — the monster hears you and hunts by the noise you make. Built over multiple weeks for the Microsoft Hunt the Wumpus competition.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/wump-is-watching" }],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/wump-is-watching",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "jam": "Microsoft Hunt the Wumpus Competition"
     },
     {
@@ -202,16 +383,35 @@
       "date": "2024",
       "period": "2024",
       "blurb": "Fast-paced endless scroller where Frogger meets grapple hooks — swing from tree to tree ahead of an approaching tornado. Mobile remake of Grapple Phroggo, currently in beta.",
-      "tech": ["Unity", "C#", "Android"],
-      "links": [{ "label": "libo.dev", "url": "https://www.libo.dev/mobile-games" }]
+      "tech": [
+        "Unity",
+        "C#",
+        "Android"
+      ],
+      "links": [
+        {
+          "label": "libo.dev",
+          "url": "https://www.libo.dev/mobile-games",
+          "icon": "carbon:launch"
+        }
+      ]
     },
     {
       "title": "Checkpoint",
       "date": "2024-02",
       "period": "February 2024",
       "blurb": "Top-down bullet-hell where your weapons are PC parts — fire disks and power supplies, swing your mouse, and spend one energy pool on shots, upgrades, and teleports back to spawn. Made in 58 hours for Mini Jame Gam #27 (theme: Back to the Beginning).",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/checkpoint" }],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/checkpoint",
+          "icon": "simple-icons:itchdotio"
+        }
+      ],
       "jam": "Mini Jame Gam #27"
     },
     {
@@ -219,10 +419,21 @@
       "date": "2023-07",
       "period": "July 2023",
       "blurb": "A top-down shooter/horror where roles reverse: build a mob to hunt a monster, then play as both the monster and a mob member — balanced so skill (and a little luck) can win on either side.",
-      "tech": ["Unity", "C#"],
+      "tech": [
+        "Unity",
+        "C#"
+      ],
       "links": [
-        { "label": "itch.io", "url": "https://libodev.itch.io/the-hunted" },
-        { "label": "Jam submission", "url": "https://itch.io/jam/gmtk-2023/rate/2161921" }
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/the-hunted",
+          "icon": "simple-icons:itchdotio"
+        },
+        {
+          "label": "Jam submission",
+          "url": "https://itch.io/jam/gmtk-2023/rate/2161921",
+          "icon": "simple-icons:itchdotio"
+        }
       ],
       "jam": "GMTK Game Jam 2023"
     },
@@ -231,48 +442,102 @@
       "date": "2023-06",
       "period": "June 2023",
       "blurb": "Gravity is skewed! Use your frog tongue to swing yourself up and away from the constantly rising lava — Frogger meets grapple hooks.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/grappel-phroggo" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/grappel-phroggo",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Snake but a Tower Defense",
       "date": "2023",
       "period": "2023",
       "blurb": "Snake crossed with tower defense — collect turrets with varied attack patterns and coil them into a living wall of defense. Built in 18 hours on a plane flight.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/snake-but-a-tower-defense-game" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/snake-but-a-tower-defense-game",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Recoil Boi",
       "date": "2023",
       "period": "2023",
       "blurb": "A Flappy-Bird-style scroller where your only movement is gun recoil. Built in 11 hours on a plane flight.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/recoil-boi" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/recoil-boi",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Trii Tanks",
       "date": "2023",
       "period": "2023",
       "blurb": "Wii Tanks reimagined — a 3D roguelike bullet-hell proof of concept, playable in the browser. Trii Tanks 2.0 is in the works.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/trii-tanks" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/trii-tanks",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "MIE",
       "date": "2023",
       "period": "2023",
       "blurb": "Top-down shooter dungeon crawler where HP and ammo are the same variable — every shot is a gamble.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/mie" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/mie",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "title": "Tetrimania",
       "date": "2023-01",
       "period": "January 2023",
       "blurb": "TETRIS… but a PLATFORMER — dodge the falling blocks by jumping on them while steering the pieces to clear rows and rack up points.",
-      "tech": ["Unity", "C#"],
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/tetrimania" }]
+      "tech": [
+        "Unity",
+        "C#"
+      ],
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/tetrimania",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     }
   ],
   "jams": [
@@ -284,8 +549,16 @@
       "game": "Birb",
       "story": "Four days, team of four — a platformer/tower-defense hybrid where you herd enemies into cages and bullet lines. I co-designed and programmed alongside GoatDog, with art by Rob and audio by Tony Andriamanana.",
       "links": [
-        { "label": "Birb on itch.io", "url": "https://libodev.itch.io/birb" },
-        { "label": "Jam page", "url": "https://itch.io/jam/gmtk-jam-2026" }
+        {
+          "label": "Birb on itch.io",
+          "url": "https://libodev.itch.io/birb",
+          "icon": "simple-icons:itchdotio"
+        },
+        {
+          "label": "Jam page",
+          "url": "https://itch.io/jam/gmtk-jam-2026",
+          "icon": "simple-icons:itchdotio"
+        }
       ]
     },
     {
@@ -295,7 +568,13 @@
       "theme": "Weather the Storm",
       "game": "Stuck at Sea",
       "story": "Raise your hands in front of your webcam and survive the storm — a computer-vision-powered first-person shooter where an open hand aims, a closed fist shoots, and reopening reloads.",
-      "links": [{ "label": "Stuck at Sea on itch.io", "url": "https://libodev.itch.io/stuck-at-sea" }]
+      "links": [
+        {
+          "label": "Stuck at Sea on itch.io",
+          "url": "https://libodev.itch.io/stuck-at-sea",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "Mini Jam 187",
@@ -304,7 +583,13 @@
       "theme": "Duality",
       "game": "Duality",
       "story": "72 hours, solo. A platformer puzzle shooter where health and energy are one resource — every action comes at a cost.",
-      "links": [{ "label": "Duality on itch.io", "url": "https://libodev.itch.io/duality" }]
+      "links": [
+        {
+          "label": "Duality on itch.io",
+          "url": "https://libodev.itch.io/duality",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "High School Game Dev Club Tournament",
@@ -313,7 +598,13 @@
       "theme": "Tournament",
       "game": "Two Toy Tanks",
       "story": "A local split-screen tank duel with random maps, powerups, and three classes — built in about 12 hours of dev time for our club tournament.",
-      "links": [{ "label": "Two Toy Tanks on itch.io", "url": "https://libodev.itch.io/two-toy-tanks" }]
+      "links": [
+        {
+          "label": "Two Toy Tanks on itch.io",
+          "url": "https://libodev.itch.io/two-toy-tanks",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "GMTK Game Jam 2024",
@@ -322,7 +613,13 @@
       "theme": "Built to Scale",
       "game": "Blob",
       "story": "Led a team of four high schoolers through 96 hours. A roguelike top-down shooter where your health is your mass — absorb slimes to grow, shrink as you take hits.",
-      "links": [{ "label": "Blob on itch.io", "url": "https://libodev.itch.io/blob" }]
+      "links": [
+        {
+          "label": "Blob on itch.io",
+          "url": "https://libodev.itch.io/blob",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "Mini Jame Gam #32",
@@ -331,7 +628,13 @@
       "theme": "Gravity (special object: a bottle)",
       "game": "EcoGrav",
       "story": "58 hours. A puzzle game about guiding a plastic bottle into a trashcan by controlling gravity itself.",
-      "links": [{ "label": "EcoGrav on itch.io", "url": "https://asvaka.itch.io/ecograv" }]
+      "links": [
+        {
+          "label": "EcoGrav on itch.io",
+          "url": "https://asvaka.itch.io/ecograv",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "Microsoft Hunt the Wumpus Competition",
@@ -340,7 +643,13 @@
       "theme": "Remake Hunt the Wumpus",
       "game": "Wump is Watching",
       "story": "A multi-week competition to reimagine the classic. Ours became a stealth dungeon crawler where the monster tracks the noise you make.",
-      "links": [{ "label": "Wump is Watching on itch.io", "url": "https://libodev.itch.io/wump-is-watching" }]
+      "links": [
+        {
+          "label": "Wump is Watching on itch.io",
+          "url": "https://libodev.itch.io/wump-is-watching",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "Mini Jame Gam #27",
@@ -349,7 +658,13 @@
       "theme": "Back to the Beginning (special object: a computer)",
       "game": "Checkpoint",
       "story": "58 hours. A bullet-hell shooter armed with PC parts — disks and power supplies as ammo, with one energy pool shared between firing, upgrading, and teleporting back to spawn.",
-      "links": [{ "label": "Checkpoint on itch.io", "url": "https://libodev.itch.io/checkpoint" }]
+      "links": [
+        {
+          "label": "Checkpoint on itch.io",
+          "url": "https://libodev.itch.io/checkpoint",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "GMTK Game Jam 2023",
@@ -359,8 +674,16 @@
       "game": "The Hunted",
       "story": "A top-down shooter/horror built in 48 hours and submitted 40 minutes before the deadline. You assemble a mob to hunt a monster — then the roles reverse and you play as the monster, tuned so both sides are winnable.",
       "links": [
-        { "label": "The Hunted on itch.io", "url": "https://libodev.itch.io/the-hunted" },
-        { "label": "Jam submission", "url": "https://itch.io/jam/gmtk-2023/rate/2161921" }
+        {
+          "label": "The Hunted on itch.io",
+          "url": "https://libodev.itch.io/the-hunted",
+          "icon": "simple-icons:itchdotio"
+        },
+        {
+          "label": "Jam submission",
+          "url": "https://itch.io/jam/gmtk-2023/rate/2161921",
+          "icon": "simple-icons:itchdotio"
+        }
       ]
     },
     {
@@ -369,7 +692,13 @@
       "period": "2023",
       "game": "Snake but a Tower Defense",
       "story": "Self-imposed jam on a plane flight: Snake crossed with tower defense, where the snake collects turrets and coils them into a defense.",
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/snake-but-a-tower-defense-game" }]
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/snake-but-a-tower-defense-game",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     },
     {
       "name": "Plane Flight Jam — 11 hours",
@@ -377,7 +706,13 @@
       "period": "2023",
       "game": "Recoil Boi",
       "story": "Another plane flight, another game: a Flappy-Bird-style scroller where gun recoil is your only means of movement.",
-      "links": [{ "label": "itch.io", "url": "https://libodev.itch.io/recoil-boi" }]
+      "links": [
+        {
+          "label": "itch.io",
+          "url": "https://libodev.itch.io/recoil-boi",
+          "icon": "simple-icons:itchdotio"
+        }
+      ]
     }
   ],
   "videos": [
@@ -399,7 +734,12 @@
         "Created a deterministic skill evaluation method using accuracy, token usage, and step count as metrics — fed back to the mutator as a fitness signal for deciding which skills to keep.",
         "Optimized skills across benchmarks covering code editing, SQL, data science, and logic puzzles."
       ],
-      "skills": ["LLM Agents", "Evals", "Claude Code", "JavaScript"]
+      "skills": [
+        "LLM Agents",
+        "Evals",
+        "Claude Code",
+        "JavaScript"
+      ]
     },
     {
       "title": "Software Developer",
@@ -408,7 +748,11 @@
       "points": [
         "Building emerging-media software with student and faculty teams at the lab."
       ],
-      "skills": ["Unity", "C#", "TypeScript"]
+      "skills": [
+        "Unity",
+        "C#",
+        "TypeScript"
+      ]
     },
     {
       "title": "Game Development Team Lead",
@@ -418,7 +762,11 @@
         "Led six game development teams across various projects, covering design, programming, art, and sound.",
         "Published Blind Arcade to the Google Play Store — nearly 3k downloads and over 10k views on YouTube."
       ],
-      "skills": ["Unity", "C#", "Leadership"]
+      "skills": [
+        "Unity",
+        "C#",
+        "Leadership"
+      ]
     }
   ],
   "education": [
@@ -441,19 +789,52 @@
   ],
   "stack": {
     "Languages": [
-      { "name": "C#" },
-      { "name": "Python" },
-      { "name": "TypeScript" },
-      { "name": "R" }
+      {
+        "name": "C#",
+        "icon": "simple-icons:sharp"
+      },
+      {
+        "name": "Python",
+        "icon": "simple-icons:python"
+      },
+      {
+        "name": "TypeScript",
+        "icon": "simple-icons:typescript"
+      },
+      {
+        "name": "R",
+        "icon": "simple-icons:r"
+      }
     ],
     "Tools & Frameworks": [
-      { "name": "Unity" },
-      { "name": "React" },
-      { "name": "Vite" },
-      { "name": "Git" },
-      { "name": "Jupyter" },
-      { "name": "Claude Code" },
-      { "name": "Codex" }
+      {
+        "name": "Unity",
+        "icon": "simple-icons:unity"
+      },
+      {
+        "name": "React",
+        "icon": "simple-icons:react"
+      },
+      {
+        "name": "Vite",
+        "icon": "simple-icons:vite"
+      },
+      {
+        "name": "Git",
+        "icon": "simple-icons:git"
+      },
+      {
+        "name": "Jupyter",
+        "icon": "simple-icons:jupyter"
+      },
+      {
+        "name": "Claude Code",
+        "icon": "simple-icons:claude"
+      },
+      {
+        "name": "Codex",
+        "icon": "simple-icons:openai"
+      }
     ]
   }
 }

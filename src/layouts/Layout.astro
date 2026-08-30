@@ -1,17 +1,18 @@
 ---
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/600.css";
 import "@fontsource/vt323";
-import "@fontsource/press-start-2p";
-import "@fontsource/silkscreen";
+import "@fontsource-variable/space-grotesk";
 import "@/styles/theme.css";
 import "@/styles/global.css";
 
 import { ClientRouter } from "astro:transitions";
 import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
-import IntroGrid from "@/components/IntroGrid.astro";
 import ModeSweep from "@/components/ModeSweep.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
+import { buildId } from "@/lib/build";
 
 interface Props {
   title?: string;
@@ -36,12 +37,13 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 ---
 
 <!doctype html>
-<html lang="en" data-mode="ai" class="intro">
+<html lang="en" data-mode="ai" class="boot">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <meta name="x-build" content={buildId} />
     <title>{pageTitle}</title>
     <ClientRouter />
     <!--
@@ -75,8 +77,7 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
       <slot />
     </main>
     <Footer />
-    <!-- full-screen FX: page-open grid reveal + mode-swap conversion wave -->
-    <IntroGrid />
+    <!-- full-screen FX: the mode-swap conversion wave -->
     <ModeSweep />
   </body>
 </html>
@@ -92,12 +93,48 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
 <script>
   // ── Mode resolution after client-side navigation ─────────────────────
   // astro:after-swap fires before the new page paints. The swapped-in <html>
-  // carries the static data-mode="ai" and class="intro" from the server, so
-  // re-resolve the mode and drop the intro (navigations use the built-in
-  // view-transition fade; the grid intro only plays on full loads).
+  // carries the static data-mode="ai" from the server, so re-resolve the
+  // mode. Games mode keeps the built-in view-transition fade; AI mode
+  // additionally types the page title out, terminal-style.
+  let typeTimer: ReturnType<typeof setTimeout> | undefined;
+  const typeHeading = () => {
+    clearTimeout(typeTimer);
+    if (document.documentElement.dataset.mode !== "ai") return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const h1 = document.querySelector<HTMLElement>("main h1");
+    if (!h1 || h1.childElementCount > 0) return; // plain-text titles only
+    const full = h1.textContent ?? "";
+    if (!full) return;
+    h1.classList.add("typing");
+    let i = 0;
+    const step = () => {
+      i++;
+      h1.textContent = full.slice(0, i);
+      if (i < full.length) typeTimer = setTimeout(step, 36);
+      else h1.classList.remove("typing");
+    };
+    h1.textContent = "";
+    typeTimer = setTimeout(step, 60);
+  };
+
+  // full page loads: fade in (html.boot CSS) + type the title out
+  typeHeading();
+
+  // back/forward-cache restores resurrect the page without re-running
+  // scripts — re-arm the boot fade and retype so those replay it too
+  window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    const html = document.documentElement;
+    html.classList.remove("boot");
+    requestAnimationFrame(() => {
+      html.classList.add("boot");
+      typeHeading();
+    });
+  });
+
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
-    html.classList.remove("intro");
+    html.classList.remove("boot"); // the boot fade is for full loads only
     html.classList.add("js");
     const forced = document.body.dataset.pageMode;
     let m: string | null = forced !== "auto" ? (forced ?? null) : null;
@@ -111,5 +148,55 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — AI × G
     try {
       localStorage.setItem("mode", m);
     } catch {}
+    typeHeading();
+  });
+
+  // ── Stale-deploy guards ───────────────────────────────────────────────
+  // GitHub Pages caches HTML for ~10 minutes and prefetchAll caches every
+  // page eagerly, so right after a redeploy the browser can mix pages from
+  // two builds. Two checks after each load/swap, each reloading at most
+  // once per URL (a reload revalidates the document and picks up the
+  // fresh deploy):
+  //  1. a page older than the newest build id seen this session
+  //  2. a stylesheet that failed to load (its hashed file was deleted by
+  //     the redeploy), which would render the page as plain HTML
+  const reloadOnce = () => {
+    const key = `stale-reload:${window.location.pathname}`;
+    try {
+      if (sessionStorage.getItem(key) === "1") return; // no reload loops
+      sessionStorage.setItem(key, "1");
+    } catch {}
+    window.location.reload();
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    const build = parseInt(
+      document.querySelector('meta[name="x-build"]')?.getAttribute("content") ?? "",
+      36,
+    );
+    if (Number.isFinite(build)) {
+      let latest = 0;
+      try {
+        latest = parseInt(sessionStorage.getItem("latest-build") ?? "0", 36) || 0;
+      } catch {}
+      if (build > latest) {
+        try {
+          sessionStorage.setItem("latest-build", build.toString(36));
+        } catch {}
+      } else if (build < latest) {
+        return reloadOnce(); // cached page from an older deploy
+      }
+    }
+
+    const dead = [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].some(
+      (link) => {
+        try {
+          return !link.sheet;
+        } catch {
+          return false; // cross-origin sheets can't be inspected — assume fine
+        }
+      },
+    );
+    if (dead) reloadOnce();
   });
 </script>
