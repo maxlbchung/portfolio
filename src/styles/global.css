@@ -328,6 +328,7 @@ html[data-mode="ai"] .chip,
 html[data-mode="ai"] .icon-link,
 html[data-mode="ai"] .btn {
   border: 1px solid var(--border);
+  color: var(--text); /* white contents on the purple fill */
   position: relative;
 }
 html[data-mode="ai"] :is(.chip, .icon-link, .btn)::before,

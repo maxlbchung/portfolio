@@ -38,12 +38,13 @@
 html[data-mode="ai"] {
   color-scheme: dark;
 
-  /* type — mono body, decorative terminal face for titles */
+  /* type — mono body, smooth terminal face for titles (VT323 stays a
+     canvas-FX-only face — too pixel-art for titles) */
   --font-body: var(--font-mono);
-  --font-display: var(--font-term);
-  --heading-weight: 400; /* VT323 ships a single weight */
+  --font-display: "Share Tech Mono", var(--font-mono);
+  --heading-weight: 400; /* Share Tech Mono ships a single weight */
   --heading-tracking: 0;
-  --display-scale: 1.15; /* VT323 runs small at equal rem */
+  --display-scale: 1;
 
   /* core palette — black, white, and dark-purple card backgrounds
      (big cards a deep tint, small cards a stronger one) */
