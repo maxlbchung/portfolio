@@ -38,12 +38,12 @@
 html[data-mode="ai"] {
   color-scheme: dark;
 
-  /* type — one clear monospace face for body and titles alike */
+  /* type — mono body, decorative terminal face for titles */
   --font-body: var(--font-mono);
-  --font-display: var(--font-mono);
-  --heading-weight: 600;
-  --heading-tracking: -0.01em;
-  --display-scale: 1;
+  --font-display: var(--font-term);
+  --heading-weight: 400; /* VT323 ships a single weight */
+  --heading-tracking: 0;
+  --display-scale: 1.15; /* VT323 runs small at equal rem */
 
   /* core palette — black, white, and dark-purple card backgrounds
      (big cards a deep tint, small cards a stronger one) */

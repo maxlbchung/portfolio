@@ -318,3 +318,36 @@ html[data-mode="games"] .btn.btn-ghost {
   background: var(--surface);
   color: var(--text);
 }
+
+/* ── AI mode: ASCII frames on the small cards too ────────────────────────
+   Chips, boxed links, and buttons get the same treatment as the big cards:
+   a 1px white line with + corner glyphs. --corner-bg masks the line behind
+   the glyph; .card overrides it so corners inside a card mask with the
+   card's background instead of the page's. */
+html[data-mode="ai"] .chip,
+html[data-mode="ai"] .icon-link,
+html[data-mode="ai"] .btn {
+  border: 1px solid var(--border);
+  position: relative;
+}
+html[data-mode="ai"] :is(.chip, .icon-link, .btn)::before,
+html[data-mode="ai"] :is(.chip, .icon-link, .btn)::after {
+  background: var(--corner-bg, var(--bg));
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1;
+  position: absolute;
+}
+html[data-mode="ai"] :is(.chip, .icon-link, .btn)::before {
+  content: "+";
+  left: -0.32em;
+  top: -0.55em;
+}
+html[data-mode="ai"] :is(.chip, .icon-link, .btn)::after {
+  bottom: -0.55em;
+  content: "+";
+  right: -0.32em;
+}
+.card {
+  --corner-bg: var(--bg-raised);
+}
