@@ -77,7 +77,7 @@ html[data-mode="ai"] main h1::after {
   height: 0.82em;
   margin-left: 0.12em;
   vertical-align: -0.05em;
-  width: 0.6em; /* one character cell in the mono face */
+  width: 0.54em; /* one character cell in Share Tech Mono (measured advance) */
 }
 /* while the title is being typed out, the cursor stays solid */
 html[data-mode="ai"] main h1.typing::after {
