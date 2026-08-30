@@ -39,19 +39,22 @@ values.
 
 ## Editing content
 
+**All content lives in one file: `src/data/content.json`** — projects, games,
+jams, videos, experience, education, honors, and the skills chips. To add an
+entry, append an object to the matching array (order doesn't matter):
+
+- `date` — sortable, `"YYYY-MM"` (or just `"YYYY"` if you don't know the
+  month). Pages auto-sort newest-first on this.
+- `period` — the date text actually displayed ("July 2026", "2024 — Present").
+- `featured: true` — on a project or game, shows it on the home page.
+
+Everything else:
+
 | What | Where |
 | --- | --- |
 | Name, socials, nav | `src/data/site.ts` |
-| AI projects | `src/data/projects.ts` |
-| Experience / education / skills | `src/data/experience.ts` |
-| Games | `src/data/games.ts` |
-| Game jams | `src/data/jams.ts` |
-| Videos | `src/data/videos.ts` |
 | Dev diary posts | drop a `.md` file in `src/content/diary/` |
 | Resume | replace `public/resume.pdf` |
-
-> Some itch.io links in `src/data/games.ts` are marked `// verify slug` — they
-> were inferred from game titles, so double-check them against libodev.itch.io.
 
 ## How the mode toggle works
 

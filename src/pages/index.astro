@@ -6,9 +6,7 @@ import EntryCard from "@/components/EntryCard.astro";
 import GitGraph from "@/components/GitGraph.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
-import { projects } from "@/data/projects";
-import { games } from "@/data/games";
-import { stack } from "@/data/experience";
+import { projects, games, stack } from "@/data/content";
 
 const featuredProjects = projects.filter((p) => p.featured);
 const featuredGames = games.filter((g) => g.featured);

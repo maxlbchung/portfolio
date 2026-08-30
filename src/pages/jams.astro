@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { jams } from "@/data/jams";
+import { jams } from "@/data/content";
 ---
 
 <Layout title="Jams" mode="games" description="Game jam entries by Libo Dev.">
@@ -15,7 +15,7 @@ import { jams } from "@/data/jams";
         <article class="card jam">
           <div class="head">
             <h2>{jam.name}</h2>
-            <span class="muted date">{jam.date}</span>
+            <span class="muted date">{jam.period}</span>
           </div>
           {jam.theme && (
             <p class="theme">
