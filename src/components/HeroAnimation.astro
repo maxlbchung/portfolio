@@ -31,8 +31,14 @@
 <script>
   import { fps, palette, frames } from "@/data/hero-animation";
 
-  // normalize each frame once: trim blank edge lines, pad to a shared grid
-  const grids = frames.map((f) => f.replace(/^\n+|\n+$/g, "").split("\n"));
+  // normalize each frame once: drop the template-literal edge newlines but
+  // KEEP interior/leading blank rows (they align frames), pad to a shared grid
+  const grids = frames.map((f) => {
+    const lines = f.split("\n");
+    if (lines[0] === "") lines.shift();
+    while (lines.length && lines[lines.length - 1]!.trim() === "") lines.pop();
+    return lines;
+  });
   const H = Math.max(...grids.map((g) => g.length));
   const W = Math.max(...grids.flat().map((l) => l.length));
   const norm = grids.map((g) => {
@@ -43,7 +49,7 @@
 
   const drawAscii = (el: HTMLElement, lines: string[]) => {
     el.textContent = lines
-      .map((l) => [...l].map((c) => palette[c]?.ch ?? c).join(""))
+      .map((l) => [...l].map((c) => (palette[c]?.ch ?? c).repeat(2)).join(""))
       .join("\n");
   };
 
