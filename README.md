@@ -47,6 +47,9 @@ entry, append an object to the matching array (order doesn't matter):
   month). Pages auto-sort newest-first on this.
 - `period` — the date text actually displayed ("July 2026", "2024 — Present").
 - `featured: true` — on a project or game, shows it on the home page.
+- `image` (optional) — on a project or game, a screenshot shown in the card:
+  drop the file in `public/images/` and set `"image": "/images/foo.png"`
+  (full `https://` URLs work too).
 
 Everything else:
 

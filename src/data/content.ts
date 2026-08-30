@@ -22,6 +22,8 @@ export interface Entry {
   links: Link[];
   featured?: boolean;
   jam?: string;
+  /** Path under public/ (e.g. "/images/reodite.png") or a full URL. */
+  image?: string;
 }
 
 export interface Jam {

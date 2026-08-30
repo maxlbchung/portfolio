@@ -2,6 +2,8 @@
 /**
  * Shared card for projects and games — text decorations only.
  */
+import { withBase } from "@/lib/url";
+
 interface Props {
   title: string;
   period?: string;
@@ -10,9 +12,12 @@ interface Props {
   tech?: string[];
   award?: string;
   links?: { label: string; url: string; icon?: string }[];
+  /** Path under public/ (e.g. "/images/reodite.png") or a full URL. */
+  image?: string;
 }
 
-const { title, period, blurb, points, tech, award, links } = Astro.props;
+const { title, period, blurb, points, tech, award, links, image } = Astro.props;
+const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
 ---
 
 <article class="card entry">
@@ -22,6 +27,8 @@ const { title, period, blurb, points, tech, award, links } = Astro.props;
   </div>
 
   {award && <p class="award">{award}</p>}
+
+  {imageSrc && <img class="shot" src={imageSrc} alt={title} loading="lazy" />}
 
   <p>{blurb}</p>
 
@@ -90,6 +97,14 @@ const { title, period, blurb, points, tech, award, links } = Astro.props;
   .award::before {
     content: "[*] ";
     white-space: pre;
+  }
+
+  .shot {
+    border: 2px solid var(--border);
+    display: block;
+    max-height: 340px;
+    object-fit: cover;
+    width: 100%;
   }
 
   ul {

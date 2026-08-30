@@ -29,11 +29,16 @@
       "featured": true
     },
     {
-      "title": "Reodite — UBC Academic Success Tools",
+      "title": "Reodite — Student Success Tools",
       "date": "2026-05",
       "period": "May 2026 — Present",
-      "blurb": "A digital assistant platform for UBC students: an AI chatbot for finding courses and untangling prerequisites, prerequisite tree visualizations, and a drag-and-drop planner for building multi-year schedules that respect prerequisite rules and program requirements.",
-      "tech": ["Python", "Vite", "React", "TypeScript"],
+      "blurb": "General student success tools, all in one platform: course lookup, prerequisite tree visualizations, a drag-and-drop planner for building multi-year schedules that respect prerequisite rules and program requirements, and schedule sharing for whole friend groups. Started as UBC academic tools and keeps covering more ground.",
+      "points": [
+        "Grew out of Reogent — a spatially-aware campus AI ideated at the UBC CIC × AWS Hackathon — merged with ReoditeTools; the tools stayed, the chatbot was dropped.",
+        "ScheduleSharer folded in: overlays everyone's schedules into one master weekly calendar so friend groups can actually find time to meet.",
+        "Backed by unified scraped datasets: courses, grades, tuition, building and walking GeoJSON, and study spaces."
+      ],
+      "tech": ["Python", "TypeScript", "React", "Vite", "AWS"],
       "links": [
         { "label": "reodite.com", "url": "https://reodite.com/home" },
         { "label": "GitHub org", "url": "https://github.com/Reodite" }
@@ -53,38 +58,6 @@
         { "label": "GitHub", "url": "https://github.com/maxlbchung/balancing-biped" },
         { "label": "Play in browser", "url": "https://libodev.itch.io/biped-balancer" }
       ]
-    },
-    {
-      "title": "ReoditeTools",
-      "date": "2026",
-      "period": "2026",
-      "blurb": "Browser-native UBC academic-advisor chatbot — Qwen3.5 2B running fully client-side with WebGPU and transformers.js. No server, no API keys.",
-      "tech": ["TypeScript", "WebGPU", "transformers.js"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Reodite/ReoditeTools" }]
-    },
-    {
-      "title": "Reogent",
-      "date": "2026",
-      "period": "2026",
-      "blurb": "A spatially-aware conversational AI for UBC students, ideated at the UBC CIC × AWS Hackathon. Answers campus questions with knowledge of where things actually are.",
-      "tech": ["TypeScript", "AWS"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Reodite/reogent" }]
-    },
-    {
-      "title": "ScheduleSharer",
-      "date": "2026",
-      "period": "2026",
-      "blurb": "One master weekly calendar for your whole friend group — overlays everyone's UBC Workday schedules so you can actually find time to meet.",
-      "tech": ["TypeScript"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Reodite/ScheduleSharer" }]
-    },
-    {
-      "title": "UBC Unified Data",
-      "date": "2026",
-      "period": "2026",
-      "blurb": "Scraped and unified UBC datasets: courses, grades, tuition, building and walking GeoJSON, and study spaces — the data layer behind the Reodite tools.",
-      "tech": ["TypeScript", "Data Engineering"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Reodite/ubc-unified-data" }]
     },
     {
       "title": "Stuck at Sea — Computer Vision Game",
