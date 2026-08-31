@@ -94,8 +94,11 @@ const featuredGames = games.filter((g) => g.featured);
     .hero {
       grid-template-columns: 1fr;
     }
+    /* single column puts the animation after the text — right above the
+       AI/games toggle */
     .hero-tri {
-      display: none;
+      justify-self: center;
+      margin-top: 0.75rem;
     }
   }
 
