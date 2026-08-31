@@ -4,8 +4,11 @@ import { nav } from "@/data/site";
 import { withBase } from "@/lib/url";
 
 const { pathname } = Astro.url;
+// /ai is an alternate entry route to the home page — Home is active there
+const normalized =
+  pathname.replace(/\/$/, "") === withBase("/ai").replace(/\/$/, "") ? withBase("/") : pathname;
 const current = (path: string) =>
-  pathname.replace(/\/$/, "") === withBase(path).replace(/\/$/, "");
+  normalized.replace(/\/$/, "") === withBase(path).replace(/\/$/, "");
 const modes = ["ai", "games"] as const;
 ---
 
@@ -227,7 +230,9 @@ const modes = ["ai", "games"] as const;
   // Finds the active link in the visible nav set, glides the filled card
   // under it, and clips the inverted overlay to it so the label inverts.
   const currentPath = () => {
-    const p = window.location.pathname.replace(/\/$/, "");
+    let p = window.location.pathname.replace(/\/$/, "");
+    // /ai is an alternate entry route to the home page
+    if (p.endsWith("/ai")) p = p.slice(0, -3);
     return p === "" ? "/" : p;
   };
 
