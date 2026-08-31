@@ -3,15 +3,12 @@ import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 
 // ── Deployment ────────────────────────────────────────────────────────────────
-// Deployed to GitHub Pages as a project site by default:
-//   https://maxlbchung.github.io/portfolio
-// If you later point a custom domain (e.g. libo.dev) at this site:
-//   1. set `site` to the domain, e.g. "https://libo.dev"
-//   2. set `base` to "/"
-//   3. add a CNAME file to public/
+// Built by Cloudflare Pages from the GitHub repo (branch: main) and served
+// at https://libo.dev. Build command `npm run build`, output dir `dist`,
+// Node version pinned by .nvmrc.
 export default defineConfig({
-  site: "https://maxlbchung.github.io",
-  base: "/portfolio",
+  site: "https://libo.dev",
+  base: "/",
   trailingSlash: "never",
   // Prefetch every internal link as soon as a page loads (the intro plays
   // over it), so page swaps — including the other mode's pages — are instant.
