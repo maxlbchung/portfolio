@@ -22,7 +22,7 @@
   --font-term: "VT323", ui-monospace, monospace; /* decorative ASCII-art face */
   --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
-  --content-width: 46rem;
+  --content-width: 54rem;
   --nav-height: 3.5rem;
 
   --transition-quick: 120ms steps(2, end); /* stepped = chunky, not smooth */

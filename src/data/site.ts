@@ -16,7 +16,6 @@ export const site = {
     itch: "https://libodev.itch.io/",
     youtube: "https://www.youtube.com/@LiboDev",
     playstore: "https://play.google.com/store/apps/details?id=dev.libo.BlindArcade",
-    gamesSite: "https://www.libo.dev",
   },
 };
 

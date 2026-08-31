@@ -333,11 +333,6 @@
           "label": "Devlog video",
           "url": "https://www.youtube.com/watch?v=LRWaTU8VnIU",
           "icon": "simple-icons:youtube"
-        },
-        {
-          "label": "blind-arcade on libo.dev",
-          "url": "https://www.libo.dev/blind-arcade",
-          "icon": "carbon:launch"
         }
       ],
       "featured": true
@@ -388,13 +383,7 @@
         "C#",
         "Android"
       ],
-      "links": [
-        {
-          "label": "libo.dev",
-          "url": "https://www.libo.dev/mobile-games",
-          "icon": "carbon:launch"
-        }
-      ]
+      "links": []
     },
     {
       "title": "Checkpoint",
