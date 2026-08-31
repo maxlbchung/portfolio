@@ -3,9 +3,9 @@
  *
  * Each frame is a text grid - one character per pixel, spaces transparent.
  * The palette maps each character to a pixel color (games mode, drawn on a
- * canvas) and a display character (AI mode, rendered as ASCII; each pixel
- * is doubled horizontally there so the aspect ratio holds). Blank leading
- * lines in a frame are meaningful - they keep frames vertically aligned.
+ * canvas) and a display character (AI mode, rendered as ASCII in square
+ * character cells - 1 char = 1 pixel). Blank leading lines in a frame are
+ * meaningful - they keep frames vertically aligned.
  * Edit or add frames below; repeat a frame in the list to hold it longer.
  *
  * Current art: hands-up.png, 8 frames of 16x16.

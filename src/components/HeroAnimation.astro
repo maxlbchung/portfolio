@@ -14,8 +14,10 @@
   #hero-anim-ascii {
     color: var(--text);
     font-family: var(--font-mono);
-    font-size: clamp(11px, 1.6vw, 16px);
-    line-height: 1.02;
+    font-size: clamp(15px, 2.2vw, 24px);
+    /* Plex Mono's advance is 0.6em — matching the line-height to it makes
+       every character cell square, so 1 char = 1 pixel with no stretching */
+    line-height: 0.6em;
     margin: 0;
     pointer-events: none;
     user-select: none;
@@ -49,7 +51,7 @@
 
   const drawAscii = (el: HTMLElement, lines: string[]) => {
     el.textContent = lines
-      .map((l) => [...l].map((c) => (palette[c]?.ch ?? c).repeat(2)).join(""))
+      .map((l) => [...l].map((c) => palette[c]?.ch ?? c).join(""))
       .join("\n");
   };
 

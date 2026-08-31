@@ -14,13 +14,6 @@ import { projects, games } from "@/data/content";
 
 const featuredProjects = projects.filter((p) => p.featured);
 const featuredGames = games.filter((g) => g.featured);
-
-const socials = [
-  { href: site.socials.github, icon: "simple-icons:github", label: "github" },
-  { href: site.socials.linkedin, icon: "simple-icons:linkedin", label: "linkedin" },
-  { href: site.socials.itch, icon: "simple-icons:itchdotio", label: "itch.io" },
-  { href: site.socials.youtube, icon: "simple-icons:youtube", label: "youtube" },
-];
 ---
 
 <!-- ── Shared hero ─────────────────────────────────────────────────── -->
@@ -32,17 +25,6 @@ const socials = [
         <span class="only-ai">{site.tagline.ai}</span>
         <span class="only-games">also known as <strong>{site.alias}</strong> — {site.tagline.games}</span>
       </p>
-
-      <div class="socials">
-        {
-          socials.map(({ href, icon, label }) => (
-            <a href={href} target="_blank" rel="noopener noreferrer" class="icon-link">
-              <Icon name={icon} size={15} aria-hidden="true" />
-              <span>{label}</span>
-            </a>
-          ))
-        }
-      </div>
     </div>
     <div class="hero-tri">
       <HeroAnimation />
@@ -128,13 +110,6 @@ const socials = [
 
   .subtitle {
     font-size: 1rem;
-  }
-
-  .socials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 0.8rem;
-    margin-top: 1rem;
   }
 
   .bio {
