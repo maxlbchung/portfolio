@@ -66,9 +66,9 @@
     ctx.clearRect(0, 0, W, H);
     lines.forEach((line, y) => {
       [...line].forEach((c, x) => {
+        if (c === " ") return;
         const p = palette[c];
-        if (!p) return;
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = p ? p.color : "#ffffff";
         ctx.fillRect(x, y, 1, 1);
       });
     });

@@ -1,24 +1,12 @@
 ---
-title: "Evolving LLM skills"
-date: 2026-08-10
-summary: "What I'm working on: treating skill files as genomes and benchmarks as natural selection."
-tags: [research, llm, agents]
+title: "First week at EML!"
+date: 2026-09-9
+summary: "My first job :)"
+tags: [EdTech, Job]
 ---
 
-The research I'm doing with Prof. Anant Sahai asks a simple question: if a
-skill file changes how well an LLM performs a task, can we *evolve* better
-skills instead of hand-writing them?
+This marks my first week at UBC's Emerging Media Lab!
 
-The loop looks like this:
+After this first week, I am super excited for what is coming up next. The office and equipment they have is *super* nice, like I was `genuinely` shocked. They have more VR headsets than I can count, very roomy desks, and high end PCs. Additionally, the EML team is very kind, small team, which is perfect.
 
-1. **Mutate** — an orchestrator spawns parallel edits of a skill.
-2. **Evaluate** — each variant runs against a benchmark deterministically,
-   scored on accuracy, token usage, and step count.
-3. **Select** — those metrics become a fitness signal; the mutator decides
-   what to keep, what to combine, and what to dump.
-4. **Generalize** — a held-out gate stops the skill from overfitting to the
-   benchmark it trained on.
-
-So far the loop has optimized skills for code editing, SQL, data science, and
-logic puzzles. The open-source half of this work is
-[skill-mutator](https://github.com/maxlbchung/skill-mutator).
+I was assigned to the Planetary Health team, and also plan to work on AI integration and automation for the EML.
