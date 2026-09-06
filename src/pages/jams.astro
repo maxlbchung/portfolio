@@ -2,6 +2,13 @@
 import Layout from "@/layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import { jams } from "@/data/content";
+
+const jamLinkLabel = (label: string, url: string) =>
+  url.includes("itch.io")
+    ? "Play on Itch"
+    : url.includes("chess-vc")
+      ? "Play on Chess-vc"
+      : label;
 ---
 
 <Layout title="Jams" mode="games" description="Game jam entries by Libo Dev.">
@@ -34,7 +41,7 @@ import { jams } from "@/data/content";
             {jam.links.map(({ label, url, icon }) => (
               <a href={url} target="_blank" rel="noopener noreferrer" class="icon-link">
                 {icon && <Icon name={icon} size={15} aria-hidden="true" />}
-                <span>{label}</span>
+                <span>{jamLinkLabel(label, url)}</span>
               </a>
             ))}
             </div>

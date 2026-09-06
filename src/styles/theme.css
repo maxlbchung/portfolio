@@ -88,9 +88,9 @@ html[data-mode="games"] {
   --muted: #a5a6ad;
 
   /* accents */
-  --accent: #ff004d;
+  --accent: #29adff;
   --accent-2: #29adff;
-  --accent-soft: rgba(255, 0, 77, 0.2);
+  --accent-soft: rgba(41, 173, 255, 0.2);
   --accent-contrast: #fff1e8;
   --link: #29adff;
 

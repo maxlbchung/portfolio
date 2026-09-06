@@ -95,14 +95,14 @@
       ],
       "links": [
         {
-          "label": "GitHub",
-          "url": "https://github.com/maxlbchung/balancing-biped",
-          "icon": "simple-icons:github"
-        },
-        {
           "label": "Play in Browser",
           "url": "https://libodev.itch.io/biped-balancer",
           "icon": "simple-icons:itchdotio"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/maxlbchung/balancing-biped",
+          "icon": "simple-icons:github"
         }
       ]
     },
@@ -443,6 +443,20 @@
         "Unity",
         "C#"
       ]
+    },
+    {
+      "title": "AI Research",
+      "org": "Anant Sahai, Qualcomm Chair Professor of EECS at UC Berkeley",
+      "date": "June 2026 — August 2026",
+      "points": [
+        "Skill Mutator.",
+        "Evolving LLM skills by using deterministic evaluations as signal for mutator agents."
+      ],
+      "skills": [
+        "AI Engineering",
+        "Agent Orchestration",
+        "LLM Skills"
+      ]
     }
   ],
   "education": [
@@ -460,6 +474,7 @@
     }
   ],
   "honors": [
+    "Microsoft Excellence in AI Innovation Award",
     "Unity Certified Programmer",
     "Washington State Seal of Biliteracy — Mandarin & Spanish"
   ],

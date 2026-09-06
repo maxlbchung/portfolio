@@ -190,6 +190,19 @@ html.theme-anim body * {
   color: var(--text);
 }
 
+/* Game tags are labels, not controls: keep them flat and non-interactive. */
+html[data-mode="games"] .chip,
+html[data-mode="games"] .chip:hover {
+  background: #000000;
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+html[data-mode="games"] .icon-link,
+html[data-mode="games"] .icon-link:hover {
+  color: #ffffff;
+}
+
 /* big cards — terminal boxes with + corners in AI mode, chunky shadowed
    pixel frames in games mode */
 .card {

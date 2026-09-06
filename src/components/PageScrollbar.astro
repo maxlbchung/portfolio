@@ -89,6 +89,13 @@
       width: 0.4rem;
     }
   }
+
+  /* Use the browser's native scrollbar on mobile. */
+  @media (max-width: 700px) {
+    page-scrollbar {
+      display: none;
+    }
+  }
 </style>
 
 <script>
