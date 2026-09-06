@@ -85,7 +85,13 @@ npm run preview
 
 ## Deploying
 
-Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`
-(the workflow enables the Pages site automatically on first run). The site is
-configured for `maxlbchung.github.io/portfolio`; to use a custom domain,
-follow the comments at the top of `astro.config.mjs`.
+Cloudflare Pages is connected to this repository with `main` as the production
+branch. Configure the Pages project with:
+
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node.js version: `22` (from `.nvmrc`)
+
+Pages installs dependencies with `npm ci`, so keep `package.json` and
+`package-lock.json` in sync. Every push to `main` triggers a production
+deployment; pull requests receive preview deployments.
