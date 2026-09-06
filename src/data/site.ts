@@ -4,11 +4,10 @@ export const site = {
   alias: "Libo Dev", // game-dev handle
   tagline: {
     ai: "AI developer & cognitive systems student",
-    games: "game developer & Unity certified programmer",
+    games: "AKA: LiboDev",
   },
   location: "Vancouver, BC",
   email: "maxlbchung@gmail.com",
-  resume: "/resume.pdf", // served from public/
   socials: {
     github: "https://github.com/maxlbchung",
     githubOrg: "https://github.com/Reodite",
@@ -19,7 +18,7 @@ export const site = {
   },
 };
 
-/** Navigation per mode. Resume is intentionally a home-page link, not a nav item. */
+/** Navigation per mode. */
 export const nav = {
   ai: [
     { path: "/", label: "Home" },

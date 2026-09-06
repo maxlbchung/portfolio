@@ -15,7 +15,7 @@
         ".NET",
         "AI Engineering"
       ],
-      "award": "2nd place, Best AI Agent or Workflow Automation · $1,250",
+      "award": "VS Live, Microsoft AI Hackathon 2026 · 2nd place, Best AI Agent or Workflow Automation",
       "links": [
         {
           "label": "GitHub",
@@ -100,7 +100,7 @@
           "icon": "simple-icons:github"
         },
         {
-          "label": "Play in browser",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/biped-balancer",
           "icon": "simple-icons:itchdotio"
         }
@@ -125,29 +125,6 @@
   ],
   "games": [
     {
-      "title": "Birb",
-      "date": "2026-07",
-      "period": "July 2026",
-      "blurb": "Platformer meets tower defense — lead enemies into cages and bullet lines while stopping bombers from destroying your power sources. Survive to round 20, with bonus rounds up to 30.",
-      "points": [
-        "Built with a team of four for GMTK Game Jam 2026 (theme: Count Down): design & programming with GoatDog, art by Rob, music & sound by Tony Andriamanana.",
-        "Playable in the browser — the web version folds in post-jam feedback."
-      ],
-      "tech": [
-        "Unity",
-        "C#"
-      ],
-      "links": [
-        {
-          "label": "itch.io",
-          "url": "https://libodev.itch.io/birb",
-          "icon": "simple-icons:itchdotio"
-        }
-      ],
-      "featured": true,
-      "jam": "GMTK Game Jam 2026"
-    },
-    {
       "title": "Chess With Voice Chat",
       "date": "2026-05",
       "period": "May 2026",
@@ -157,9 +134,9 @@
       ],
       "links": [
         {
-          "label": "GitHub",
-          "url": "https://github.com/maxlbchung/ChessWithVoiceChat",
-          "icon": "simple-icons:github"
+          "label": "Play in Browser",
+          "url": "https://chess-vc.pages.dev/",
+          "icon": "carbon:game-console"
         }
       ]
     },    
@@ -174,17 +151,11 @@
       ],
       "tech": [
         "Unity",
-        "C#",
         "LLM Skills"
       ],
       "links": [
         {
-          "label": "GitHub",
-          "url": "https://github.com/maxlbchung/balancing-biped",
-          "icon": "simple-icons:github"
-        },
-        {
-          "label": "Play in browser",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/biped-balancer",
           "icon": "simple-icons:itchdotio"
         }
@@ -197,12 +168,11 @@
       "blurb": "A first-person shooter you play with your hands — literally. Open your hand to aim, close your fist to shoot, open it again to reload, all through webcam hand tracking built on MediaPipe.",
       "tech": [
         "MediaPipe",
-        "Unity",
-        "C#"
+        "Unity"
       ],
       "links": [
         {
-          "label": "itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/stuck-at-sea",
           "icon": "simple-icons:itchdotio"
         }
@@ -219,17 +189,15 @@
         "Built solo in 72 hours for Mini Jam 187 (theme: Duality)."
       ],
       "tech": [
-        "Unity",
-        "C#"
+        "Unity"
       ],
       "links": [
         {
-          "label": "itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/duality",
           "icon": "simple-icons:itchdotio"
         }
       ],
-      "featured": true,
       "jam": "Mini Jam 187"
     },
     {
@@ -238,12 +206,11 @@
       "period": "2024",
       "blurb": "Local split-screen tank duel on randomly generated maps — three classes (Spammer, Surfer, Miner), powerups, first hit wins. Made in 12 hours for a high school game dev club tournament.",
       "tech": [
-        "Unity",
-        "C#"
+        "Unity"
       ],
       "links": [
         {
-          "label": "itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/two-toy-tanks",
           "icon": "simple-icons:itchdotio"
         }
@@ -256,12 +223,11 @@
       "period": "August 2024",
       "blurb": "Defend a forest island as Bob the Blob — absorb defeated slimes to grow, because your health is your mass. Made by four high schoolers in 96 hours for GMTK Game Jam 2024 (theme: Built to Scale).",
       "tech": [
-        "Unity",
-        "C#"
+        "Unity"
       ],
       "links": [
         {
-          "label": "itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/blob",
           "icon": "simple-icons:itchdotio"
         }
@@ -279,19 +245,13 @@
       ],
       "tech": [
         "Android",
-        "Unity",
-        "C#"
+        "Unity"
       ],
       "links": [
         {
-          "label": "Google Play",
+          "label": "Play on Google Play",
           "url": "https://play.google.com/store/apps/details?id=dev.libo.BlindArcade",
           "icon": "simple-icons:googleplay"
-        },
-        {
-          "label": "Devlog video",
-          "url": "https://www.youtube.com/watch?v=LRWaTU8VnIU",
-          "icon": "simple-icons:youtube"
         }
       ],
       "featured": true
@@ -307,13 +267,8 @@
       "story": "Four days, team of four — a platformer/tower-defense hybrid where you herd enemies into cages and bullet lines. I co-designed and programmed alongside GoatDog, with art by Rob and audio by Tony Andriamanana.",
       "links": [
         {
-          "label": "Birb on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/birb",
-          "icon": "simple-icons:itchdotio"
-        },
-        {
-          "label": "Jam page",
-          "url": "https://itch.io/jam/gmtk-jam-2026",
           "icon": "simple-icons:itchdotio"
         }
       ]
@@ -327,7 +282,7 @@
       "story": "Raise your hands in front of your webcam and survive the storm — a computer-vision-powered first-person shooter where an open hand aims, a closed fist shoots, and reopening reloads.",
       "links": [
         {
-          "label": "Stuck at Sea on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/stuck-at-sea",
           "icon": "simple-icons:itchdotio"
         }
@@ -342,7 +297,7 @@
       "story": "72 hours, solo. A platformer puzzle shooter where health and energy are one resource — every action comes at a cost.",
       "links": [
         {
-          "label": "Duality on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/duality",
           "icon": "simple-icons:itchdotio"
         }
@@ -357,7 +312,7 @@
       "story": "A local split-screen tank duel with random maps, powerups, and three classes — built in about 12 hours of dev time for our club tournament.",
       "links": [
         {
-          "label": "Two Toy Tanks on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/two-toy-tanks",
           "icon": "simple-icons:itchdotio"
         }
@@ -372,7 +327,7 @@
       "story": "Led a team of four high schoolers through 96 hours. A roguelike top-down shooter where your health is your mass — absorb slimes to grow, shrink as you take hits.",
       "links": [
         {
-          "label": "Blob on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/blob",
           "icon": "simple-icons:itchdotio"
         }
@@ -387,7 +342,7 @@
       "story": "58 hours. A puzzle game about guiding a plastic bottle into a trashcan by controlling gravity itself.",
       "links": [
         {
-          "label": "EcoGrav on itch.io",
+          "label": "Play in Browser",
           "url": "https://asvaka.itch.io/ecograv",
           "icon": "simple-icons:itchdotio"
         }
@@ -402,7 +357,7 @@
       "story": "A multi-week competition to reimagine the classic. Ours became a stealth dungeon crawler where the monster tracks the noise you make.",
       "links": [
         {
-          "label": "Wump is Watching on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/wump-is-watching",
           "icon": "simple-icons:itchdotio"
         }
@@ -417,7 +372,7 @@
       "story": "58 hours. A bullet-hell shooter armed with PC parts — disks and power supplies as ammo, with one energy pool shared between firing, upgrading, and teleporting back to spawn.",
       "links": [
         {
-          "label": "Checkpoint on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/checkpoint",
           "icon": "simple-icons:itchdotio"
         }
@@ -432,13 +387,8 @@
       "story": "A top-down shooter/horror built in 48 hours and submitted 40 minutes before the deadline. You assemble a mob to hunt a monster — then the roles reverse and you play as the monster, tuned so both sides are winnable.",
       "links": [
         {
-          "label": "The Hunted on itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/the-hunted",
-          "icon": "simple-icons:itchdotio"
-        },
-        {
-          "label": "Jam submission",
-          "url": "https://itch.io/jam/gmtk-2023/rate/2161921",
           "icon": "simple-icons:itchdotio"
         }
       ]
@@ -451,7 +401,7 @@
       "story": "Self-imposed jam on a plane flight: Snake crossed with tower defense, where the snake collects turrets and coils them into a defense.",
       "links": [
         {
-          "label": "itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/snake-but-a-tower-defense-game",
           "icon": "simple-icons:itchdotio"
         }
@@ -465,7 +415,7 @@
       "story": "Another plane flight, another game: a Flappy-Bird-style scroller where gun recoil is your only means of movement.",
       "links": [
         {
-          "label": "itch.io",
+          "label": "Play in Browser",
           "url": "https://libodev.itch.io/recoil-boi",
           "icon": "simple-icons:itchdotio"
         }

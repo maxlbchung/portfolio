@@ -11,6 +11,7 @@ import { ClientRouter } from "astro:transitions";
 import Navbar from "@/components/Navbar.astro";
 import Footer from "@/components/Footer.astro";
 import ModeSweep from "@/components/ModeSweep.astro";
+import PageScrollbar from "@/components/PageScrollbar.astro";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
 import { buildId } from "@/lib/build";
@@ -78,6 +79,7 @@ const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
       <slot />
     </main>
     <Footer />
+    <PageScrollbar />
     <!-- full-screen FX: the mode-swap conversion wave -->
     <ModeSweep />
   </body>

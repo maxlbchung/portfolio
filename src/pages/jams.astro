@@ -29,13 +29,15 @@ import { jams } from "@/data/content";
           <h3>{jam.game}</h3>
           {jam.result && <p class="accent">{jam.result}</p>}
           {jam.story && <p class="muted">{jam.story}</p>}
-          <div class="links">
+          <div class="foot">
+            <div class="links">
             {jam.links.map(({ label, url, icon }) => (
               <a href={url} target="_blank" rel="noopener noreferrer" class="icon-link">
                 {icon && <Icon name={icon} size={15} aria-hidden="true" />}
                 <span>{label}</span>
               </a>
             ))}
+            </div>
           </div>
         </article>
       ))
@@ -90,6 +92,11 @@ import { jams } from "@/data/content";
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+  }
+  .foot {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
     margin-top: 0.25rem;
   }
 </style>

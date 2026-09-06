@@ -57,7 +57,6 @@ Everything else:
 | --- | --- |
 | Name, socials, nav | `src/data/site.ts` |
 | Dev diary posts | drop a `.md` file in `src/content/diary/` |
-| Resume | replace `public/resume.pdf` |
 
 ## How the mode toggle works
 
