@@ -78,20 +78,22 @@ Everything else:
 
 ```sh
 npm install
-npm run dev      # localhost:4321/portfolio
+npm run dev      # localhost:4321/
 npm run build    # output in dist/
 npm run preview
 ```
 
 ## Deploying
 
-Cloudflare Pages is connected to this repository with `main` as the production
-branch. Configure the Pages project with:
+Cloudflare Workers Builds is connected to this repository with `main` as the
+production branch. The existing Worker is named `portfolio` and serves Astro's
+static build through `wrangler.jsonc`.
 
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Deploy command: `npx wrangler deploy`
+- Static assets directory: `dist`
 - Node.js version: `22` (from `.nvmrc`)
 
-Pages installs dependencies with `npm ci`, so keep `package.json` and
+Cloudflare installs dependencies with `npm ci`, so keep `package.json` and
 `package-lock.json` in sync. Every push to `main` triggers a production
-deployment; pull requests receive preview deployments.
+deployment.

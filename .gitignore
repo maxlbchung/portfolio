@@ -10,6 +10,10 @@ node_modules/
 .env
 .env.production
 
+# Cloudflare Workers local state
+.wrangler/
+.dev.vars*
+
 # macOS
 .DS_Store
 

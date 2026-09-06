@@ -3,9 +3,9 @@ import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 
 // ── Deployment ────────────────────────────────────────────────────────────────
-// Built by Cloudflare Pages from the GitHub repo (branch: main) and served
-// at https://libo.dev. Build command `npm run build`, output dir `dist`,
-// Node version pinned by .nvmrc.
+// Built by the Cloudflare Worker named `portfolio` from the GitHub repo
+// (branch: main) and served at https://libo.dev. Build command
+// `npm run build`, static assets in `dist`, Node version pinned by .nvmrc.
 export default defineConfig({
   site: "https://libo.dev",
   base: "/",
