@@ -17,8 +17,11 @@ const experience = (await getCollection("experience")).sort((a, b) => b.data.dat
           {item.data.image && <img src={imagePath(item.data.image)} alt="" loading="lazy" />}
         </div>
         <div class="preview-content">
-          <h2>{item.data.title}</h2>
-          <p class="muted meta">{item.data.org} · {item.data.date}</p>
+          <div class="head">
+            <h2>{item.data.title}</h2>
+            <span class="muted period">{item.data.date}</span>
+          </div>
+          <p class="muted meta">{item.data.org}</p>
           {item.data.skills.length > 0 && <div class="chips">{item.data.skills.map((s) => <span class="chip">{s}</span>)}</div>}
         </div>
       </a>
@@ -56,6 +59,8 @@ const experience = (await getCollection("experience")).sort((a, b) => b.data.dat
   .preview-content { border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.65rem; margin-block: -1.25rem; min-width: 0; padding: 1.25rem 0 1.25rem 1rem; }
   .preview-content .chips { margin-top: auto; }
   html[data-mode="games"] .preview-content { border-left-width: 3px; }
+  .head { align-items: baseline; display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; justify-content: space-between; }
+  .period { font-size: 0.85rem; white-space: nowrap; }
   .stack-group { margin-top: 0.9rem; }
   .stack-group h3 { font-size: calc(1.05rem * var(--display-scale, 1)); margin-bottom: 0.4rem; }
   .entry { margin-bottom: 1rem; }

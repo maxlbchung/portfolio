@@ -35,8 +35,8 @@ const imageSrc = image && imagePath(image);
   .entry { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1rem; padding: 1.25rem 1.4rem; }
   .preview { color: var(--text); transition: border-color var(--transition-quick), transform var(--transition-quick); }
   .preview:hover { border-color: var(--text); transform: translateY(-2px); }
-  .preview-media { align-self: stretch; background: var(--surface); min-height: 10rem; }
-  .preview-media img { display: block; height: 100%; object-fit: cover; width: 100%; }
+  .preview-media { align-self: stretch; background: var(--surface); min-height: 10rem; overflow: hidden; position: relative; }
+  .preview-media img { display: block; height: 100%; inset: 0; object-fit: cover; position: absolute; width: 100%; }
   .preview-content { border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.65rem; margin-block: -1.25rem; min-width: 0; padding: 1.25rem 0 1.25rem 1rem; }
   html[data-mode="games"] .preview-content { border-left-width: 3px; }
 
@@ -75,4 +75,26 @@ const imageSrc = image && imagePath(image);
   }
 
   .preview:hover h2::after { content: " «"; }
+  @media (max-width: 700px) {
+    .entry {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .preview-media {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+    }
+
+    .preview-content {
+      border-left: 0;
+      border-top: 1px solid var(--border);
+      margin: 0;
+      padding: 1rem 0 0;
+    }
+
+    html[data-mode="games"] .preview-content {
+      border-left-width: 0;
+      border-top-width: 3px;
+    }
+  }
 </style>
