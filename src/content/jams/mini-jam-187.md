@@ -2,8 +2,8 @@
 title: "Mini Jam 187"
 date: "2025-06"
 period: "June 2025"
-theme: "Duality"
-game: "Duality"
+blurb: "Duality · Theme: Duality"
+tech: []
 image: "duality-cover-art.png"
 links:
   - label: "Play in Browser"

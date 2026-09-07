@@ -1,8 +1,9 @@
 ---
 title: "First week at EML!"
-date: 2026-09-9
-summary: "My first job :)"
-tags: [Job, EML]
+date: "2026-09-09"
+period: "September 9, 2026"
+blurb: "My first job :)"
+tech: ["Job", "EML"]
 image: "EML-logo.jpg"
 ---
 This marks my first week at UBC's `Emerging Media Lab`!

@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import DetailPage from "@/components/DetailPage.astro";
+import EntryDetailPage from "@/components/EntryDetailPage.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("diary");
@@ -9,9 +9,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 ---
 
-<DetailPage title={post.data.title} mode="ai" description={post.data.summary} backPath="/dev-diary" backLabel="Dev Diary" meta={fmt(post.data.date)} image={post.data.image}>
+<EntryDetailPage entry={post.data} mode="ai" backPath="/dev-diary" backLabel="Dev Diary">
   <Content />
-</DetailPage>
+</EntryDetailPage>

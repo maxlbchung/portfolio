@@ -1,8 +1,9 @@
 ---
 title: "Software Developer"
-org: "UBC Emerging Media Lab"
-date: "September 2026 — Present"
-skills: ["Unity", "C#"]
+date: "2026-09"
+period: "September 2026 — Present"
+blurb: "UBC Emerging Media Lab"
+tech: ["Unity", "C#"]
 image: "EML-logo.jpg"
 ---
 

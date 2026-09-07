@@ -1,89 +1,22 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import EntryCard from "@/components/EntryCard.astro";
 import { getCollection } from "astro:content";
-import { imagePath, withBase } from "@/lib/url";
+import { withBase } from "@/lib/url";
 
-const posts = (await getCollection("diary")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
-
-const fmt = (d: Date) =>
-  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+const posts = (await getCollection("diary")).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
 <Layout title="Dev Diary" mode="ai" description="Notes on AI projects, research, and building things.">
   <h1>Dev Diary</h1>
   <p class="muted intro">Notes on research, agents, and whatever I'm building this week.</p>
-
-  <div class="posts">
-    {
-      posts.map((post) => (
-        <a class="card post" href={withBase(`/dev-diary/${post.id}`)} data-detail-link>
-          <div class="preview-media">
-            {post.data.image && <img src={imagePath(post.data.image)} alt="" loading="lazy" />}
-          </div>
-          <div class="preview-content">
-            <div class="head">
-              <h2>{post.data.title}</h2>
-              <span class="muted date">{fmt(post.data.date)}</span>
-            </div>
-            {post.data.summary && <p class="muted">{post.data.summary}</p>}
-            {post.data.tags && <div class="chips">{post.data.tags.map((t) => <span class="chip">{t}</span>)}</div>}
-          </div>
-        </a>
-      ))
-    }
+  <div class="cards">
+    {posts.map((post) => <EntryCard {...post.data} href={withBase(`/dev-diary/${post.id}`)} />)}
   </div>
 </Layout>
 
 <style>
-  h1 {
-    font-size: calc(2.4rem * var(--display-scale, 1));
-  }
-  .intro {
-    margin-top: 0.6rem;
-  }
-  .posts {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin-top: 1.75rem;
-  }
-  .post {
-    display: grid;
-    grid-template-columns: 11rem minmax(0, 1fr);
-    gap: 1rem;
-    padding: 1.25rem 1.4rem;
-    transition: border-color var(--transition-quick), transform var(--transition-quick);
-  }
-  .post:hover {
-    border-color: var(--text);
-  }
-  .post:hover h2::after {
-    content: " «";
-  }
-  .head {
-    align-items: baseline;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 0.75rem;
-    justify-content: space-between;
-  }
-  h2 {
-    font-size: calc(1.25rem * var(--display-scale, 1));
-  }
-  .date {
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  .preview-media { align-self: stretch; background: var(--surface); min-height: 10rem; }
-  .preview-media img { display: block; height: 100%; object-fit: cover; width: 100%; }
-  .preview-content { border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.5rem; margin-block: -1.25rem; min-width: 0; padding: 1.25rem 0 1.25rem 1rem; }
-  .preview-content .chips { margin-top: auto; }
-  html[data-mode="games"] .preview-content { border-left-width: 3px; }
+  h1 { font-size: calc(2.4rem * var(--display-scale, 1)); }
+  .intro { margin-top: 0.6rem; }
+  .cards { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.75rem; }
 </style>

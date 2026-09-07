@@ -1,11 +1,9 @@
 ---
 import { getCollection, render } from "astro:content";
-import { Icon } from "astro-icon/components";
-import DetailPage from "@/components/DetailPage.astro";
+import EntryDetailPage from "@/components/EntryDetailPage.astro";
 export async function getStaticPaths() { return (await getCollection("projects")).map((entry) => ({ params: { slug: entry.id }, props: { entry } })); }
 const { entry } = Astro.props; const { Content } = await render(entry);
 ---
-<DetailPage title={entry.data.title} mode="ai" description={entry.data.blurb} backPath="/projects" backLabel="Projects" meta={entry.data.period} image={entry.data.image} skills={entry.data.tech} links={entry.data.links}>
-  {entry.data.award && <p slot="metadata" class="award"><Icon name="carbon:trophy" size={16} aria-hidden="true" />{entry.data.award}</p>}
+<EntryDetailPage entry={entry.data} mode="ai" backPath="/projects" backLabel="Projects">
   <Content />
-</DetailPage>
+</EntryDetailPage>

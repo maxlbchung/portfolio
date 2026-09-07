@@ -1,8 +1,9 @@
 ---
 title: "Hello, world!"
-date: 2026-08-21
-summary: "Welcome!"
-tags: [Meta, Site]
+date: "2026-08-21"
+period: "August 21, 2026"
+blurb: "Welcome!"
+tech: ["Meta", "Site"]
 image: "site-preview.png"
 ---
 This site now exists. It has two personalities, because I do:

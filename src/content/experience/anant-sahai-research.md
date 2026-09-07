@@ -1,8 +1,9 @@
 ---
 title: "AI Research"
-org: "Anant Sahai, Qualcomm Chair Professor of EECS at UC Berkeley"
-date: "June 2026 — August 2026"
-skills: ["AI Engineering", "Agent Orchestration", "LLM Skills"]
+date: "2026-08"
+period: "June 2026 — August 2026"
+blurb: "Anant Sahai, Qualcomm Chair Professor of EECS at UC Berkeley"
+tech: ["AI Engineering", "Agent Orchestration", "LLM Skills"]
 image: "/images/ai-research-logo.png"
 links:
   - label: "GitHub"
