@@ -6,14 +6,33 @@ interface Props {
   title: string;
   period?: string;
   blurb?: string;
+  theme?: string;
   tech?: string[];
   award?: string;
   image?: string;
   href: string;
 }
 
-const { title, period, blurb, tech = [], award, image, href } = Astro.props;
+const { title, period, blurb, theme, tech = [], award, image, href } = Astro.props;
 const imageSrc = image && imagePath(image);
+const techIcons: Record<string, string> = {
+  Android: "simple-icons:android",
+  Unity: "simple-icons:unity",
+  "C#": "simple-icons:csharp",
+  ".NET": "simple-icons:dotnet",
+  TypeScript: "simple-icons:typescript",
+  Python: "simple-icons:python",
+  React: "simple-icons:react",
+  Vite: "simple-icons:vite",
+  AWS: "carbon:cloud",
+  "AI Engineering": "carbon:machine-learning",
+  "Agent Orchestration": "carbon:flow",
+  "LLM Skills": "carbon:skill-level-basic",
+  Job: "carbon:workspace",
+  EML: "carbon:building",
+  Meta: "carbon:application",
+  Site: "carbon:application-web",
+};
 ---
 
 <a class="card entry preview" href={href} data-detail-link>
@@ -27,7 +46,8 @@ const imageSrc = image && imagePath(image);
     </div>
     {award && <p class="award"><Icon name="carbon:trophy" size={16} aria-hidden="true" /><span>{award}</span></p>}
     {blurb && <p class="blurb">{blurb}</p>}
-    {tech.length > 0 && <div class="tech">{tech.map((t) => <span class="chip">{t}</span>)}</div>}
+    {theme && <p class="theme">Theme: {theme}</p>}
+    {tech.length > 0 && <div class="tech">{tech.map((t) => <span class="chip"><Icon name={techIcons[t] ?? "carbon:tag"} size={14} aria-hidden="true" />{t}</span>)}</div>}
   </div>
 </a>
 
@@ -66,6 +86,7 @@ const imageSrc = image && imagePath(image);
   }
 
   .blurb { margin: 0; }
+  .theme { color: var(--accent-2); margin: 0; }
 
   .tech {
     display: flex;
@@ -73,6 +94,7 @@ const imageSrc = image && imagePath(image);
     gap: 0.4rem 0.55rem;
     margin-top: auto;
   }
+  .tech .chip { align-items: center; display: inline-flex; gap: 0.35rem; }
 
   .preview:hover h2::after { content: " «"; }
   @media (max-width: 700px) {

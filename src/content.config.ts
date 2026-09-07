@@ -9,6 +9,8 @@ const cardEntrySchema = z.object({
   date: z.string(),
   period: z.string(),
   blurb: z.string(),
+  game: z.string().optional(),
+  theme: z.string().optional(),
   tech: z.array(z.string()).default([]),
   award: z.string().optional(),
   links: z.array(link).default([]),

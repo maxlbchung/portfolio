@@ -167,10 +167,16 @@ const previewImageUrl = new URL(withBase("/images/site-preview.png"), Astro.site
         faviconTimer = undefined;
       }
     };
+    const resumeFaviconAnimation = () => {
+      frameIndex = 0;
+      drawFavicon();
+      startFaviconAnimation();
+    };
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) stopFaviconAnimation();
-      else startFaviconAnimation();
+      else resumeFaviconAnimation();
     });
+    window.addEventListener("pageshow", resumeFaviconAnimation);
     if (!document.hidden) startFaviconAnimation();
   }
 

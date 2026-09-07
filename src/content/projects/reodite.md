@@ -16,4 +16,4 @@ links:
 ---
 Reodite is a web app with focused tools for accessing public university data, plus an AI agent with access to those tools and data for quick, informed responses.
 
-Built in collaboration with Chakorn.
+Built in collaboration with [Chakorn](https://chakornk.dev/).

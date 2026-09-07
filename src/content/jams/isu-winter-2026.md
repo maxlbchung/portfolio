@@ -2,6 +2,8 @@
 title: "Illinois State University Winter Game Jam"
 date: "2026-01"
 period: "January 2026"
+game: "Stuck at Sea"
+theme: "Weather the Storm"
 blurb: "Stuck at Sea · Theme: Weather the Storm"
 tech: []
 image: "weather-the-storm.png"

@@ -12,6 +12,8 @@ interface EntryData {
   title: string;
   period: string;
   blurb: string;
+  game?: string;
+  theme?: string;
   tech?: string[];
   award?: string;
   image?: string;
@@ -40,5 +42,7 @@ const { entry, mode, backPath, backLabel } = Astro.props;
   links={entry.links}
 >
   {entry.award && <p slot="metadata" class="award"><Icon name="carbon:trophy" size={16} aria-hidden="true" />{entry.award}</p>}
+  {entry.game && <p slot="metadata" class="detail-subheading">{entry.game}</p>}
+  {entry.theme && <p slot="metadata" class="theme">Theme: {entry.theme}</p>}
   <slot />
 </DetailPage>

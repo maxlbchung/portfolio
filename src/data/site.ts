@@ -7,7 +7,7 @@ export const site = {
     games: "AKA: LiboDev",
   },
   location: "Vancouver, BC",
-  email: "maxlbchung@gmail.com",
+  email: "general@libo.dev",
   socials: {
     github: "https://github.com/maxlbchung",
     githubOrg: "https://github.com/Reodite",

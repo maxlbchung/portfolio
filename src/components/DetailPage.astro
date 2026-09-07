@@ -30,6 +30,18 @@ const { title, mode, description, backPath, backLabel, meta, image, skills = [],
   {links.length > 0 && <div class="links">{links.map((link) => <a class="icon-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.icon && <Icon name={link.icon} size={15} aria-hidden="true" />}{link.label}</a>)}</div>}
 </Layout>
 
+<script>
+  const openMarkdownLinksInNewTabs = () => {
+    document.querySelectorAll<HTMLAnchorElement>(".prose a").forEach((link) => {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    });
+  };
+
+  openMarkdownLinksInNewTabs();
+  document.addEventListener("astro:page-load", openMarkdownLinksInNewTabs);
+</script>
+
 <style>
   .back { align-items: center; display: inline-flex; gap: .35rem; margin-bottom: 1.5rem; }
   h1 { font-size: calc(2.2rem * var(--display-scale, 1)); }

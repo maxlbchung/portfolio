@@ -11,7 +11,7 @@ const jams = (await getCollection("jams")).sort((a, b) => b.data.date.localeComp
   <h1>Game Jams</h1>
   <p class="muted intro">Weekend-sized games built against the clock. Jams are where half of my weirdest mechanics were born.</p>
   <div class="cards">
-    {jams.map((jam) => <EntryCard {...jam.data} href={withBase(`/jams/${jam.id}`)} />)}
+    {jams.map((jam) => <EntryCard {...jam.data} blurb={jam.data.game ?? jam.data.blurb} href={withBase(`/jams/${jam.id}`)} />)}
   </div>
 </Layout>
 
