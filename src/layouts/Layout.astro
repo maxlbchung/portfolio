@@ -137,6 +137,8 @@ const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
 
   document.addEventListener("astro:after-swap", () => {
     const html = document.documentElement;
+    const modeSwap = html.classList.contains("mode-swap");
+    html.classList.remove("mode-swap");
     html.classList.remove("boot"); // the boot fade is for full loads only
     html.classList.add("js");
     const forced = document.body.dataset.pageMode;
@@ -151,7 +153,7 @@ const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
     try {
       localStorage.setItem("mode", m);
     } catch {}
-    typeHeading();
+    if (!modeSwap) typeHeading();
   });
 
   // ── Stale-deploy guards ───────────────────────────────────────────────

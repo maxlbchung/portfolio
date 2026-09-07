@@ -62,6 +62,7 @@
   };
 
   const sweep = (next: string, href?: string) => {
+    html.classList.add("mode-swap");
     const w = window.innerWidth;
     const h = window.innerHeight;
     const [canvas, ctx] = makeOverlayCanvas();
@@ -111,7 +112,10 @@
         // hidden under full cover: flip the theme, and when the swap was
         // triggered off the home page, run the navigation home too
         html.dataset.mode = next;
-        if (href) navigate(href);
+        if (href) {
+          html.classList.add("mode-swap");
+          navigate(href);
+        }
         flipped = true;
       }
 

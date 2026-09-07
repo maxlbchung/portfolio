@@ -8,14 +8,14 @@
       "points": [
         "Orchestrator agent summarizes every attack and compiles a report summarizing most successful phishing methods, most vulnerable employees, and recommended improvements.",
         "This allows companies find weak links in their teams and stress-test AI agents with dangerous capabilities.",
-        "Built solo at VS Live · Microsoft AI Hackathon 2026."
+        "Built solo at Microsoft HQ for VS Live, Microsoft AI Hackathon 2026."
       ],
       "tech": [
         "C#",
         ".NET",
         "AI Engineering"
       ],
-      "award": "VS Live, Microsoft AI Hackathon 2026 · 2nd place, Best AI Agent or Workflow Automation",
+      "award": "Microsoft AI Hackathon · 2nd place, Best AI Agent or Workflow Automation",
       "links": [
         {
           "label": "GitHub",
