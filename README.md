@@ -39,14 +39,19 @@ values.
 
 ## Editing content
 
-**All content lives in one file: `src/data/content.json`** — projects, games,
-jams, videos, experience, education, honors, and the skills chips. To add an
-entry, append an object to the matching array (order doesn't matter):
+Projects, games, experience, and diary entries live in Markdown collections under
+`src/content/`. Each Markdown file is one expandable detail page: frontmatter
+holds the preview metadata and links, while the body holds the full entry.
+
+Smaller sections stay in `src/data/content.json`: videos, education, honors,
+and the skills chips. Jams are Markdown entries in `src/content/jams/`. To add
+one of the JSON sections, append an object to its
+matching array (order doesn't matter):
 
 - `date` — sortable, `"YYYY-MM"` (or just `"YYYY"` if you don't know the
   month). Pages auto-sort newest-first on this.
 - `period` — the date text actually displayed ("July 2026", "2024 — Present").
-- `featured: true` — on a project or game, shows it on the home page.
+- `featured: true` — on a project or game Markdown entry, shows it on the home page.
 - `image` (optional) — on a project or game, a screenshot shown in the card:
   drop the file in `public/images/` and set `"image": "/images/foo.png"`
   (full `https://` URLs work too).

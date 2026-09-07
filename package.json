@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "generate:site-images": "node scripts/generate-site-images.mjs",
+    "prebuild": "npm run generate:site-images",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

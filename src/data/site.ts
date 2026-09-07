@@ -3,7 +3,7 @@ export const site = {
   name: "Max Li-Bo Chung",
   alias: "Libo Dev", // game-dev handle
   tagline: {
-    ai: "AI developer & cognitive systems student",
+    ai: "AI engineer & cognitive systems student",
     games: "AKA: LiboDev",
   },
   location: "Vancouver, BC",

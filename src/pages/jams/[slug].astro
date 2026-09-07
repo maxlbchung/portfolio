@@ -1,0 +1,12 @@
+---
+import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import DetailPage from "@/components/DetailPage.astro";
+export async function getStaticPaths() { return (await getCollection("jams")).map((entry) => ({ params: { slug: entry.id }, props: { entry } })); }
+const { entry } = Astro.props; const { Content } = await render(entry);
+---
+<DetailPage title={entry.data.title} mode="games" description={`${entry.data.game} · ${entry.data.title}`} backPath="/jams" backLabel="Game Jams" meta={entry.data.period} image={entry.data.image} links={entry.data.links}>
+  <h2 slot="metadata" class="detail-subheading">{entry.data.game}</h2>
+  {entry.data.theme && <p slot="metadata" class="theme"><Icon name="carbon:idea" size={16} aria-hidden="true" />Theme: <strong>{entry.data.theme}</strong></p>}
+  <Content />
+</DetailPage>

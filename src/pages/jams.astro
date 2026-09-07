@@ -1,109 +1,24 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
-import { jams } from "@/data/content";
+import EntryCard from "@/components/EntryCard.astro";
+import { getCollection } from "astro:content";
+import { withBase } from "@/lib/url";
 
-const jamLinkLabel = (label: string, url: string) =>
-  url.includes("itch.io")
-    ? "Play on Itch"
-    : url.includes("chess-vc")
-      ? "Play on Chess-vc"
-      : label;
+const jams = (await getCollection("jams")).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
 <Layout title="Jams" mode="games" description="Game jam entries by Libo Dev.">
   <h1>Game Jams</h1>
-  <p class="muted intro">
-    Weekend-sized games built against the clock. Jams are where half of my weirdest mechanics were born.
-  </p>
-
+  <p class="muted intro">Weekend-sized games built against the clock. Jams are where half of my weirdest mechanics were born.</p>
   <div class="cards">
-    {
-      jams.map((jam) => (
-        <article class="card jam">
-          <div class="head">
-            <h2>{jam.name}</h2>
-            <span class="muted date">{jam.period}</span>
-          </div>
-          {jam.theme && (
-            <p class="theme">
-              <Icon name="carbon:idea" size={16} aria-hidden="true" />
-              <span>
-                Theme: <strong>{jam.theme}</strong>
-              </span>
-            </p>
-          )}
-          <h3>{jam.game}</h3>
-          {jam.result && <p class="accent">{jam.result}</p>}
-          {jam.story && <p class="muted">{jam.story}</p>}
-          <div class="foot">
-            <div class="links">
-            {jam.links.map(({ label, url, icon }) => (
-              <a href={url} target="_blank" rel="noopener noreferrer" class="icon-link">
-                {icon && <Icon name={icon} size={15} aria-hidden="true" />}
-                <span>{jamLinkLabel(label, url)}</span>
-              </a>
-            ))}
-            </div>
-          </div>
-        </article>
-      ))
-    }
+    {jams.map((jam) => (
+      <EntryCard title={jam.data.title} period={jam.data.period} blurb={`${jam.data.game}${jam.data.theme ? ` · Theme: ${jam.data.theme}` : ""}`} image={jam.data.image} href={withBase(`/jams/${jam.id}`)} />
+    ))}
   </div>
 </Layout>
 
 <style>
-  h1 {
-    font-size: calc(2.4rem * var(--display-scale, 1));
-  }
-  .intro {
-    margin-top: 0.6rem;
-  }
-  .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin-top: 1.75rem;
-  }
-  .jam {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .head {
-    align-items: baseline;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 0.75rem;
-    justify-content: space-between;
-  }
-  h2 {
-    font-size: calc(1.35rem * var(--display-scale, 1));
-  }
-  h3 {
-    font-size: calc(1.1rem * var(--display-scale, 1));
-    margin-top: 0.25rem;
-  }
-  .date {
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-  .theme {
-    align-items: center;
-    color: var(--accent-2);
-    display: flex;
-    font-size: 0.9rem;
-    gap: 0.4rem;
-  }
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .foot {
-    align-items: center;
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0.25rem;
-  }
+  h1 { font-size: calc(2.4rem * var(--display-scale, 1)); }
+  .intro { margin-top: 0.6rem; }
+  .cards { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.75rem; }
 </style>

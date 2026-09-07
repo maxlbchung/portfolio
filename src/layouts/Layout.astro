@@ -36,6 +36,8 @@ const {
 } = Astro.props;
 
 const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const previewImageUrl = new URL(withBase("/images/site-preview.png"), Astro.site);
 ---
 
 <!doctype html>
@@ -44,7 +46,21 @@ const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/images/favicon.svg")} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={previewImageUrl} />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:alt" content="Pixel-art character from the LiboDev portfolio" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={previewImageUrl} />
+    <meta name="twitter:image:alt" content="Pixel-art character from the LiboDev portfolio" />
     <meta name="x-build" content={buildId} />
     <title>{pageTitle}</title>
     <ClientRouter />
@@ -123,6 +139,36 @@ const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
   // full page loads: fade in (html.boot CSS) + type the title out
   typeHeading();
 
+  // Detail pages remember the exact list position that opened them. Using
+  // delegated handlers keeps this working after Astro client-side swaps.
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const detailLink = target.closest<HTMLAnchorElement>("[data-detail-link]");
+    if (detailLink) {
+      try {
+        sessionStorage.setItem("portfolio:return-scroll", JSON.stringify({ path: location.pathname, y: window.scrollY }));
+      } catch {}
+      return;
+    }
+    const returnLink = target.closest<HTMLAnchorElement>("[data-return-link]");
+    if (returnLink) {
+      try {
+        const saved = sessionStorage.getItem("portfolio:return-scroll");
+        if (saved) sessionStorage.setItem("portfolio:restore-scroll", saved);
+      } catch {}
+    }
+  });
+
+  const restoreScroll = () => {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("portfolio:restore-scroll") ?? "null");
+      if (!saved || saved.path !== location.pathname) return;
+      sessionStorage.removeItem("portfolio:restore-scroll");
+      requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, saved.y)));
+    } catch {}
+  };
+  restoreScroll();
+
   // back/forward-cache restores resurrect the page without re-running
   // scripts — re-arm the boot fade and retype so those replay it too
   window.addEventListener("pageshow", (e) => {
@@ -154,6 +200,7 @@ const pageTitle = title ? `${title} · LiboDev` : "LiboDev";
       localStorage.setItem("mode", m);
     } catch {}
     if (!modeSwap) typeHeading();
+    restoreScroll();
   });
 
   // ── Stale-deploy guards ───────────────────────────────────────────────

@@ -1,8 +1,6 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
 import { getCollection, render } from "astro:content";
-import { withBase } from "@/lib/url";
+import DetailPage from "@/components/DetailPage.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("diary");
@@ -11,90 +9,9 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-
-const fmt = (d: Date) =>
-  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 ---
 
-<Layout title={post.data.title} mode="ai" description={post.data.summary}>
-  <a href={withBase("/dev-diary")} class="text-link back">
-    <Icon name="carbon:arrow-left" size={14} aria-hidden="true" />
-    <span>Dev Diary</span>
-  </a>
-
-  <h1>{post.data.title}</h1>
-  <p class="muted meta">{fmt(post.data.date)}</p>
-
-  <article class="prose">
-    <Content />
-  </article>
-</Layout>
-
-<style>
-  .back {
-    align-items: center;
-    display: inline-flex;
-    gap: 0.35rem;
-    margin-bottom: 1.5rem;
-  }
-  h1 {
-    font-size: calc(2.2rem * var(--display-scale, 1));
-  }
-  .meta {
-    margin-top: 0.5rem;
-  }
-  .prose {
-    margin-top: 1.5rem;
-  }
-  .prose :global(h2) {
-    font-size: calc(1.4rem * var(--display-scale, 1));
-    margin: 1.75rem 0 0.5rem;
-  }
-  .prose :global(h3) {
-    font-size: calc(1.15rem * var(--display-scale, 1));
-    margin: 1.5rem 0 0.4rem;
-  }
-  .prose :global(p) {
-    margin-bottom: 0.9rem;
-  }
-  .prose :global(ul),
-  .prose :global(ol) {
-    margin: 0 0 0.9rem;
-    padding-left: 1.3rem;
-  }
-  .prose :global(li) {
-    margin-bottom: 0.3rem;
-  }
-  .prose :global(a) {
-    border-bottom: 1px solid transparent;
-    color: var(--link);
-    transition: border-color var(--transition-quick);
-  }
-  .prose :global(a:hover) {
-    border-bottom-color: var(--link);
-  }
-  .prose :global(code) {
-    background: var(--surface);
-    font-size: 0.9em;
-    padding: 0.1em 0.35em;
-  }
-  .prose :global(pre) {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    overflow-x: auto;
-    padding: 1rem;
-  }
-  .prose :global(pre code) {
-    background: none;
-    padding: 0;
-  }
-  .prose :global(blockquote) {
-    border-left: 3px solid var(--accent);
-    color: var(--muted);
-    margin: 0 0 0.9rem;
-    padding-left: 1rem;
-  }
-  .prose :global(img) {
-    border: 2px solid var(--border);
-  }
-</style>
+<DetailPage title={post.data.title} mode="ai" description={post.data.summary} backPath="/dev-diary" backLabel="Dev Diary" meta={fmt(post.data.date)} image={post.data.image}>
+  <Content />
+</DetailPage>

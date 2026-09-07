@@ -10,10 +10,10 @@ import EntryCard from "@/components/EntryCard.astro";
 import { Icon } from "astro-icon/components";
 import { site } from "@/data/site";
 import { withBase } from "@/lib/url";
-import { projects, games } from "@/data/content";
+import { getCollection } from "astro:content";
 
-const featuredProjects = projects.filter((p) => p.featured);
-const featuredGames = games.filter((g) => g.featured);
+const featuredProjects = (await getCollection("projects")).filter((p) => p.data.featured);
+const featuredGames = (await getCollection("games")).filter((g) => g.data.featured);
 ---
 
 <!-- ── Shared hero ─────────────────────────────────────────────────── -->
@@ -52,7 +52,7 @@ const featuredGames = games.filter((g) => g.featured);
       </a>
     </div>
     <div class="cards">
-      {featuredProjects.map((p) => <EntryCard {...p} />)}
+      {featuredProjects.map((p) => <EntryCard {...p.data} href={withBase(`/projects/${p.id}`)} />)}
     </div>
   </section>
 
@@ -74,7 +74,7 @@ const featuredGames = games.filter((g) => g.featured);
       </a>
     </div>
     <div class="cards">
-      {featuredGames.map((g) => <EntryCard {...g} />)}
+      {featuredGames.map((g) => <EntryCard {...g.data} href={withBase(`/games/${g.id}`)} />)}
     </div>
   </section>
 

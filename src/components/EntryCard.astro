@@ -1,88 +1,44 @@
 ---
 import { Icon } from "astro-icon/components";
-
-/**
- * Shared card for projects and games. Tech tags and links each sit in
- * their own small bordered card (see .chip / .link).
- */
-import { withBase } from "@/lib/url";
+import { imagePath } from "@/lib/url";
 
 interface Props {
   title: string;
   period?: string;
-  blurb: string;
-  points?: string[];
+  blurb?: string;
   tech?: string[];
   award?: string;
-  links?: { label: string; url: string; icon?: string }[];
-  /** Path under public/ (e.g. "/images/reodite.png") or a full URL. */
   image?: string;
+  href: string;
 }
 
-const { title, period, blurb, points, tech, award, links, image } = Astro.props;
-const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
+const { title, period, blurb, tech = [], award, image, href } = Astro.props;
+const imageSrc = image && imagePath(image);
 ---
 
-<article class="card entry">
-  <div class="head">
-    <h3>{title}</h3>
-    {period && <span class="muted period">{period}</span>}
+<a class="card entry preview" href={href} data-detail-link>
+  <div class="preview-media">
+    {imageSrc && <img src={imageSrc} alt="" loading="lazy" />}
   </div>
-
-  {
-    award && (
-      <p class="award">
-        <Icon name="carbon:trophy" size={16} aria-hidden="true" />
-        <span>{award}</span>
-      </p>
-    )
-  }
-
-  {imageSrc && <img class="shot" src={imageSrc} alt={title} loading="lazy" />}
-
-  <p>{blurb}</p>
-
-  {
-    points && points.length > 0 && (
-      <ul>
-        {points.map((pt) => (
-          <li>{pt}</li>
-        ))}
-      </ul>
-    )
-  }
-
-  <div class="foot">
-    {
-      tech && tech.length > 0 && (
-        <div class="tech">
-          {tech.map((t) => (
-            <span class="chip">{t}</span>
-          ))}
-        </div>
-      )
-    }
-    {
-      links && links.length > 0 && (
-        <div class="links">
-          {links.map(({ label, url, icon }) => (
-            <a href={url} target="_blank" rel="noopener noreferrer" class="icon-link">
-              {icon && <Icon name={icon} size={15} aria-hidden="true" />}
-              <span>{label}</span>
-            </a>
-          ))}
-        </div>
-      )
-    }
+  <div class="preview-content">
+    <div class="head">
+      <h2>{title}</h2>
+      {period && <span class="muted period">{period}</span>}
+    </div>
+    {award && <p class="award"><Icon name="carbon:trophy" size={16} aria-hidden="true" /><span>{award}</span></p>}
+    {blurb && <p class="blurb">{blurb}</p>}
+    {tech.length > 0 && <div class="tech">{tech.map((t) => <span class="chip">{t}</span>)}</div>}
   </div>
-</article>
+</a>
 
 <style>
-  .entry {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
+  .entry { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1rem; padding: 1.25rem 1.4rem; }
+  .preview { color: var(--text); transition: border-color var(--transition-quick), transform var(--transition-quick); }
+  .preview:hover { border-color: var(--text); transform: translateY(-2px); }
+  .preview-media { align-self: stretch; background: var(--surface); min-height: 10rem; }
+  .preview-media img { display: block; height: 100%; object-fit: cover; width: 100%; }
+  .preview-content { border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.65rem; margin-block: -1.25rem; min-width: 0; padding: 1.25rem 0 1.25rem 1rem; }
+  html[data-mode="games"] .preview-content { border-left-width: 3px; }
 
   .head {
     align-items: baseline;
@@ -92,7 +48,7 @@ const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
     justify-content: space-between;
   }
 
-  h3 {
+  h2 {
     font-size: calc(1.25rem * var(--display-scale, 1));
   }
 
@@ -109,49 +65,14 @@ const imageSrc = image && (image.startsWith("http") ? image : withBase(image));
     gap: 0.4rem;
   }
 
-  .shot {
-    border: 2px solid var(--border);
-    display: block;
-    max-height: 340px;
-    object-fit: cover;
-    width: 100%;
-  }
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding-left: 1.2rem;
-  }
-  li {
-    color: var(--muted);
-    font-size: 0.92rem;
-    margin-bottom: 0.25rem;
-    position: relative;
-  }
-  li::before {
-    content: "- ";
-    left: -1.1rem;
-    position: absolute;
-  }
-
-  .foot {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 1rem;
-    justify-content: space-between;
-    margin-top: 0.25rem;
-  }
+  .blurb { margin: 0; }
 
   .tech {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 0.55rem;
+    margin-top: auto;
   }
 
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+  .preview:hover h2::after { content: " «"; }
 </style>

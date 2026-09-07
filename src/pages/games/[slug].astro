@@ -1,0 +1,9 @@
+---
+import { getCollection, render } from "astro:content";
+import DetailPage from "@/components/DetailPage.astro";
+export async function getStaticPaths() { return (await getCollection("games")).map((entry) => ({ params: { slug: entry.id }, props: { entry } })); }
+const { entry } = Astro.props; const { Content } = await render(entry);
+---
+<DetailPage title={entry.data.title} mode="games" description={entry.data.blurb} backPath="/games" backLabel="Games" meta={entry.data.period} image={entry.data.image} skills={entry.data.tech} links={entry.data.links}>
+  <Content />
+</DetailPage>

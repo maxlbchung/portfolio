@@ -1,9 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import EntryCard from "@/components/EntryCard.astro";
-import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
 import { site } from "@/data/site";
-import { projects } from "@/data/content";
+import { withBase } from "@/lib/url";
+
+const projects = (await getCollection("projects")).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
 <Layout title="Projects" mode="ai" description="AI and software projects by Max Li-Bo Chung.">
@@ -13,7 +15,7 @@ import { projects } from "@/data/content";
   </p>
 
   <div class="cards">
-    {projects.map((p) => <EntryCard {...p} />)}
+    {projects.map((p) => <EntryCard {...p.data} href={withBase(`/projects/${p.id}`)} />)}
   </div>
 
 </Layout>

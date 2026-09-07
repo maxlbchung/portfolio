@@ -1,116 +1,70 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { experience, education, honors, stack } from "@/data/content";
+import { getCollection } from "astro:content";
+import { education, honors, stack } from "@/data/content";
+import { imagePath, withBase } from "@/lib/url";
+
+const experience = (await getCollection("experience")).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 
 <Layout title="Experience" mode="ai" description="Research, work, and education of Max Li-Bo Chung.">
   <h1>Experience</h1>
-
   <div class="timeline">
-    {
-      experience.map((item) => (
-        <section class="card entry">
-          <h2>{item.title}</h2>
-          <p class="muted meta">
-            {item.org} · {item.date}
-          </p>
-          <ul>
-            {item.points.map((pt) => (
-              <li>{pt}</li>
-            ))}
-          </ul>
-          {item.skills && (
-            <div class="chips">
-              {item.skills.map((s) => (
-                <span class="chip">{s}</span>
-              ))}
-            </div>
-          )}
-        </section>
-      ))
-    }
+    {experience.map((item) => (
+      <a class="card entry preview" href={withBase(`/experience/${item.id}`)} data-detail-link>
+        <div class="preview-media">
+          {item.data.image && <img src={imagePath(item.data.image)} alt="" loading="lazy" />}
+        </div>
+        <div class="preview-content">
+          <h2>{item.data.title}</h2>
+          <p class="muted meta">{item.data.org} · {item.data.date}</p>
+          {item.data.skills.length > 0 && <div class="chips">{item.data.skills.map((s) => <span class="chip">{s}</span>)}</div>}
+        </div>
+      </a>
+    ))}
   </div>
 
   <h2 class="section-title">Education</h2>
-  {
-    education.map((e) => (
-      <section class="card entry">
+  <div class="education-list">
+    {education.map((e) => (
+      <div class="education-entry">
         <h3>{e.school}</h3>
-        <p class="muted meta">
-          {e.program} · {e.place} · {e.date}
-        </p>
-      </section>
-    ))
-  }
-
-  <h2 class="section-title">Honors</h2>
-  <ul>
-    {honors.map((h) => <li>{h}</li>)}
-  </ul>
-
-  <h2 class="section-title">Skills</h2>
-  {
-    Object.entries(stack).map(([group, items]) => (
-      <div class="stack-group">
-        <h3>{group}</h3>
-        <div class="chips">
-          {items.map(({ name, icon }) => (
-            <span class="chip">
-              <Icon name={icon} size={14} aria-hidden="true" />
-              {name}
-            </span>
-          ))}
-        </div>
+        <ul>
+          <li>{e.program}</li>
+          <li>{e.place} · {e.date}</li>
+        </ul>
       </div>
-    ))
-  }
-
+    ))}
+  </div>
+  <h2 class="section-title">Honors</h2>
+  <ul>{honors.map((h) => <li>{h}</li>)}</ul>
+  <h2 class="section-title">Skills</h2>
+  {Object.entries(stack).map(([group, items]) => <div class="stack-group"><h3>{group}</h3><div class="chips">{items.map(({ name, icon }) => <span class="chip"><Icon name={icon} size={14} aria-hidden="true" />{name}</span>)}</div></div>)}
 </Layout>
 
 <style>
-  h1 {
-    font-size: calc(2.4rem * var(--display-scale, 1));
-    margin-bottom: 1rem;
-  }
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-  }
-  .entry h2 {
-    font-size: calc(1.35rem * var(--display-scale, 1));
-  }
-  .entry h3 {
-    font-size: calc(1.1rem * var(--display-scale, 1));
-  }
-  .meta {
-    font-size: 0.9rem;
-    margin: 0.25rem 0 0.4rem;
-  }
-  ul {
-    margin: 0.25rem 0 0.6rem;
-    padding-left: 1.2rem;
-  }
-  li {
-    margin-bottom: 0.3rem;
-  }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-  }
-  .stack-group {
-    margin-top: 0.9rem;
-  }
-  .stack-group h3 {
-    font-size: calc(1.05rem * var(--display-scale, 1));
-    margin-bottom: 0.4rem;
-  }
-  .entry {
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    margin-bottom: 1rem;
-  }
+  h1 { font-size: calc(2.4rem * var(--display-scale, 1)); margin-bottom: 1rem; }
+  .timeline { display: flex; flex-direction: column; gap: 1rem; }
+  .entry { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1rem; padding: 1.25rem 1.4rem; }
+  .entry h2 { font-size: calc(1.35rem * var(--display-scale, 1)); }
+  .entry h3 { font-size: calc(1.1rem * var(--display-scale, 1)); }
+  .meta { font-size: 0.9rem; margin: 0.25rem 0 0.4rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .preview-media { align-self: stretch; background: var(--surface); min-height: 10rem; }
+  .preview-media img { display: block; height: 100%; object-fit: cover; width: 100%; }
+  .preview-content { border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.65rem; margin-block: -1.25rem; min-width: 0; padding: 1.25rem 0 1.25rem 1rem; }
+  .preview-content .chips { margin-top: auto; }
+  html[data-mode="games"] .preview-content { border-left-width: 3px; }
+  .stack-group { margin-top: 0.9rem; }
+  .stack-group h3 { font-size: calc(1.05rem * var(--display-scale, 1)); margin-bottom: 0.4rem; }
+  .entry { margin-bottom: 1rem; }
+  .section-title { margin-bottom: 1rem; }
+  .education-entry { margin-bottom: 1rem; }
+  .education-entry h3 { font-size: calc(1.1rem * var(--display-scale, 1)); }
+  .education-entry ul { margin: 0.35rem 0 0; padding-left: 1.2rem; }
+  .education-entry li { margin-bottom: 0.3rem; }
+  .preview { color: var(--text); transition: border-color var(--transition-quick), transform var(--transition-quick); }
+  .preview:hover { border-color: var(--text); transform: translateY(-2px); }
+  .preview:hover h2::after { content: " «"; }
 </style>
