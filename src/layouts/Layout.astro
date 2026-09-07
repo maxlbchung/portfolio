@@ -46,7 +46,7 @@ const previewImageUrl = new URL(withBase("/images/site-preview.png"), Astro.site
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href={withBase("/images/favicon.svg")} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/images/favicon.svg")} data-dance-favicon />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
@@ -110,6 +110,70 @@ const previewImageUrl = new URL(withBase("/images/site-preview.png"), Astro.site
 </style>
 
 <script>
+  // Favicon animation is driven from the same hand-authored dance frames as
+  // the hero. Replacing the link each tick avoids browser GIF-favicon caching.
+  import { fps, palette, frames } from "@/data/hero-animation";
+
+  let favicon = document.querySelector<HTMLLinkElement>("link[data-dance-favicon]");
+  if (favicon && frames.length > 1) {
+    const grids = frames.map((frame) => {
+      const lines = frame.split("\n");
+      if (lines[0] === "") lines.shift();
+      while (lines.length && lines[lines.length - 1]!.trim() === "") lines.pop();
+      return lines;
+    });
+    const height = Math.max(...grids.map((grid) => grid.length));
+    const width = Math.max(...grids.flat().map((line) => line.length));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    let frameIndex = 0;
+    let faviconTimer: number | undefined;
+
+    const drawFavicon = () => {
+      if (!context || !favicon) return;
+      const grid = grids[frameIndex % grids.length]!;
+      context.fillStyle = "#000000";
+      context.fillRect(0, 0, width, height);
+      grid.forEach((line, y) => {
+        [...line].forEach((character, x) => {
+          const color = palette[character]?.color;
+          if (color) {
+            context.fillStyle = color;
+            context.fillRect(x, y, 1, 1);
+          }
+        });
+      });
+
+      const next = favicon.cloneNode(true) as HTMLLinkElement;
+      next.type = "image/png";
+      next.href = canvas.toDataURL("image/png");
+      favicon.replaceWith(next);
+      favicon = next;
+      frameIndex++;
+    };
+
+    drawFavicon();
+    // Tab chrome repaints favicons much less reliably than page content at
+    // 8fps, so give each dance pose enough time to be visibly painted.
+    const faviconFrameDelay = Math.max(300, 1000 / fps);
+    const startFaviconAnimation = () => {
+      if (faviconTimer === undefined) faviconTimer = window.setInterval(drawFavicon, faviconFrameDelay);
+    };
+    const stopFaviconAnimation = () => {
+      if (faviconTimer !== undefined) {
+        window.clearInterval(faviconTimer);
+        faviconTimer = undefined;
+      }
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopFaviconAnimation();
+      else startFaviconAnimation();
+    });
+    if (!document.hidden) startFaviconAnimation();
+  }
+
   // ── Mode resolution after client-side navigation ─────────────────────
   // astro:after-swap fires before the new page paints. The swapped-in <html>
   // carries the static data-mode="ai" from the server, so re-resolve the
