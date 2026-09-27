@@ -11,6 +11,9 @@ links:
   - label: "Play in Browser"
     url: "https://libodev.itch.io/stuck-at-sea"
     icon: "simple-icons:itchdotio"
+  - label: "YouTube"
+    url: "https://youtu.be/SQNbXxV5ybo"
+    icon: "simple-icons:youtube"
 ---
 
 Raise your hands in front of your webcam and survive the storm — a computer-vision-powered first-person shooter where an open hand aims, a closed fist shoots, and reopening reloads.

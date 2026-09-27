@@ -12,6 +12,9 @@ links:
   - label: "GitHub"
     url: "https://github.com/maxlbchung/balancing-biped"
     icon: "simple-icons:github"
+  - label: "YouTube"
+    url: "https://youtu.be/yR4ENTnmitQ"
+    icon: "simple-icons:youtube"
 ---
 The creatures can stand on uneven ground, balance with weights stacked on top, and shrug off projectiles.
 

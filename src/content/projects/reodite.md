@@ -13,6 +13,9 @@ links:
   - label: "GitHub org"
     url: "https://github.com/Reodite"
     icon: "simple-icons:github"
+  - label: "YouTube"
+    url: "https://youtu.be/aUSdzrfimO0"
+    icon: "simple-icons:youtube"
 ---
 Reodite is a web app with focused tools for accessing public university data, plus an AI agent with access to those tools and data for quick, informed responses.
 

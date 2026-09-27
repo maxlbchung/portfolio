@@ -17,6 +17,18 @@ interface Props {
 }
 
 const { title, mode, description, backPath, backLabel, meta, image, skills = [], links = [] } = Astro.props;
+const youtubeId = (url: string) => {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname === "youtu.be") return parsed.pathname.slice(1);
+    if (parsed.hostname.endsWith("youtube.com")) return parsed.searchParams.get("v") ?? parsed.pathname.split("/").pop();
+  } catch {
+    return undefined;
+  }
+  return undefined;
+};
+const youtubeVideo = links.map((link) => youtubeId(link.url)).find(Boolean);
+const externalLinks = links.filter((link) => !youtubeId(link.url));
 ---
 
 <Layout title={title} mode={mode} description={description}>
@@ -25,9 +37,13 @@ const { title, mode, description, backPath, backLabel, meta, image, skills = [],
   {meta && <p class="muted meta">{meta}</p>}
   <slot name="metadata" />
   {skills.length > 0 && <div class="chips">{skills.map((skill) => <span class="chip">{skill}</span>)}</div>}
-  {image && <div class:list={["hero-frame", mode === "ai" ? "ascii-frame" : "pixel-frame"]}><img src={imagePath(image)} alt="" /></div>}
+  {youtubeVideo ? (
+    <div class="video-frame">
+      <iframe src={`https://www.youtube-nocookie.com/embed/${youtubeVideo}`} title={`${title} video`} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
+    </div>
+  ) : image && <div class:list={["hero-frame", mode === "ai" ? "ascii-frame" : "pixel-frame"]}><img src={imagePath(image)} alt="" /></div>}
   <article class="prose"><slot /></article>
-  {links.length > 0 && <div class="links">{links.map((link) => <a class="icon-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.icon && <Icon name={link.icon} size={15} aria-hidden="true" />}{link.label}</a>)}</div>}
+  {externalLinks.length > 0 && <div class="links">{externalLinks.map((link) => <a class="icon-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.icon && <Icon name={link.icon} size={15} aria-hidden="true" />}{link.label}</a>)}</div>}
 </Layout>
 
 <script>
@@ -68,6 +84,8 @@ const { title, mode, description, backPath, backLabel, meta, image, skills = [],
   .ascii-frame::before { content: "+"; left: -.32em; top: -.55em; }
   .ascii-frame::after { bottom: -.55em; content: "+"; right: -.32em; }
   .pixel-frame { border-width: 3px; box-shadow: var(--shadow-card); }
+  .video-frame { aspect-ratio: 16 / 9; border: 3px solid var(--border); box-shadow: var(--shadow-card); margin-top: 1.5rem; overflow: hidden; width: 100%; }
+  .video-frame iframe { border: 0; height: 100%; width: 100%; }
   :global(.detail-subheading) { font-size: calc(1.35rem * var(--display-scale, 1)); margin-top: 1.25rem; }
   :global(.theme) { align-items: center; color: var(--accent-2); display: flex; gap: .4rem; margin-top: .75rem; }
 </style>
