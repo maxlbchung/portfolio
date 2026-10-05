@@ -4,9 +4,10 @@ import { nav } from "@/data/site";
 import { withBase } from "@/lib/url";
 
 const { pathname } = Astro.url;
-// /ai is an alternate entry route to the home page — Home is active there
-const normalized =
-  pathname.replace(/\/$/, "") === withBase("/ai").replace(/\/$/, "") ? withBase("/") : pathname;
+// /ai and /game are alternate entry routes to the home page — Home is active there.
+const pathWithoutTrailingSlash = pathname.replace(/\/$/, "");
+const homeAliases = [withBase("/ai"), withBase("/game")].map((path) => path.replace(/\/$/, ""));
+const normalized = homeAliases.includes(pathWithoutTrailingSlash) ? withBase("/") : pathname;
 const current = (path: string) =>
   normalized.replace(/\/$/, "") === withBase(path).replace(/\/$/, "");
 const modes = ["ai", "games"] as const;
@@ -231,8 +232,9 @@ const modes = ["ai", "games"] as const;
   // under it, and clips the inverted overlay to it so the label inverts.
   const currentPath = () => {
     let p = window.location.pathname.replace(/\/$/, "");
-    // /ai is an alternate entry route to the home page
+    // /ai and /game are alternate entry routes to the home page
     if (p.endsWith("/ai")) p = p.slice(0, -3);
+    if (p.endsWith("/game")) p = p.slice(0, -5);
     return p === "" ? "/" : p;
   };
 
